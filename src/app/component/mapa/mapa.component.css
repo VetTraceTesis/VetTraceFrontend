@@ -1,0 +1,91 @@
+/* Elimina márgenes y padding del body y html para que no haya scroll extra */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Evita scroll global */
+  font-family: Arial, sans-serif;
+}
+
+/* Contenedor principal para la lista y mapa */
+.map-container {
+  display: flex;
+  height: 100vh; /* Alto total de la ventana */
+  width: 100vw;  /* Ancho total de la ventana */
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* Sidebar ocupa un ancho fijo y scroll vertical si hay muchos items */
+.sidebar {
+  width: 320px;
+  background: #f9f9f9;
+  padding: 20px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Lista sin estilos extra */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* El mapa ocupa el resto del ancho y todo el alto */
+.map-wrapper {
+  flex-grow: 1;
+  position: relative;
+  height: 100vh;
+  width: calc(100vw - 320px); /* El resto del ancho menos sidebar */
+}
+
+/* Botón atrás y estilos de lista se mantienen igual, opcionales */
+.btn-back {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 14px;
+  align-self: flex-start;
+  transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+  background-color: #0056b3;
+}
+
+.sidebar li {
+  cursor: pointer;
+  padding: 10px 6px;
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar li.selected,
+.sidebar li:hover {
+  background-color: #e2e6ea;
+}
+
+.sidebar small {
+  color: #555;
+}
+
+.sidebar a {
+  font-size: 13px;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.sidebar a:hover {
+  color: #0056b3;
+}

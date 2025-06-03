@@ -1,0 +1,28 @@
+<app-header></app-header>
+
+<div class="modulos-container main-content">
+  <!-- Caja de búsqueda para los dueños -->
+  <h2>Atenciones a los Dueños:</h2>
+  <div class="search-container">
+    <input 
+      type="text" 
+      [(ngModel)]="searchTerm" 
+      (input)="filterDuenos()" 
+      placeholder="Buscar por nombre o apellido..." />
+  </div>
+
+  <!-- Mostrar los dueños en tarjetas -->
+  <div class="grid">
+    <div class="card" *ngFor="let dueno of filteredDuenos" (click)="goToAtencionesByDuenio(dueno.id)">
+      <div class="profile-info">
+        <h3>{{ dueno.nombre }} {{ dueno.apellido }}</h3>
+        <p>Teléfono: {{ dueno.telefono }}</p>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Botón para regresar a la página de módulos -->
+  <button class="back-button" (click)="goBack()">Atrás</button>
+</div>

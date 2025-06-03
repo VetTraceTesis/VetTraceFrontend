@@ -1,0 +1,103 @@
+<div class="profile-container" *ngIf="duenio">
+  <div class="header">
+    <img src="assets/logo.png" alt="Logo" class="logo" />
+    <!-- Botón "Atrás" -->
+    <button class="back-button" (click)="goBack()">Atrás</button>
+  </div>
+
+  <!-- Tab component -->
+  <mat-tab-group>
+    <!-- Tab for the "Dueño" information -->
+    <mat-tab label="Dueño">
+      <div class="profile-details">
+        <div class="profile-photo">
+          <img src="assets/default-photo.png" alt="Foto del Dueño" class="profile-img" />
+        </div>
+
+        <div class="profile-info">
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" [(ngModel)]="duenio.nombre" placeholder="Nombre del Dueño" [disabled]="disableFields" />
+
+          <label for="apellido">Apellido:</label>
+          <input type="text" id="apellido" [(ngModel)]="duenio.apellido" placeholder="Apellido del Dueño" [disabled]="disableFields" />
+
+          <label for="telefono">Contacto:</label>
+          <input type="text" id="telefono" [(ngModel)]="duenio.telefono" placeholder="Número de contacto" [disabled]="disableFields" />
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" [(ngModel)]="duenio.email" placeholder="Email del Dueño" [disabled]="disableFields" />
+
+          <label for="direccion">Dirección:</label>
+          <input type="text" id="direccion" [(ngModel)]="duenio.direccion" placeholder="Dirección del Dueño" [disabled]="disableFields" />
+
+          <label for="fecha-creacion">Fecha de Creación:</label>
+          <input type="date" id="fecha-creacion" [(ngModel)]="duenio.fechaCreacion" [disabled]="disableFields" />
+
+          <label for="idestado">Estado:</label>
+          <input type="number" id="idestado" [(ngModel)]="duenio.idestado" [disabled]="disableFields" />
+        </div>
+      </div>
+
+      <!-- Guardar y Activar botones en Dueño -->
+      <div class="footer">
+        <button class="save-button" (click)="saveDuenio()" >Guardar</button>
+        <button 
+          class="toggle-button" 
+          [ngClass]="{'inactive': disableFields, 'active': !disableFields}" 
+          (click)="toggleDisable()">
+          {{ disableFields ? 'Desactivar' : 'Activar' }}
+        </button>
+      </div>
+    </mat-tab>
+
+    <!-- Tab for the "Mascotas" information -->
+    <mat-tab label="Mascotas">
+      <div class="mascotas-section">
+        <!-- Mostrar las mascotas en tarjetas si no estamos en detalle -->
+        <div *ngIf="!selectedMascota" class="mascotas-cards">
+          <h3>Mascotas asociadas al dueño:</h3>
+          <button class="add-mascota-button" mat-button (click)="openMascotaModal()">Añadir Mascota</button>
+          <div class="card-container">
+            <div class="card" *ngFor="let mascota of mascotas">
+              <img src="assets/default-photo.png" alt="Foto de {{ mascota.nombre }}" class="card-img" />
+              <div class="card-info">
+                <h4>{{ mascota.nombre }}</h4>
+                <p>{{ mascota.especie }} - {{ mascota.edad }} años</p>
+                <button (click)="viewMascotaDetail(mascota)">Ver Detalle</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mostrar el detalle de la mascota seleccionada -->
+        <div *ngIf="selectedMascota" class="mascota-detail">
+          <h3>Detalle de la mascota:</h3>
+          <label for="mascota-nombre">Nombre:</label>
+          <input type="text" id="mascota-nombre" [(ngModel)]="selectedMascota.nombre" [disabled]="disableFields" />
+
+          <label for="mascota-especie">Especie:</label>
+          <input type="text" id="mascota-especie" [(ngModel)]="selectedMascota.especie" [disabled]="disableFields" />
+
+          <label for="mascota-edad">Edad:</label>
+          <input type="number" id="mascota-edad" [(ngModel)]="selectedMascota.edad" [disabled]="disableFields" />
+
+          <label for="mascota-fecha-registro">Fecha de Registro:</label>
+          <input type="date" id="mascota-fecha-registro" [(ngModel)]="selectedMascota.fecharegistro" [disabled]="disableFields" />
+
+          <!-- Botón para activar/desactivar el detalle de la mascota -->
+          <button 
+            class="toggle-button"
+            [ngClass]="{'inactive': disableFields, 'active': !disableFields}" 
+            (click)="toggleDisable()">
+            {{ disableFields ? 'Desactivar' : 'Activar' }}
+          </button>
+           <!-- Guardar cambios -->
+          <button class="save-button" (click)="saveMascota()" >Guardar</button>
+
+          <!-- Botón para regresar a las tarjetas -->
+          <button class="back-to-cards" (click)="goBackToCards()">Atrás</button>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -1,0 +1,140 @@
+/* Contenedor principal del perfil */
+.profile-container {
+    width: 500px;  /* Ancho fijo */
+    height: auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0096d6;  /* Color azul claro */
+    padding: 10px;
+    color: white;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .logo {
+    height: 40px;  /* Tamaño del logo */
+  }
+  
+  .edit-button {
+    background-color: #007bff;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .edit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Detalles del perfil */
+  .profile-details {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .profile-photo {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profile-info {
+    flex-grow: 1;
+  }
+  
+  .profile-info label {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  .profile-info input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  /* Footer */
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .save-button {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .save-button:hover {
+    background-color: #218838;
+  }
+  
+  .footer label {
+    font-size: 14px;
+  }
+  
+  /* Estilo de la casilla de desactivación */
+  #disable-check {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  /* Estilo para el botón de desactivar/activar */
+.toggle-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+  }
+  
+  .toggle-button.inactive {
+    background-color: #f44336;  /* Rojo cuando está desactivado */
+  }
+  
+  .toggle-button.active {
+    background-color: #4CAF50;  /* Verde cuando está activado */
+  }
+  
+  .toggle-button:hover {
+    opacity: 0.8;
+  }
+  .snack-bar-success {
+    background-color: #4caf50;  /* Verde para éxito */
+    color: white;
+  }
+  
+  .snack-bar-error {
+    background-color: #f44336;  /* Rojo para error */
+    color: white;
+  }
+  

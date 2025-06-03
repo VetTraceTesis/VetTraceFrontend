@@ -1,0 +1,241 @@
+/* Contenedor principal del perfil */
+.profile-container {
+    width: 500px;  /* Ancho fijo */
+    height: auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0096d6;  /* Color azul claro */
+    padding: 10px;
+    color: white;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .logo {
+    height: 40px;  /* Tamaño del logo */
+  }
+  
+  .edit-button {
+    background-color: #007bff;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .edit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Detalles del perfil */
+  .profile-details {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .profile-photo {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profile-info {
+    flex-grow: 1;
+  }
+  
+  .profile-info label {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  .profile-info input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  /* Footer */
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .save-button {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .save-button:hover {
+    background-color: #218838;
+  }
+  
+  .footer label {
+    font-size: 14px;
+  }
+  
+  /* Estilo de la casilla de desactivación */
+  #disable-check {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  /* Estilo para el botón de desactivar/activar */
+.toggle-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+  }
+  
+  .toggle-button.inactive {
+    background-color: #f44336;  /* Rojo cuando está desactivado */
+  }
+  
+  .toggle-button.active {
+    background-color: #4CAF50;  /* Verde cuando está activado */
+  }
+  
+  .toggle-button:hover {
+    opacity: 0.8;
+  }
+  .snack-bar-success {
+    background-color: #4caf50;  /* Verde para éxito */
+    color: white;
+  }
+  
+  .snack-bar-error {
+    background-color: #f44336;  /* Rojo para error */
+    color: white;
+  }
+  
+
+  .mascotas-section {
+  margin-top: 20px;
+}
+
+.mascotas-list {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button.toggle-button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button.toggle-button.inactive {
+  background-color: #ccc;
+}
+
+button.toggle-button:hover {
+  background-color: #0056b3;
+}
+
+h3 {
+  margin-bottom: 10px;
+}
+.mascotas-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card {
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+
+.card-img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.card-info h4 {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.card-info p {
+  font-size: 14px;
+}
+
+.card-info button {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.card-info button:hover {
+  background-color: #0056b3;
+}
+
+.mascota-detail {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.add-mascota-button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.add-mascota-button:hover {
+  background-color: #218838;
+}
+
+.mascota-modal button {
+  margin-top: 20px;
+}

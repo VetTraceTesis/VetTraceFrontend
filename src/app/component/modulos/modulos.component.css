@@ -1,0 +1,150 @@
+/* Header fijo en la parte superior */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #84e0e6; /* Color de fondo del header */
+    padding: 1rem;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    height: 60px; /* Ajustar altura según necesidad */
+  }
+  
+  .logo img {
+    width: 40px;
+    height: auto;
+  }
+  
+  .user-menu {
+    position: relative;
+  }
+  
+  .user-icon {
+    cursor: pointer;
+  }
+  
+  .user-icon img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  
+  /* Dropdown para el menu del usuario */
+  .dropdown {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dropdown button {
+    background-color: #ff4d4d;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    font-size: 1rem;
+    border-radius: 5px;
+  }
+  
+  .dropdown button:hover {
+    background-color: #ff3333;
+  }
+  /* Contenedor de módulos ajustado */
+
+  .modulos-container {
+    background-color: #f9f9f9;  /* Fondo gris claro para el cuerpo */
+    padding: 2rem;
+    padding-top: 90px; /* Deja espacio suficiente para el header */
+    border-radius: 16px;
+    width: 80%;  /* Reducido el ancho del contenedor */
+    box-sizing: border-box;
+    min-height: calc(100vh - 60px); /* Ajuste para que ocupe el espacio restante */
+    margin: 0 auto;  /* Centrado en la página */
+    overflow-y: auto;
+  }
+  /* Estilos de las cards */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);  /* 2 columnas para las cards */
+    gap: 0.6rem;  /* Reducido el espacio entre las cards */
+    margin-top: 2rem;
+    justify-items: center;  /* Centra las cards */
+  }
+  
+  .card {
+    background-color: #fff;
+    border-radius: 12px;
+    text-align: center;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 180px; /* Ajuste de la altura de las cards */
+    width: 180px;  /* Ajuste de la anchura de las cards */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .card img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card span {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Responsive: Ajustes para pantallas más pequeñas */
+  @media (max-width: 768px) {
+    .modulos-container {
+      padding: 1rem;
+      width: 95%;  /* Ajuste para pantallas más pequeñas */
+    }
+  
+    .grid {
+      grid-template-columns: repeat(2, 1fr);  /* 2 columnas en pantallas pequeñas */
+      gap: 1rem;  /* Ajuste en el espacio entre cards */
+    }
+  
+    .card {
+      height: 180px;
+      width: 160px;  /* Ajuste de tamaño en pantallas más pequeñas */
+    }
+  
+    .header {
+      height: 50px;
+      padding: 0.8rem;
+    }
+  }
+  
+  .fa-solid  {
+    font-size: 100px;  /* Ajusta el tamaño del ícono */
+    width: 80px;      /* Ajusta el ancho del ícono */
+    height: 80px;     /* Ajusta la altura del ícono */
+    display: flex;    /* Usa flexbox para centrarlo */
+    justify-content: center; /* Centrado horizontal */
+    align-items: center;    /* Centrado vertical */
+    margin: 0 auto;   /* Centrado en el contenedor */
+    border-radius: 50%; /* Redondea el fondo para que tenga forma circular */
+    padding: 15px;     /* Añade un poco de espacio alrededor del ícono */
+  }

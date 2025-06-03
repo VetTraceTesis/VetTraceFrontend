@@ -1,0 +1,41 @@
+<h2>Crear Nueva Atención</h2>
+
+<form (ngSubmit)="crearAtencion()">
+
+  <div *ngIf="mascotas.length > 0">
+    <label for="mascotaSelect">Selecciona Mascota:</label>
+   <select id="mascotaSelect" [(ngModel)]="nombreMascotaSeleccionada" name="nombreMascotaSeleccionada" required>
+  <option *ngFor="let mascota of mascotas" [value]="mascota.nombre">
+    {{ mascota.nombre }}
+  </option>
+</select>
+
+  </div>
+
+  <div *ngIf="mascotas.length === 0">
+    <p style="color: red;">No se encontraron mascotas registradas para este usuario.</p>
+  </div>
+
+  <div>
+    <label for="fechaInicio">Fecha Inicio:</label>
+    <input id="fechaInicio" type="date" [(ngModel)]="nuevaAtencion.fechaInicio" name="fechaInicio" required />
+  </div>
+
+  <div>
+    <label for="fechaFin">Fecha Fin:</label>
+    <input id="fechaFin" type="date" [(ngModel)]="nuevaAtencion.fechaFin" name="fechaFin" />
+  </div>
+
+  <div>
+    <label for="iddoctorVeterinario">ID Doctor Veterinario:</label>
+    <input id="iddoctorVeterinario" type="number" [(ngModel)]="nuevaAtencion.iddoctorVeterinario" name="iddoctorVeterinario" required />
+  </div>
+
+  <div>
+    <label for="id_estado">ID Estado:</label>
+    <input id="id_estado" type="number" [(ngModel)]="nuevaAtencion.id_estado" name="id_estado" required />
+  </div>
+
+  <button type="submit">Crear Atención</button>
+  <button type="button" (click)="cancelar()">Cancelar</button>
+</form>

@@ -1,0 +1,47 @@
+<div class="profile-container" *ngIf="doctor">
+    <div class="header">
+      <img src="assets/logo.png" alt="Logo" class="logo" />
+      <!-- Botón "Atrás" -->
+      <button class="back-button" (click)="goBack()">Atrás</button>
+    </div>
+  
+    <div class="profile-details">
+      <div class="profile-photo">
+        <img src="assets/default-photo.png" alt="Foto del Doctor" class="profile-img" />
+      </div>
+  
+      <div class="profile-info">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" [(ngModel)]="doctor.nombre" placeholder="Nombre del Doctor" [disabled]="disableFields" />
+  
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" [(ngModel)]="doctor.apellido" placeholder="Apellido del Doctor" [disabled]="disableFields" />
+  
+        <label for="contacto">Contacto:</label>
+        <input type="text" id="contacto" [(ngModel)]="doctor.telefono" placeholder="Número de contacto" [disabled]="disableFields" />
+  
+        <label for="email">Email:</label>
+        <input type="email" id="email" [(ngModel)]="doctor.email" placeholder="Email del Doctor" [disabled]="disableFields" />
+  
+        <label for="fecha-registro">Fecha de Registro:</label>
+        <input type="date" id="fecha-registro" 
+               [(ngModel)]="doctor.fecharegistro" 
+               [value]="doctor.fecharegistro ? formatDate(doctor.fecharegistro) : ''" 
+               [disabled]="disableFields" />
+  
+        <label for="cmvp">CMVP:</label>
+        <input type="text" id="cmvp" [(ngModel)]="doctor.cmvp" placeholder="Número CMVP" [disabled]="disableFields" />
+      </div>
+    </div>
+  
+    <div class="footer">
+      <button class="save-button" (click)="saveDoctor()" [disabled]="disableFields">Guardar</button>
+      <button 
+        class="toggle-button" 
+        [ngClass]="{'inactive': disableFields, 'active': !disableFields}" 
+        (click)="toggleDisable()">
+        {{ disableFields ? 'Desactivar' : 'Activar' }}
+      </button>
+    </div>
+  </div>
+  

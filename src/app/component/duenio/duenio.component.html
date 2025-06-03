@@ -1,0 +1,32 @@
+<div class="modulos-container">
+    <h2>Dueños:</h2>
+  
+    <!-- Caja de búsqueda -->
+    <div class="search-container">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (input)="filterDuenios()" 
+        placeholder="Buscar por nombre..." />
+    </div>
+  
+    <!-- Botón para regresar a modulos -->
+    <button class="back-button" (click)="goBack()">Atrás</button>
+  
+    <!-- Botón para agregar un nuevo dueño -->
+    <button class="add-duenio-button" (click)="goToAddDuenio()">Agregar Nuevo Dueño</button>
+  
+    <div class="grid">
+      <div class="card" *ngFor="let duenio of filteredDuenios" (click)="goToDuenioDetail(duenio.id)">
+        <div class="profile-photo">
+          <img src="assets/default-photo.png" alt="Foto del Dueño" class="profile-img" />
+        </div>
+        <div class="profile-info">
+          <h3>{{ duenio.apellido }}, {{ duenio.nombre }}</h3>
+          <p>Contacto: {{ duenio.telefono }}</p>
+          <p>Email: {{ duenio.email }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,51 @@
+<script src="https://kit.fontawesome.com/114f6311fa.js" crossorigin="anonymous"></script>
+
+<app-header></app-header>
+
+  
+  <div class="modulos-container">
+    <h2>Módulos:</h2>
+    <div class="grid">
+      <div class="card" *ngIf="esAdmin() || esUsuario()">
+        <a (click)="navigateToAtenciones()">
+        <i class="fa-solid fa-address-card"></i>
+        <span> Atenciones</span>
+        </a>
+      </div>
+      <div class="card" *ngIf="esAdmin() || esUsuario()">
+        <a (click)="navigateToDuenio()">
+        <i class="fa-solid fa-users"></i>
+        <span>Pacientes</span>
+        </a>
+      </div>
+      <div class="card" *ngIf="esAdmin()">
+        <i class="fa-solid fa-clock"></i>
+        <span>Citas</span>
+      </div>
+      <div class="card" *ngIf="esAdmin()">
+        <i class="fa-solid fa-hospital"></i>
+        <span>Farmacia</span>
+      </div>
+      <div class="card" *ngIf="esAdmin()">
+        <i class="fa-solid fa-money-check-dollar"></i>
+        <span>Pagos</span>
+      </div>
+      <div class="card" *ngIf="esAdmin()">
+        <i class="fa-solid fa-headset"></i>
+        <span>Soporte</span>
+      </div>
+      <div class="card" *ngIf="esAdmin()">
+        <a (click)="navigateToDoctor()">
+          <i class="fa-solid fa-book"></i>
+          <span>Doctores</span>
+        </a>
+      </div>
+      <div class="card" *ngIf="esAdmin()">
+        <a (click)="navigateToMapa()">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Mapas</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  

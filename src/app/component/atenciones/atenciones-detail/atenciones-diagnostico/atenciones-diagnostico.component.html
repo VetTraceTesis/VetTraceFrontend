@@ -1,0 +1,102 @@
+<div class="container">
+  <h2>Reporte de Atención</h2>
+
+  <!-- Info paciente/dueño -->
+  <div class="info" *ngIf="detalles.length > 0">
+    <span>Dueño: {{ detalles[0].duenioNombre }} {{ detalles[0].duenioApellido }}</span>
+    <span>Paciente: {{ detalles[0].mascotaNombre }} ({{ detalles[0].mascotaEspecie }})</span>
+  </div>
+
+  <mat-tab-group>
+    <!-- Tab Diagnóstico -->
+    <mat-tab label="Diagnóstico">
+        <form class="form-diagnostico">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Comentario</mat-label>
+        <textarea matInput rows="4"
+                  [(ngModel)]="diagnostico.comentario"
+                  name="comentario"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Resultado</mat-label>
+        <input matInput
+               [(ngModel)]="diagnostico.resultado"
+               name="resultado">
+      </mat-form-field>
+
+      <div class="buttons">
+        <button mat-raised-button color="primary"
+                (click)="guardarDiagnostico()">
+          <mat-icon>save</mat-icon>
+          Guardar Diagnóstico
+        </button>
+      </div>
+    </form>
+    </mat-tab>
+
+    <!-- Tab Recetas -->
+    <mat-tab label="Recetas">
+      <div class="input-plus">
+       
+        <button mat-icon-button>
+          <mat-icon>calendar_today</mat-icon>
+        </button>
+      </div>
+
+<table *ngIf="MostrarMedicamentos?.length" class="medicamentos-table">
+  <thead>
+    <tr>
+      <th>#</th><th>Cantidad</th><th>Indicación</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let med of MostrarMedicamentos; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ med.cantidad }}</td>      <!-- ya no hay ?? -->
+      <td>{{ med.indicacion }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+      <mat-form-field appearance="outline" class="full-width comentario-container">
+        <mat-label>Comentario Receta</mat-label>
+        <textarea matInput rows="3"
+                  [(ngModel)]="receta.comentarios"
+                  name="comentarioReceta"></textarea>
+      </mat-form-field>
+
+      <div class="buttons">
+        <button mat-raised-button color="accent"
+                (click)="generarReporte()">
+          <mat-icon>print</mat-icon>
+          Reporte
+        </button>
+        <button mat-raised-button color="primary"
+                (click)="guardarReceta()">
+          <mat-icon>save</mat-icon>
+          Guardar Receta
+        </button>
+          <button mat-raised-button color="primary" (click)="abrirModal()">
+      <mat-icon>open_in_new</mat-icon>
+      Abrir Modal
+    </button>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <div class="buttons bottom">
+    <button mat-stroked-button (click)="atras()">
+      <mat-icon>arrow_back</mat-icon>
+      Atrás
+    </button>
+  
+  </div>
+</div>

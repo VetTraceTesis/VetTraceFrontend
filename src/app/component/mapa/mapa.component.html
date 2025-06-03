@@ -1,0 +1,42 @@
+<div class="map-container">
+
+  <aside class="sidebar">
+    <h3>Ubicaciones ConVet</h3>
+    <button class="btn-back" (click)="onBack()">← Atrás</button>
+    <ul>
+      <li *ngFor="let loc of farmacias; let i = index" (click)="selectLocation(i)"
+          [class.selected]="i === selectedMarkerIndex">
+        <strong>{{ loc.nombre  }}</strong><br>
+        <small>{{ loc.distrito  }}</small><br>
+        <a [href]="loc.url " target="_blank" (click)="$event.stopPropagation()">Web</a>
+      </li>
+    </ul>
+  </aside>
+
+  <section class="map-wrapper">
+    <google-map
+      [height]="'100%'"
+      [width]="'100%'"
+      [center]="center"
+      [zoom]="zoom">
+
+  <map-marker *ngFor="let markerOptions of markersOptions; let i = index"
+            [position]="markerOptions.position"
+            [title]="markerOptions.title"
+            (mapClick)="openInfoWindow(marker, i)"
+            #marker="mapMarker">
+</map-marker>
+
+
+      <map-info-window>
+        <div *ngIf="selectedMarkerIndex !== -1 && farmacias[selectedMarkerIndex]">
+          <h4>{{ farmacias[selectedMarkerIndex].nombre  }}</h4>
+          <p><strong>Distrito:</strong> {{ farmacias[selectedMarkerIndex].distrito }}</p>
+          <a [href]="farmacias[selectedMarkerIndex].url " target="_blank">Sitio Web</a>
+        </div>
+      </map-info-window>
+
+    </google-map>
+  </section>
+
+</div>

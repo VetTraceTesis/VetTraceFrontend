@@ -1,0 +1,26 @@
+<h2>Atenciones del dueño {{ duenioId }}</h2>
+<button (click)="goBack()" class="btn-back">Atrás</button>
+<button (click)="irANuevaAtencion()" class="btn-crear-nueva">Crear Nueva Atención</button>
+
+<!-- Aquí va el resto de tu código actual para mostrar atenciones -->
+
+<div *ngIf="atenciones.length === 0" class="no-data">
+  <p>No se están registrando atenciones para este usuario.</p>
+</div>
+
+<div class="cards-container" *ngIf="atenciones.length > 0">
+  <div 
+    class="card" 
+    *ngFor="let atencion of atenciones"
+    (click)="irADiagnostico(atencion.id)" 
+    style="cursor: pointer;"
+  >
+    <h3>Atención #{{ atencion.id }}</h3>
+    <p><strong>Fecha inicio:</strong> {{ atencion.fechaInicio | date:'dd/MM/yyyy' }}</p>
+    <p><strong>Fecha fin:</strong> {{ atencion.fechaFin | date:'dd/MM/yyyy' }}</p>
+    <p><strong>ID Veterinaria:</strong> {{ atencion.idveterinaria }}</p>
+    <p><strong>ID Doctor Veterinario:</strong> {{ atencion.iddoctorVeterinario }}</p>
+    <p><strong>ID Usuario:</strong> {{ atencion.idusuario }}</p>
+    <p><strong>ID Estado:</strong> {{ atencion.id_estado }}</p>
+  </div>
+</div>
