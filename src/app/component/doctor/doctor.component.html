@@ -21,8 +21,6 @@
   <!-- Contenedor grid con referencia para calcular el ancho -->
   <div #gridContainer class="grid">
     <div class="card" *ngFor="let doctor of paginatedDoctors" (click)="goToDoctorDetail(doctor.id)">
-      <div class="card-header">N° {{doctor.id}}</div> <!-- Opcional, si tienes un id o número -->
-
       <div class="card-body">
         <div class="profile-photo">
           <img src="assets/default-photo.png" alt="Foto del Doctor" class="profile-img" />

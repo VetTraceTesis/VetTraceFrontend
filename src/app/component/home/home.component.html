@@ -1,13 +1,17 @@
-<div class="login-container">
+<div class="center-container">
+  <div class="login-container">
+    <div class="vet-logo">
+      <img src="/logoVetTracePng.png" alt="Logo VetTrace" class="logo-img" />
+    </div>
     <h2>Iniciar Sesión</h2>
     <form (ngSubmit)="login()">
       <label for="usuario">Usuario:</label>
       <input id="usuario" [(ngModel)]="username" name="usuario" required />
-  
+
       <label for="password">Contraseña:</label>
       <input id="password" type="password" [(ngModel)]="password" name="password" required />
-  
+
       <button type="submit">Ingresar</button>
     </form>
   </div>
-  
+</div>

@@ -1,38 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
 .snack-bar-success {
-    background-color: #4caf50;  /* Verde para éxito */
-    color: white;
-  }
-  
-  .snack-bar-error {
-    background-color: #f44336;  /* Rojo para error */
-    color: white;
-  }
-  
+  background-color: #4caf50;
+  /* Verde para éxito */
+  color: white;
+}
+
+.snack-bar-error {
+  background-color: #f44336;
+  /* Rojo para error */
+  color: white;
+}
+
+.swal2-border-radius {
+  border-radius: 18px !important;
+}
+
 .app-header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 80px; /* altura fija */
+  height: 80px;
+  /* altura fija */
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background-color: #84e0e6;
+  background-color: #416785;
+  /* Color principal de la paleta */
   color: white;
   z-index: 10000;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
+
 .main-content {
   position: absolute;
-  top: 80px;       /* justo debajo del header */
+  top: 80px;
+  /* justo debajo del header */
   left: 0;
   right: 0;
   bottom: 0;
@@ -40,4 +56,3 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding: 20px;
   box-sizing: border-box;
 }
-

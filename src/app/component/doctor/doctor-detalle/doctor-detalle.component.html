@@ -1,47 +1,70 @@
 <div class="profile-container" *ngIf="doctor">
+  <form #doctorForm="ngForm">
     <div class="header">
-      <img src="assets/logo.png" alt="Logo" class="logo" />
-      <!-- Botón "Atrás" -->
-      <button class="back-button" (click)="goBack()">Atrás</button>
+      <img src="/logoVetTracePng.png" alt="Logo" class="logo" />
+      <button class="back-button" (click)="goBack()" type="button">Atrás</button>
     </div>
-  
+
     <div class="profile-details">
       <div class="profile-photo">
         <img src="assets/default-photo.png" alt="Foto del Doctor" class="profile-img" />
       </div>
-  
+
       <div class="profile-info">
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" [(ngModel)]="doctor.nombre" placeholder="Nombre del Doctor" [disabled]="disableFields" />
-  
+        <input type="text" id="nombre" name="nombre" [(ngModel)]="doctor.nombre" placeholder="Nombre del Doctor" [readonly]="disableFields" required pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" #nombre="ngModel" />
+        <div class="error" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched) && !disableFields">
+          <span *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</span>
+          <span *ngIf="nombre.errors?.['pattern']">Solo se permiten letras.</span>
+        </div>
+
         <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" [(ngModel)]="doctor.apellido" placeholder="Apellido del Doctor" [disabled]="disableFields" />
-  
+        <input type="text" id="apellido" name="apellido" [(ngModel)]="doctor.apellido" placeholder="Apellido del Doctor" [readonly]="disableFields" required pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" #apellido="ngModel" />
+        <div class="error" *ngIf="apellido.invalid && (apellido.dirty || apellido.touched) && !disableFields">
+          <span *ngIf="apellido.errors?.['required']">El apellido es obligatorio.</span>
+          <span *ngIf="apellido.errors?.['pattern']">Solo se permiten letras.</span>
+        </div>
+
         <label for="contacto">Contacto:</label>
-        <input type="text" id="contacto" [(ngModel)]="doctor.telefono" placeholder="Número de contacto" [disabled]="disableFields" />
-  
+        <input type="text" id="contacto" name="contacto" [(ngModel)]="doctor.telefono" placeholder="Número de contacto" [readonly]="disableFields" required pattern="^[0-9]+$" #contacto="ngModel" />
+        <div class="error" *ngIf="contacto.invalid && (contacto.dirty || contacto.touched) && !disableFields">
+          <span *ngIf="contacto.errors?.['required']">El contacto es obligatorio.</span>
+          <span *ngIf="contacto.errors?.['pattern']">Solo se permiten números.</span>
+        </div>
+
         <label for="email">Email:</label>
-        <input type="email" id="email" [(ngModel)]="doctor.email" placeholder="Email del Doctor" [disabled]="disableFields" />
-  
+        <input type="email" id="email" name="email" [(ngModel)]="doctor.email" placeholder="Email del Doctor" [readonly]="disableFields" required #email="ngModel" />
+        <div class="error" *ngIf="email.invalid && (email.dirty || email.touched) && !disableFields">
+          <span *ngIf="email.errors?.['required']">El email es obligatorio.</span>
+          <span *ngIf="email.errors?.['email']">Debe ser un email válido.</span>
+        </div>
+
         <label for="fecha-registro">Fecha de Registro:</label>
-        <input type="date" id="fecha-registro" 
-               [(ngModel)]="doctor.fecharegistro" 
-               [value]="doctor.fecharegistro ? formatDate(doctor.fecharegistro) : ''" 
-               [disabled]="disableFields" />
-  
+        <input type="date" id="fecha-registro" name="fechaRegistro"
+               [(ngModel)]="doctor.fecharegistro"
+               [value]="doctor.fecharegistro ? formatDate(doctor.fecharegistro) : ''"
+               [readonly]="disableFields" required #fechaRegistro="ngModel" />
+        <div class="error" *ngIf="fechaRegistro.invalid && (fechaRegistro.dirty || fechaRegistro.touched) && !disableFields">
+          <span *ngIf="fechaRegistro.errors?.['required']">La fecha es obligatoria.</span>
+        </div>
+
         <label for="cmvp">CMVP:</label>
-        <input type="text" id="cmvp" [(ngModel)]="doctor.cmvp" placeholder="Número CMVP" [disabled]="disableFields" />
+        <input type="text" id="cmvp" name="cmvp" [(ngModel)]="doctor.cmvp" placeholder="Número CMVP" [readonly]="disableFields" required pattern="^[0-9]+$" #cmvp="ngModel" />
+        <div class="error" *ngIf="cmvp.invalid && (cmvp.dirty || cmvp.touched) && !disableFields">
+          <span *ngIf="cmvp.errors?.['required']">El CMVP es obligatorio.</span>
+          <span *ngIf="cmvp.errors?.['pattern']">Solo se permiten números.</span>
+        </div>
       </div>
     </div>
-  
+
     <div class="footer">
-      <button class="save-button" (click)="saveDoctor()" [disabled]="disableFields">Guardar</button>
+      <button class="save-button" (click)="saveDoctor()" [disabled]="disableFields || doctorForm.invalid" type="submit">Guardar</button>
       <button 
         class="toggle-button" 
         [ngClass]="{'inactive': disableFields, 'active': !disableFields}" 
-        (click)="toggleDisable()">
+        (click)="toggleDisable()" type="button">
         {{ disableFields ? 'Desactivar' : 'Activar' }}
       </button>
     </div>
-  </div>
-  
+  </form>
+</div>
