@@ -10,24 +10,25 @@ import { AtencionesDetailComponent } from './component/atenciones/atenciones-det
 import { AtencionesInsertComponent } from './component/atenciones/atenciones-insert/atenciones-insert.component';
 import { AtencionesDiagnosticoComponent } from './component/atenciones/atenciones-detail/atenciones-diagnostico/atenciones-diagnostico.component';
 import { MapaComponent } from './component/mapa/mapa.component';
+import { authGuard } from './AuthGuard/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'doctor', component: DoctorComponent },
-  { path: 'doctor-detail/:id', component: DoctorDetalleComponent },  // Ruta para el detalle del doctor
-  { path: 'doctor-veterinario/nuevo', component: DoctorDetalleComponent },  // Ruta para agregar nuevo doctor
+  { path: 'doctor', component: DoctorComponent, canActivate: [authGuard]  },
+  { path: 'doctor-detail/:id', component: DoctorDetalleComponent, canActivate: [authGuard]   },  // Ruta para el detalle del doctor
+  { path: 'doctor-veterinario/nuevo', component: DoctorDetalleComponent, canActivate: [authGuard]   },  // Ruta para agregar nuevo doctor
 
-  { path: 'duenio', component: DuenioComponent },  // Ruta para el componente de Duenio
-  { path: 'duenio-detalle/:id', component: DuenioDetalleComponent },  // Ruta para el detalle del doctor
-  { path: 'duenio/nuevo', component: DuenioDetalleComponent },  // Ruta para agregar nuevo doctor
+  { path: 'duenio', component: DuenioComponent, canActivate: [authGuard]   },  // Ruta para el componente de Duenio
+  { path: 'duenio-detalle/:id', component: DuenioDetalleComponent, canActivate: [authGuard]   },  // Ruta para el detalle del doctor
+  { path: 'duenio/nuevo', component: DuenioDetalleComponent, canActivate: [authGuard]   },  // Ruta para agregar nuevo doctor
 
-  { path: 'atenciones', component: AtencionesComponent },  // Ruta para agregar nuevo doctor
-  { path: 'atenciones/duenio/:duenoId', component: AtencionesDetailComponent },
-  { path: 'atenciones/nuevo/:duenoId', component: AtencionesInsertComponent },
-  { path: 'atenciones/diagnostico/:atencionId', component: AtencionesDiagnosticoComponent },
+  { path: 'atenciones', component: AtencionesComponent, canActivate: [authGuard]   },  // Ruta para agregar nuevo doctor
+  { path: 'atenciones/duenio/:duenoId', component: AtencionesDetailComponent, canActivate: [authGuard]   },
+  { path: 'atenciones/nuevo/:duenoId', component: AtencionesInsertComponent, canActivate: [authGuard]   },
+  { path: 'atenciones/diagnostico/:atencionId', component: AtencionesDiagnosticoComponent, canActivate: [authGuard]   },
 
-  { path: 'mapa', component: MapaComponent },  
+  { path: 'mapa', component: MapaComponent, canActivate: [authGuard]   },  
 
 
-  { path: 'modulos', component: ModulosComponent }
+  { path: 'modulos', component: ModulosComponent, canActivate: [authGuard]   }
 ];

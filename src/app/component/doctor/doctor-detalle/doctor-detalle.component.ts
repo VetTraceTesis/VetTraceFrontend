@@ -5,6 +5,8 @@ import { Doctor } from '../../../model/doctor.model';  // Importamos el modelo
 import { CommonModule } from '@angular/common';  // Importamos CommonModule para usar *ngIf
 import { FormsModule } from '@angular/forms';   // Importamos FormsModule para usar ngModel
 import { MatSnackBar } from '@angular/material/snack-bar';  // Importamos MatSnackBar
+import Swal from 'sweetalert2';  // Importamos SweetAlert2 para alertas
+
 
 @Component({
   selector: 'app-doctor-detalle',
@@ -32,7 +34,7 @@ export class DoctorDetalleComponent implements OnInit {
     private doctorService: DoctorService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const doctorId = this.route.snapshot.paramMap.get('id');
@@ -60,20 +62,37 @@ export class DoctorDetalleComponent implements OnInit {
 
   saveDoctor(): void {
     if (this.doctor.id === 0) {
-      // Si el doctor tiene id 0, es un nuevo doctor, hacemos un registro
+      // Nuevo doctor
       this.doctorService.addDoctor(this.doctor).subscribe(response => {
-        this.snackBar.open('Doctor registrado correctamente', 'Cerrar', {
-          duration: 3000,
-          panelClass: ['snack-bar-success']
+        Swal.fire({
+          title: '¡Doctor registrado!',
+          text: 'Doctor registrado correctamente',
+          icon: 'success',
+          background: '#f8fafd',
+          color: '#416785',
+          iconColor: '#4bb543',
+          confirmButtonColor: '#416785',
+          confirmButtonText: 'Aceptar',
+          customClass: {
+            popup: 'swal2-border-radius'
+          },
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
         });
         this.router.navigate(['/doctor']);
       });
     } else {
-      // Si el doctor tiene id, actualizamos
+      // Actualizar doctor
       this.doctorService.updateDoctor(this.doctor).subscribe(response => {
-        this.snackBar.open('Guardado correctamente', 'Cerrar', {
-          duration: 3000,
-          panelClass: ['snack-bar-success']
+        Swal.fire({
+          icon: 'success',
+          title: '¡Guardado!',
+          text: 'Guardado correctamente',
+          confirmButtonColor: '#416785'
         });
       });
     }
@@ -82,8 +101,8 @@ export class DoctorDetalleComponent implements OnInit {
   goBack(): void {
     this.router.navigate(['/doctor']);  // Regresa a la lista de doctores
   }
-    // Método para alternar entre habilitar y deshabilitar campos
-    toggleDisable(): void {
-      this.disableFields = !this.disableFields;  // Cambia el estado de disableFields
-    }
+  // Método para alternar entre habilitar y deshabilitar campos
+  toggleDisable(): void {
+    this.disableFields = !this.disableFields;  // Cambia el estado de disableFields
+  }
 }

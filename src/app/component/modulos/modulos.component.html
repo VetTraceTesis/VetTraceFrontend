@@ -2,50 +2,57 @@
 
 <app-header></app-header>
 
-  
-  <div class="modulos-container">
-    <h2>Módulos:</h2>
-    <div class="grid">
-      <div class="card" *ngIf="esAdmin() || esUsuario()">
-        <a (click)="navigateToAtenciones()">
-        <i class="fa-solid fa-address-card"></i>
-        <span> Atenciones</span>
-        </a>
-      </div>
-      <div class="card" *ngIf="esAdmin() || esUsuario()">
-        <a (click)="navigateToDuenio()">
-        <i class="fa-solid fa-users"></i>
-        <span>Pacientes</span>
-        </a>
-      </div>
-      <div class="card" *ngIf="esAdmin()">
-        <i class="fa-solid fa-clock"></i>
-        <span>Citas</span>
-      </div>
-      <div class="card" *ngIf="esAdmin()">
-        <i class="fa-solid fa-hospital"></i>
-        <span>Farmacia</span>
-      </div>
-      <div class="card" *ngIf="esAdmin()">
-        <i class="fa-solid fa-money-check-dollar"></i>
-        <span>Pagos</span>
-      </div>
-      <div class="card" *ngIf="esAdmin()">
-        <i class="fa-solid fa-headset"></i>
-        <span>Soporte</span>
-      </div>
-      <div class="card" *ngIf="esAdmin()">
-        <a (click)="navigateToDoctor()">
-          <i class="fa-solid fa-book"></i>
-          <span>Doctores</span>
-        </a>
-      </div>
-      <div class="card" *ngIf="esAdmin()">
-        <a (click)="navigateToMapa()">
-          <i class="fa-solid fa-map-location-dot"></i>
-          <span>Mapas</span>
-        </a>
-      </div>
+<div class="modulos-container">
+  <h2 class="modulos-title">Módulos</h2>
+  <!-- Grid principal: 4 columnas x 2 filas -->
+  <div class="grid grid-principal">
+    <div class="card" *ngIf="esAdmin() || esUsuario()">
+      <a (click)="navigateToAtenciones()">
+        <span class="icon-bg"><i class="fa-solid fa-address-card"></i></span>
+        <span class="card-label">Atenciones</span>
+      </a>
+    </div>
+    <div class="card" *ngIf="esAdmin() || esUsuario()">
+      <a (click)="navigateToDuenio()">
+        <span class="icon-bg"><i class="fa-solid fa-users"></i></span>
+        <span class="card-label">Pacientes</span>
+      </a>
+    </div>
+    <div class="card" *ngIf="esAdmin()">
+      <a>
+      <span class="icon-bg"><i class="fa-solid fa-clock"></i></span>
+      <span class="card-label">Citas</span>
+      </a>
+    </div>
+    <div class="card" *ngIf="esAdmin()">
+      <a>
+      <span class="icon-bg"><i class="fa-solid fa-hospital"></i></span>
+      <span class="card-label">Farmacia</span>
+      </a>
+    </div>
+    <div class="card" *ngIf="esAdmin()">
+      <a (click)="navigateToDoctor()">
+        <span class="icon-bg"><i class="fa-solid fa-book"></i></span>
+        <span class="card-label">Doctores</span>
+      </a>
+    </div>
+    <div class="card" *ngIf="esAdmin()">
+      <a (click)="navigateToMapa()">
+        <span class="icon-bg"><i class="fa-solid fa-map-location-dot"></i></span>
+        <span class="card-label">Mapas</span>
+      </a>
+    </div>
+    <div class="card" *ngIf="esAdmin()">
+      <a>
+      <span class="icon-bg"><i class="fa-solid fa-money-check-dollar"></i></span>
+      <span class="card-label">Pagos</span>
+      </a>
+    </div>
+    <div class="card" *ngIf="esAdmin()">
+      <a>
+      <span class="icon-bg"><i class="fa-solid fa-headset"></i></span>
+      <span class="card-label">Soporte</span>
+      </a>
     </div>
   </div>
-  
+</div>

@@ -1,5 +1,5 @@
 .logo img {
-  height: 70px; /* Ajusta la altura que prefieras */
+  height: 70px;
   width: auto;
   object-fit: contain;
 }
@@ -11,18 +11,19 @@
 }
 
 .nav-toggle {
-  background-color: #1a5875;
+  background-color: #416785; /* Color principal botón */
   border: none;
-  color: white;
+  color: #fff;
   padding: 8px 12px;
   font-weight: 600;
   border-radius: 6px;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 .nav-toggle:hover,
 .nav-toggle:focus {
-  background-color: #73866f;
+  background-color: #6C8CA3; /* Hover igual que login */
   outline: none;
 }
 
@@ -30,10 +31,10 @@
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: white;
-  color: #007bff;
+  background-color: #fff; /* Fondo blanco como login */
+  color: #2d3a4b; /* Texto principal */
   border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px rgba(77,182,172,0.13); /* Sombra igual que login */
   padding: 10px 0;
   min-width: 150px;
   display: none;
@@ -46,15 +47,17 @@
 }
 
 .nav-menu a {
-  color: #007bff;
+  color: #416785; /* Color principal */
   padding: 8px 16px;
   text-decoration: none;
   font-weight: 600;
   border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
 }
 
 .nav-menu a:hover,
 .nav-menu a:focus {
-  background-color: #f1f1f1;
+  background-color: #f8fafd; /* Fondo input login */
+  color: #2d3a4b; /* Texto principal */
   outline: none;
 }
