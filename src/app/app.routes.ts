@@ -11,6 +11,8 @@ import { AtencionesInsertComponent } from './component/atenciones/atenciones-ins
 import { AtencionesDiagnosticoComponent } from './component/atenciones/atenciones-detail/atenciones-diagnostico/atenciones-diagnostico.component';
 import { MapaComponent } from './component/mapa/mapa.component';
 import { authGuard } from './AuthGuard/auth.guard';
+import { CitasComponent } from './component/citas/citas.component';
+import { CitasModalComponent } from './component/citas/citas-modal/citas-modal.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -29,6 +31,8 @@ export const routes: Routes = [
 
   { path: 'mapa', component: MapaComponent, canActivate: [authGuard]   },  
 
+  { path: 'citas', component: CitasComponent, canActivate: [authGuard]   },  
+  { path: 'citasmodal', component: CitasModalComponent, canActivate: [authGuard]   },  
 
   { path: 'modulos', component: ModulosComponent, canActivate: [authGuard]   }
 ];

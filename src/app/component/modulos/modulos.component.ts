@@ -44,6 +44,10 @@ export class ModulosComponent implements OnInit {
   (): void {
     this.router.navigate(['/duenio']);
   }
+   navigateToCitas
+  (): void {
+    this.router.navigate(['/citas']);
+  }
   navigateToAtenciones(): void{
     this.router.navigate(['/atenciones'])
   }

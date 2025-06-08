@@ -4,12 +4,11 @@
 
   <div *ngIf="mascotas.length > 0">
     <label for="mascotaSelect">Selecciona Mascota:</label>
-   <select id="mascotaSelect" [(ngModel)]="nombreMascotaSeleccionada" name="nombreMascotaSeleccionada" required>
-  <option *ngFor="let mascota of mascotas" [value]="mascota.nombre">
-    {{ mascota.nombre }}
-  </option>
-</select>
-
+    <select id="mascotaSelect" [(ngModel)]="nombreMascotaSeleccionada" name="nombreMascotaSeleccionada" required>
+      <option *ngFor="let mascota of mascotas" [value]="mascota.nombre">
+        {{ mascota.nombre }}
+      </option>
+    </select>
   </div>
 
   <div *ngIf="mascotas.length === 0">
@@ -17,13 +16,13 @@
   </div>
 
   <div>
-    <label for="fechaInicio">Fecha Inicio:</label>
-    <input id="fechaInicio" type="date" [(ngModel)]="nuevaAtencion.fechaInicio" name="fechaInicio" required />
+    <label for="fechaInicio">Fecha y Hora Inicio:</label>
+    <input id="fechaInicio" type="datetime-local" [(ngModel)]="nuevaAtencion.fechaInicio" name="fechaInicio" required />
   </div>
 
   <div>
-    <label for="fechaFin">Fecha Fin:</label>
-    <input id="fechaFin" type="date" [(ngModel)]="nuevaAtencion.fechaFin" name="fechaFin" />
+    <label for="fechaFin">Fecha y Hora Fin:</label>
+    <input id="fechaFin" type="datetime-local" [(ngModel)]="nuevaAtencion.fechaFin" name="fechaFin" />
   </div>
 
   <div>
@@ -36,6 +35,6 @@
     <input id="id_estado" type="number" [(ngModel)]="nuevaAtencion.id_estado" name="id_estado" required />
   </div>
 
-  <button type="submit">Crear Atención</button>
+  <button type="submit" [disabled]="mascotas.length === 0">Crear Atención</button>
   <button type="button" (click)="cancelar()">Cancelar</button>
 </form>

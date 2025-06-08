@@ -1,0 +1,113 @@
+/* Estilos generales */
+html, body {
+  height: 100%;  /* Asegura que ocupen toda la altura de la pantalla */
+  margin: 0;
+  overflow: hidden; /* Elimina el scroll global */
+}
+
+/* Contenedor principal del calendario */
+.calendar-container {
+  position: relative; /* Evita que se desplace el contenedor principal */
+  height: calc(100vh - 80px); /* Asegura que ocupe toda la altura menos la barra de navegación */
+  padding: 20px;
+  background-color: #f9f9f9;
+  overflow: hidden; /* Elimina el scroll global del contenedor */
+  padding-top: 60px; /* Deja espacio para la barra de navegación fija */
+}
+
+/* Barra de navegación fija */
+.calendar-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1em;
+  background-color: #f9f9f9;
+  padding: 50px 20px; /* Ajustamos el padding */
+  border-radius: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Añade sombra para que se vea flotante */
+  background-color: #ffffff; /* Fondo blanco para la barra */
+  box-sizing: border-box; /* Evita el desbordamiento */
+}
+
+/* Estilo de los botones de navegación */
+button {
+  padding: 8px 15px;
+  font-size: 1em;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Contenedor de la tabla con scroll */
+.calendar-table-container {
+  max-height: 500px; /* Limita la altura máxima para la tabla */
+  overflow-y: auto; /* Solo la tabla tendrá desplazamiento vertical */
+  width: 100%;
+  margin-top: 20px; /* Añadir espacio entre la barra de navegación y la tabla */
+}
+
+/* Estilos de la tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+th, td {
+  padding: 8px 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  background-color: #f9f9f9;
+  z-index: 5;
+}
+
+td {
+  font-size: 0.9em;
+  line-height: 1.3;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+td p {
+  margin: 0;
+  font-size: 0.8em;
+}
+
+/* Ajustes de responsividad para pantallas más pequeñas */
+@media (max-width: 768px) {
+  table {
+    font-size: 0.8em;
+  }
+
+  th, td {
+    padding: 6px 8px;
+  }
+
+  .calendar-navigation {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  button {
+    margin-bottom: 10px;
+  }
+}

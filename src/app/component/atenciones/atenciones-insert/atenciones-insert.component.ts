@@ -81,7 +81,7 @@ export class AtencionesInsertComponent implements OnInit {
     this.nuevaAtencion.idveterinaria = usuarioActual.veterinariaId;
     this.nuevaAtencion.duenioId = this.duenioIdGlobal;
 
-    this.nuevaMultiple.id_duenio = usuarioActual.id;
+    this.nuevaMultiple.id_duenio = this.duenioIdGlobal;
 
     // Obtener mascotas del dueño
     this.mascotaService.getMascotasByDuenio(this.duenioIdGlobal).subscribe({
@@ -122,6 +122,7 @@ export class AtencionesInsertComponent implements OnInit {
               this.diagnosticoService.registrar(this.diagnostico).subscribe({
                 next: (diagRes) => {
                   console.log('Diagnóstico guardado:', diagRes);
+                  console.log('Diagnóstico guardado:', this.duenioIdGlobal);
                   // Finalmente navegamos a la lista de atenciones del dueño
                   this.router.navigate(['/atenciones/duenio', this.duenioIdGlobal]);
                 },

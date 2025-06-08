@@ -1,0 +1,33 @@
+<app-header></app-header>
+<div class="calendar-container">
+  <!-- Contenedor de la navegación del calendario -->
+  <div class="calendar-navigation">
+    <button (click)="goBack()">Atras</button>
+    <button (click)="previousWeek()">Semana Anterior</button>
+    <h3>{{ weekDateRange }}</h3> <!-- Rango de fechas de la semana -->
+    <button (click)="nextWeek()">Semana Siguiente</button>
+    <button (click)="goToToday()">Hoy</button> <!-- Botón para saltar a hoy -->
+  </div>
+
+  <!-- Tabla de las atenciones -->
+  <div class="calendar-table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Hora</th>
+          <th *ngFor="let dia of weekDates" class="sticky-header">{{ dia.name }} {{ dia.day }}</th> <!-- Días de la semana -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hora of hours">
+          <td>{{ hora }}</td>
+          <td *ngFor="let dia of weekDates">
+            <div *ngFor="let atencion of calendar[dia.name][getHourIndex(hora)]" class="atencion" (click)="openModal(atencion.id)">
+              <p>{{ atencion.id }} - {{ atencion.fechaInicio }}</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

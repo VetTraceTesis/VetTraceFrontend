@@ -3,4 +3,6 @@ export interface DetalleAtencion {
   duenioApellido: string;
   mascotaNombre: string;
   duenioNombre: string;
+  nombreDoctor:string;
+  apellidoDoctor:string;
 }

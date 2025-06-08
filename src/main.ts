@@ -8,6 +8,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
-    provideRouter(routes), provideAnimationsAsync('noop')
+    provideRouter(routes), provideAnimationsAsync('noop'), provideAnimationsAsync()
   ]
 });
