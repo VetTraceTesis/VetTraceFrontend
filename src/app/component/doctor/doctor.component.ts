@@ -94,7 +94,7 @@ calculateItemsPerPage(): void {
   this.itemsPerPage = maxRows * itemsPerRow;
 
   // Reinicia siempre en página 1 cuando cambia itemsPerPage
-  this.currentPage = 1;
+  //this.currentPage = 1;
 
   this.updatePagination();
 }
@@ -104,9 +104,14 @@ updatePagination(): void {
   this.totalPages = Math.ceil(this.filteredDoctors.length / this.itemsPerPage);
   if (this.totalPages === 0) this.totalPages = 1;
 
-  // Si currentPage es mayor al totalPages, reajustar al máximo válido
+  // Asegúrate de que currentPage no sea mayor que totalPages
   if (this.currentPage > this.totalPages) {
     this.currentPage = this.totalPages;
+  }
+
+  // Evitar que currentPage se ajuste innecesariamente a la página 1
+  if (this.currentPage < 1) {
+    this.currentPage = 1;
   }
 
   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -114,9 +119,13 @@ updatePagination(): void {
 }
 
 
+
   prevPage(): void {
+    console.log(this.currentPage)
     if (this.currentPage > 1) {
+      console.log(this.currentPage)
       this.currentPage--;
+      console.log(this.currentPage)
       this.updatePagination();
     }
   }
