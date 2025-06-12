@@ -1,3 +1,5 @@
+<app-header></app-header>
+
 <div class="map-container">
 
   <aside class="sidebar">
@@ -6,9 +8,9 @@
     <ul>
       <li *ngFor="let loc of farmacias; let i = index" (click)="selectLocation(i)"
           [class.selected]="i === selectedMarkerIndex">
-        <strong>{{ loc.nombre  }}</strong><br>
-        <small>{{ loc.distrito  }}</small><br>
-        <a [href]="loc.url " target="_blank" (click)="$event.stopPropagation()">Web</a>
+        <strong>{{ loc.nombre }}</strong><br>
+        <small>{{ loc.distrito }}</small><br>
+        <a [href]="loc.url" target="_blank" (click)="$event.stopPropagation()">Web</a>
       </li>
     </ul>
   </aside>
@@ -19,22 +21,20 @@
       [width]="'100%'"
       [center]="center"
       [zoom]="zoom">
-
-  <map-marker *ngFor="let markerOptions of markersOptions; let i = index"
+      <map-marker *ngFor="let markerOptions of markersOptions; let i = index"
             [position]="markerOptions.position"
             [title]="markerOptions.title"
             (mapClick)="openInfoWindow(marker, i)"
             #marker="mapMarker">
-</map-marker>
+      </map-marker>
 
-
-      <map-info-window>
-        <div *ngIf="selectedMarkerIndex !== -1 && farmacias[selectedMarkerIndex]">
-          <h4>{{ farmacias[selectedMarkerIndex].nombre  }}</h4>
-          <p><strong>Distrito:</strong> {{ farmacias[selectedMarkerIndex].distrito }}</p>
-          <a [href]="farmacias[selectedMarkerIndex].url " target="_blank">Sitio Web</a>
-        </div>
-      </map-info-window>
+    <map-info-window>
+      <div *ngIf="selectedMarkerIndex !== -1 && farmacias[selectedMarkerIndex]" class="info-window-content">
+        <h4 class="info-title">{{ farmacias[selectedMarkerIndex].nombre }}</h4>
+        <p><strong>Distrito:</strong> {{ farmacias[selectedMarkerIndex].distrito }}</p>
+        <a [href]="farmacias[selectedMarkerIndex].url" target="_blank" class="info-link">Sitio Web</a>
+      </div>
+    </map-info-window>
 
     </google-map>
   </section>

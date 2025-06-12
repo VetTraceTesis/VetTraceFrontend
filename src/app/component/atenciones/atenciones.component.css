@@ -1,117 +1,186 @@
-/* Contenedor principal de las tarjetas */
+/* Contenedor principal de los módulos */
 .modulos-container {
-    margin: 20px;
-    padding: 20px;
-  }
-  
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Diseño adaptable */
-    gap: 20px;
-  }
-  
-  .card {
-    background-color: #f1f5f9;  /* Fondo gris claro para las tarjetas */
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .card:hover {
-    background-color: #e0f7fa;  /* Color al pasar el mouse */
-  }
-  
-  .profile-photo {
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
-    border-radius: 50%;
-    margin-bottom: 15px;
-  }
-  
-  .profile-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .profile-info {
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .profile-info h3 {
-    font-size: 18px;
-    color: #0096d6;  /* Azul del título */
-    margin-bottom: 10px;
-  }
-  
-  .profile-info p {
-    margin: 5px 0;
-  }
-  
-  .profile-info p:last-child {
-    font-weight: bold;
-  }
-  
-  /* Estilo de los iconos y fotos */
-  .profile-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  /* Estilo general */
-.modulos-container {
-  padding: 20px;
+  padding: 32px 18px 18px 18px;  /* Espaciado alrededor del contenido */
+  padding-top: 120px;  /* Espacio arriba para respetar el header */
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f6faf8;
+  min-height: calc(100vh);  /* Ajuste para respetar el espacio del header */
+  border-radius: 18px;
+  box-sizing: border-box;  /* Asegura que el padding no cause desbordamiento */
 }
 
-/* Estilos del modal */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+
+/* Título del componente */
+h2 {
+  color: #416785;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Caja de búsqueda */
+.search-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  margin-bottom: 18px;
 }
 
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  width: 80%;
-  max-width: 800px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
+.search-container input {
+  width: 100%;
+  max-width: 320px;
+  padding: 10px 14px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1.5px solid #b2cbdf;
+  background: #f8fafd;
+  transition: border 0.2s;
+  color: #2d3a4b;
 }
 
-.modal-content h2 {
-  font-size: 1.5rem;
+.search-container input:focus {
+  border-color: #416785;
+  outline: none;
 }
 
-.modal-content p {
-  margin-bottom: 10px;
+/* Estilo de los botones de acción */
+.buttons-row {
+  margin: 0 auto 18px auto;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
+.back-button,
+.add-doctor-button {
+  padding: 10px 22px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
+  font-weight: 700;
   cursor: pointer;
+  background: linear-gradient(90deg, #416785 60%, #6C8CA3 100%);
+  color: #fff;
+  transition: background 0.2s, box-shadow 0.2s;
+  min-width: 130px;
+  max-width: 200px;
+  box-shadow: 0 2px 8px rgba(77,182,172,0.08);
+  letter-spacing: 0.5px;
 }
 
-button:hover {
-  background-color: #0056b3;
+.back-button:hover,
+.add-doctor-button:hover {
+  background: linear-gradient(90deg, #224346 60%, #416785 100%);
+  box-shadow: 0 4px 16px rgba(77,182,172,0.13);
+}
+
+/* Estilos de la cuadrícula de tarjetas */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 32px;
+  margin: 32px 0 20px 0;
+}
+
+/* Estilo de las tarjetas de los dueños */
+.card {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 18px 12px 16px 12px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.18s;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 18px rgba(77,182,172,0.10);
+  border: 1.5px solid #f8fafd;
+  align-items: center;
+}
+
+.card:hover {
+  box-shadow: 0 8px 28px rgba(77,182,172,0.16);
+  border-color: #b2cbdf;
+  transform: translateY(-4px) scale(1.03);
+}
+
+/* Estilos de la información de los dueños */
+.profile-info h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d3a4b;
+  letter-spacing: 0.5px;
+}
+
+.profile-info p {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  color: #416785;
+  font-weight: 500;
+}
+
+/* Estilo del paginador */
+.paginator {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-weight: 600;
+  flex-wrap: wrap;
+}
+
+.paginator button {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1.5px solid #b2cbdf;
+  background-color: #f8fafd;
+  color: #416785;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  min-width: 80px;
+  font-weight: 700;
+}
+
+.paginator button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.paginator button:not(:disabled):hover {
+  background-color: #416785;
+  color: #fff;
+}
+
+/* Media Queries para móviles */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 18px;
+    margin: 18px 0 18px 0;
+  }
+  .profile-info h3 {
+    font-size: 16px;
+  }
+  .profile-info p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .modulos-container {
+    padding: 10px 2px 2px 2px;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin: 10px 0 10px 0;
+  }
+  .buttons-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .back-button,
+  .add-doctor-button {
+    min-width: 100%;
+  }
 }

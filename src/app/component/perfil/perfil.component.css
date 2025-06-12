@@ -1,0 +1,70 @@
+/* Estilos generales */
+:host {
+  display: block;
+  padding: 20px;
+  background-color: #f9f9f9; /* Fondo claro */
+  min-height: 100vh; /* Para asegurar que la página ocupe toda la pantalla */
+}
+
+/* Header */
+app-header {
+  margin-bottom: 20px; /* Separar el header del contenido */
+}
+
+/* Título de la sección */
+h1 {
+  font-size: 2em;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Contenido de perfil */
+p {
+  font-size: 1.1em;
+  color: #555;
+  margin: 10px 0;
+}
+
+/* Resaltar las etiquetas de los datos */
+strong {
+  color: #333;
+  font-weight: bold;
+}
+
+/* Estilos para el mensaje de carga */
+#loading {
+  font-size: 1.2em;
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  padding-top: 20px;
+}
+
+/* Diseño de tarjetas para el contenido */
+div {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Diseño de espaciado */
+p {
+  line-height: 1.5;
+}
+
+/* Para dispositivos móviles, mejorar la lectura */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5em;
+  }
+
+  p {
+    font-size: 1em;
+  }
+
+  div {
+    padding: 15px;
+  }
+}

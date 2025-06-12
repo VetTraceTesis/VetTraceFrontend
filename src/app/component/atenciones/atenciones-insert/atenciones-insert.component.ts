@@ -11,11 +11,12 @@ import { AtencionXMascotaXDuenio } from '../../../model/atencionXmascotaXduenio.
 import { AtencionXMascotaXDuenioService } from '../../../service/atencionXmascotaXduenio.service';
 import { DiagnosticoService } from '../../../service/diagnostico.service';
 import { Diagnostico } from '../../../model/diagnostico.model';
+import { HeaderComponent } from '../../../shared/header/header.component';
 
 @Component({
   selector: 'app-atenciones-insert',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule,HeaderComponent],
   templateUrl: './atenciones-insert.component.html',
   styleUrls: ['./atenciones-insert.component.css']
 })

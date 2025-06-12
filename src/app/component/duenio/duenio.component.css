@@ -1,32 +1,80 @@
 /* Contenedor de los módulos */
 .modulos-container {
-    padding: 20px;
-  }
-  
-  /* Caja de búsqueda */
-  .search-container {
-    margin-bottom: 20px;
-  }
-  
-  .search-container input {
+    padding: 32px 18px 18px 18px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f6faf8;
+    min-height: calc(100vh - 100px); /* Ajusta para respetar el espacio del header */
+    border-radius: 18px;
+    margin-top: 100px; /* Ajuste para no superponerse al header */
+}
+
+/* Estilos para el título */
+h2 {
+    color: #416785;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Caja de búsqueda */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.search-container input {
     width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-  }
-  
-  /* Estilos del contenedor de la cuadrícula de cards */
-  .grid {
+    max-width: 320px;
+    padding: 10px 14px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1.5px solid #b2cbdf;
+    background: #f8fafd;
+    transition: border 0.2s;
+    color: #2d3a4b;
+}
+
+.search-container input:focus {
+    border-color: #416785;
+    outline: none;
+}
+
+/* Estilo de los botones de acción */
+.back-button,
+.add-duenio-button {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(90deg, #416785 60%, #6C8CA3 100%);
+  color: #fff;
+  transition: background 0.2s, box-shadow 0.2s;
+  min-width: 130px;
+  max-width: 200px;
+  box-shadow: 0 2px 8px rgba(77,182,172,0.08);
+  letter-spacing: 0.5px;
+}
+
+.back-button:hover,
+.add-duenio-button:hover {
+    background: linear-gradient(90deg, #224346 60%, #416785 100%);
+    box-shadow: 0 4px 16px rgba(77,182,172,0.13);
+}
+
+/* Estilos de la cuadrícula de cards */
+.grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
     padding-top: 20px;
-  }
-  
-  /* Estilo de las cards */
-  .card {
+}
+
+/* Estilo de las cards */
+.card {
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -34,72 +82,152 @@
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .card:hover {
+}
+
+.card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Foto de perfil dentro de la card */
-  .profile-photo {
+}
+
+/* Foto de perfil dentro de la card */
+.profile-photo {
     text-align: center;
     padding: 20px;
-  }
-  
-  .profile-photo img {
+}
+
+.profile-photo img {
     width: 100px;
     height: 100px;
     object-fit: cover;
     border-radius: 50%;
-  }
-  
-  /* Información del dueño */
-  .profile-info {
+}
+
+/* Información del dueño */
+.profile-info {
     padding: 10px 20px 20px;
-  }
-  
-  .profile-info h3 {
+}
+
+.profile-info h3 {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
-  }
-  
-  .profile-info p {
+}
+
+.profile-info p {
     font-size: 14px;
     color: #555;
     margin-bottom: 5px;
-  }
-  
-  /* Botón "Atrás" */
-  .back-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
+}
+
+/* Paginación */
+.paginator {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-weight: 600;
+    flex-wrap: wrap;
+}
+
+.paginator button {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: 1.5px solid #b2cbdf;
+    background-color: #f8fafd;
+    color: #416785;
     cursor: pointer;
-    margin-bottom: 20px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .back-button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Botón para agregar nuevo dueño */
-  .add-duenio-button {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .add-duenio-button:hover {
-    background-color: #218838;
-  }
-  
+    transition: background 0.2s, color 0.2s;
+    min-width: 80px;
+    font-weight: 700;
+}
+
+.paginator button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.paginator button:not(:disabled):hover {
+    background-color: #416785;
+    color: #fff;
+}
+
+/* Media Queries para móviles */
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 18px;
+        margin: 18px 0 18px 0;
+    }
+    .profile-photo {
+        width: 50px;
+        height: 50px;
+    }
+    .profile-photo img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+    .profile-info h3 {
+        font-size: 16px;
+    }
+    .profile-info p {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    .modulos-container {
+        padding: 10px 2px 2px 2px;
+    }
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin: 10px 0 10px 0;
+    }
+    .buttons-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .back-button,
+    .add-duenio-button {
+        min-width: 100%;
+    }
+}
+/* Paginación */
+.paginator {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-weight: 600;
+  flex-wrap: wrap;
+}
+
+.paginator button {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1.5px solid #b2cbdf;
+  background-color: #f8fafd;
+  color: #416785;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  min-width: 80px;
+  font-weight: 700;
+}
+
+.paginator button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.paginator button:not(:disabled):hover {
+  background-color: #416785;
+  color: #fff;
+}
+
+.buttons-row {
+  margin: 0 auto 18px auto;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}

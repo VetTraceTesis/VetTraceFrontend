@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div class="modulos-container main-content">
+<div class="modulos-container">
   <!-- Caja de búsqueda para los dueños -->
   <h2>Atenciones a los Dueños:</h2>
   <div class="search-container">
@@ -11,6 +11,9 @@
       placeholder="Buscar por nombre o apellido..." />
   </div>
 
+  <div class="buttons-row">
+    <button class="back-button" (click)="goBack()">Atrás</button>
+  </div>
   <!-- Mostrar los dueños en tarjetas -->
   <div class="grid">
     <div class="card" *ngFor="let dueno of filteredDuenos" (click)="goToAtencionesByDuenio(dueno.id)">
@@ -21,8 +24,12 @@
     </div>
   </div>
 
-
+  <!-- Paginador -->
+  <div class="paginator">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+  </div>
 
   <!-- Botón para regresar a la página de módulos -->
-  <button class="back-button" (click)="goBack()">Atrás</button>
 </div>

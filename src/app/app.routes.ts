@@ -13,6 +13,7 @@ import { MapaComponent } from './component/mapa/mapa.component';
 import { authGuard } from './AuthGuard/auth.guard';
 import { CitasComponent } from './component/citas/citas.component';
 import { CitasModalComponent } from './component/citas/citas-modal/citas-modal.component';
+import { PerfilComponent } from './component/perfil/perfil.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -34,5 +35,8 @@ export const routes: Routes = [
   { path: 'citas', component: CitasComponent, canActivate: [authGuard]   },  
   { path: 'citasmodal', component: CitasModalComponent, canActivate: [authGuard]   },  
 
-  { path: 'modulos', component: ModulosComponent, canActivate: [authGuard]   }
+  { path: 'modulos', component: ModulosComponent, canActivate: [authGuard]   },
+
+  { path: 'perfil', component: PerfilComponent, canActivate: [authGuard]   }
+
 ];

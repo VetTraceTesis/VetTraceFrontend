@@ -1,7 +1,11 @@
 .container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 1rem;
+  padding: 32px 18px 18px 18px;  /* Espaciado alrededor del contenido */
+  padding-top: 120px;  /* Espacio arriba para respetar el header */
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f6faf8;
+  min-height: calc(100vh);  /* Ajuste para respetar el espacio del header */
+  border-radius: 18px;
+  box-sizing: border-box;  /* Asegura que el padding no cause desbordamiento */
 }
 
 .info {

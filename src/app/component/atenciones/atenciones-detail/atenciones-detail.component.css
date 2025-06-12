@@ -1,9 +1,73 @@
+/* Contenedor principal de atenciones */
+.atenciones-container {
+   padding: 32px 18px 18px 18px;  /* Espaciado alrededor del contenido */
+  padding-top: 120px;  /* Espacio arriba para respetar el header */
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f6faf8;
+  min-height: calc(100vh);  /* Ajuste para respetar el espacio del header */
+  border-radius: 18px;
+  box-sizing: border-box;  /* Asegura que el padding no cause desbordamiento */
+}
+.buttons-row {
+  margin: 0 auto 18px auto;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+/* Título del componente */
+.atenciones-container h2 {
+  color: #416785;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.btn-back,
+.btn-crear-nueva {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(90deg, #416785 60%, #6C8CA3 100%);
+  color: #fff;
+  transition: background 0.2s, box-shadow 0.2s;
+  min-width: 130px;
+  max-width: 200px;
+  box-shadow: 0 2px 8px rgba(77,182,172,0.08);
+  letter-spacing: 0.5px;
+}
+
+
+button:hover {
+  background: linear-gradient(90deg, #224346 60%, #416785 100%);
+  box-shadow: 0 4px 16px rgba(77,182,172,0.13);
+}
+
+button:disabled {
+  background-color: #b2cbdf;
+  cursor: not-allowed;
+}
+
+/* Estilos para el mensaje cuando no hay atenciones */
+.no-data {
+  color: #666;
+  font-style: italic;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* Contenedor de tarjetas */
 .cards-container {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  justify-content: center;
 }
 
+/* Estilo de las tarjetas de atenciones */
 .card {
   background-color: #f9f9f9;
   border-radius: 6px;
@@ -12,26 +76,43 @@
   width: 280px;
   transition: box-shadow 0.3s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .card:hover {
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
-.btn-back {
-  background-color: #007bff;
-  border: none;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-bottom: 1rem;
+
+/* Paginación */
+.paginator {
+ margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-weight: 600;
+  flex-wrap: wrap;
 }
 
-.btn-back:hover {
-  background-color: #0056b3;
+.paginator button {
+   padding: 8px 18px;
+  border-radius: 8px;
+  border: 1.5px solid #b2cbdf;
+  background-color: #f8fafd;
+  color: #416785;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  min-width: 80px;
+  font-weight: 700;
 }
-.no-data {
-  margin-top: 1rem;
-  font-style: italic;
-  color: #666;
+
+.paginator button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.paginator button:not(:disabled):hover {
+background-color: #416785;
+  color: #fff;
 }

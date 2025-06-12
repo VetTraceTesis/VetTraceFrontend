@@ -1,0 +1,84 @@
+/* Contenedor principal del modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Contenido del modal */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  width: 80%;
+  max-width: 600px; /* Limitar el ancho máximo */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra suave para el modal */
+  overflow-y: auto;
+  max-height: 90vh; /* Asegura que el contenido no desborde el viewport */
+  box-sizing: border-box; /* Para incluir el padding dentro de los cálculos del tamaño */
+}
+
+/* Título dentro del modal */
+.modal-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #416785; /* Color del título */
+}
+
+/* Estilos de los detalles dentro del modal */
+.modal-content p {
+  font-size: 1em;
+  color: #333;
+  margin: 10px 0;
+}
+
+.modal-content strong {
+  font-weight: 600;
+  color: #416785; /* Color para las etiquetas */
+}
+
+/* Botones dentro del modal */
+.modal-content button {
+  background-color: #416785; /* Color de fondo de los botones */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 10px 5px;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: #0056b3; /* Cambio de color al pasar el ratón */
+}
+
+.modal-content button:focus {
+  outline: none;
+}
+
+/* Botón de cierre */
+.modal-content .close-btn {
+  background-color: #f44336; /* Color rojo para el botón de cierre */
+  margin-left: 20px;
+}
+
+.modal-content .close-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Para pantallas pequeñas, ajustamos el tamaño del modal */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%; /* Más grande en pantallas pequeñas */
+    max-width: none;
+  }
+}

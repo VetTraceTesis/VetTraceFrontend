@@ -1,0 +1,84 @@
+/* Contenedor principal para el formulario */
+.atenciones-insert-container {
+  margin: 20px;
+  padding: 32px 18px 18px 18px;
+  background: #f6faf8;
+  min-height: calc(100vh - 100px); /* Ajuste para respetar el espacio del header */
+  border-radius: 18px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Título del formulario */
+.atenciones-insert-container h2 {
+  color: #416785;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Estilos de las etiquetas y los inputs */
+label {
+  font-size: 16px;
+  color: #416785;
+  display: block;
+  margin-bottom: 6px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1.5px solid #b2cbdf;
+  background: #f8fafd;
+  transition: border 0.2s;
+  color: #2d3a4b;
+  margin-bottom: 16px;
+}
+
+input:focus,
+select:focus {
+  border-color: #416785;
+  outline: none;
+}
+
+/* Estilo para el mensaje de error cuando no hay mascotas */
+.no-data {
+  color: red;
+  margin-bottom: 20px;
+}
+
+/* Estilo para los botones de acción */
+.form-buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+
+button {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(90deg, #416785 60%, #6C8CA3 100%);
+  color: #fff;
+  transition: background 0.2s, box-shadow 0.2s;
+  min-width: 130px;
+  max-width: 200px;
+  box-shadow: 0 2px 8px rgba(77,182,172,0.08);
+  letter-spacing: 0.5px;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #224346 60%, #416785 100%);
+  box-shadow: 0 4px 16px rgba(77,182,172,0.13);
+}
+
+button:disabled {
+  background-color: #b2cbdf;
+  cursor: not-allowed;
+}

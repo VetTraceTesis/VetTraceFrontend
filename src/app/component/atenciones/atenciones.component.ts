@@ -11,17 +11,22 @@ import { HeaderComponent } from '../../shared/header/header.component';
 @Component({
   selector: 'app-atenciones',
   standalone: true,
-  imports: [FormsModule, CommonModule,HeaderComponent],
+  imports: [FormsModule, CommonModule, HeaderComponent],
   templateUrl: './atenciones.component.html',
   styleUrls: ['./atenciones.component.css']
 })
 export class AtencionesComponent implements OnInit {
-duenos: Duenio[] = [];  // Almacenará todos los dueños
+  duenos: Duenio[] = [];  // Almacenará todos los dueños
   filteredDuenos: Duenio[] = [];  // Almacenará los dueños filtrados
   atenciones: Atencion[] = [];  // Almacenará todas las atenciones
   filteredAtenciones: Atencion[] = [];  // Almacenará las atenciones filtradas
   selectedAtencion: Atencion | null = null;  // Para almacenar la atención seleccionada
   searchTerm: string = '';  // Para manejar la caja de búsqueda
+
+  // Paginación
+  currentPage = 1;  // Página actual
+  totalPages = 1;  // Total de páginas
+  itemsPerPage = 5;  // Elementos por página
 
   constructor(
     private atencionesService: AtencionesService,
@@ -37,6 +42,7 @@ duenos: Duenio[] = [];  // Almacenará todos los dueños
     this.duenioService.getDuenios().subscribe(data => {
       this.duenos = data;
       this.filteredDuenos = data;  // Inicializamos los dueños filtrados
+      this.updatePagination();  // Actualizamos la paginación después de obtener los datos
     });
   }
 
@@ -47,6 +53,8 @@ duenos: Duenio[] = [];  // Almacenará todos los dueños
              dueno.apellido.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
              dueno.id.toString().includes(this.searchTerm);
     });
+    this.currentPage = 1;  // Resetear a la primera página
+    this.updatePagination();  // Actualizar la paginación después del filtro
   }
 
   // Método para obtener las atenciones del dueño
@@ -54,38 +62,50 @@ duenos: Duenio[] = [];  // Almacenará todos los dueños
     this.atencionesService.getAtencionesByDuenio(id).subscribe(data => {
       this.atenciones = data;
       this.filteredAtenciones = data;  // Inicializamos las atenciones filtradas
+      this.updatePagination();  // Actualizamos la paginación
     });
   }
 
-  // Método para abrir el detalle de una atención
-  openAtencionDetail(atencion: Atencion) {
-    this.selectedAtencion = atencion;
+  // Actualizar la paginación
+updatePagination() {
+  // Aquí se calcula la paginación sobre filteredDuenos, no sobre las atenciones
+  this.totalPages = Math.ceil(this.filteredDuenos.length / this.itemsPerPage);  // Calcular total de páginas
+  if (this.totalPages === 0) this.totalPages = 1;
+
+  // Asegúrate de que currentPage no sea mayor que totalPages
+  if (this.currentPage > this.totalPages) {
+    this.currentPage = this.totalPages;
   }
 
-  // Método para cerrar el detalle de la atención
-  closeAtencionDetail() {
-    this.selectedAtencion = null;
+  // Calcular el rango de items a mostrar en la página actual
+  const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+  this.filteredDuenos = this.filteredDuenos.slice(startIndex, startIndex + this.itemsPerPage); // Paginación de dueños
+}
+
+
+  // Cambiar a la página anterior
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();  // Actualizar la paginación
+    }
+  }
+
+  // Cambiar a la página siguiente
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();  // Actualizar la paginación
+    }
+  }
+
+  // Método para redirigir al detalle de la atención
+  goToAtencionesByDuenio(duenioId: number) {
+    this.router.navigate(['/atenciones/duenio', duenioId]);  // Redirigir a la página de atenciones por dueño
   }
 
   // Método para regresar a la página de módulos
   goBack(): void {
-    this.router.navigate(['/modulos']);
+    this.router.navigate(['/modulos']);  // Redirigir a la página de módulos
   }
-
-  // Método para agregar una nueva atención
-  goToAddAtencion() {
-    console.log('Redirigiendo a la página para agregar una nueva atención...');
-  }
-
-  // Método para formatear la fecha a dd/mm/yyyy
-  getFormattedDate(fecha: string): string {
-    const date = new Date(fecha);
-    return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
-  }
-  goToAtencionesByDuenio(duenoId: number) {
-  // Redirigir al componente de detalles pasando el ID de la atención en la URL
-  console.log(duenoId)
-  this.router.navigate(['/atenciones/duenio', duenoId]);
-}
-
 }

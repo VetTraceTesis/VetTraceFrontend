@@ -1,0 +1,16 @@
+<app-header></app-header>
+
+<div *ngIf="usuario; else loading">
+  <h1>Perfil del Usuario</h1>
+  <p><strong>Nombre:</strong> {{ usuario.nombre }} {{ usuario.apellido }}</p>
+  <p><strong>Correo:</strong> {{ usuario.correo }}</p>
+  <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
+  <p><strong>Veterinaria ID:</strong> {{ usuario.veterinariaId }}</p>
+  <p><strong>Rol:</strong> {{ usuario.roleId }}</p>
+</div>
+<button (click)="goBack()" class="back-button">← Volver</button>
+
+<!-- Mostrar mensaje de carga mientras se obtiene el usuario -->
+<ng-template #loading>
+  <p>Cargando perfil...</p>
+</ng-template>

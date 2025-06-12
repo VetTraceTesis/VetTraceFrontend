@@ -12,6 +12,7 @@ import { DiagnosticoService } from '../../../../service/diagnostico.service';
 import { RecetaService } from '../../../../service/receta.service';
 import { MedicamentoService } from '../../../../service/medicamento.service';
 import { MedicamentoModalComponent } from './medicamento-modal/medicamento-modal.component';
+import { HeaderComponent } from '../../../../shared/header/header.component';
 
 
 import { CommonModule } from '@angular/common';
@@ -29,7 +30,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-atenciones-diagnostico',
   standalone: true,
-  imports: [CommonModule,MatTabsModule,FormsModule,MatDialogModule,MatFormFieldModule,MatIconModule,MatInputModule,MatButtonModule],
+  imports: [CommonModule,MatTabsModule,FormsModule,MatDialogModule,MatFormFieldModule,MatIconModule,MatInputModule,MatButtonModule,HeaderComponent],
   templateUrl: './atenciones-diagnostico.component.html',
   styleUrls: ['./atenciones-diagnostico.component.css']
 })
@@ -96,6 +97,7 @@ ngOnInit(): void {
 
  this.atencionXmascotaXduenioService.obtenerInfoPorAtencion(atencionIdNum).subscribe({
   next: detalle => {
+    console.log(detalle," gaaa test")
     this.atencionxmascotaxduenio = detalle;
   },
   error: err => {
@@ -107,7 +109,7 @@ ngOnInit(): void {
   this.diagnosticoService.obtenerPorId(atencionIdNum).subscribe({
     next: diag => {
       this.diagnostico = diag;
-
+      console.log("errorrr")
       // 2) Con el id de diagnóstico, pedir la receta
       this.recetaService.obtenerPorId(diag.id).subscribe({
         next: recet => {
@@ -281,7 +283,7 @@ guardarReceta() {
 
 atras() {
   console.log(this.atencionxmascotaxduenio,"GAAAAAAAAAAAAA");
-
+  console.log(this.atencionxmascotaxduenio)
   if (this.atencionxmascotaxduenio && this.atencionxmascotaxduenio.length > 0) {
     // Accede a la propiedad del primer elemento del array
     this.router.navigate([`/atenciones/duenio/${this.atencionxmascotaxduenio[0].id_duenio}`]);

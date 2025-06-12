@@ -31,5 +31,9 @@ export class HeaderComponent implements OnInit{
   logout(): void {
     this.authService.logout();
   }
+  OpenPerfil(): void{
+    this.router.navigate(['/perfil'])
+
+  }
 
 }

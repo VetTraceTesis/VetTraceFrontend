@@ -1,17 +1,20 @@
-<h2>Detalles de la Atención</h2>
+<!-- Contenedor del modal -->
+<div class="modal-overlay">
+  <div class="modal-content">
+    <h2>Detalles de la Atención</h2>
 
-<div *ngIf="detalleAtencion; else loading">
-  <p><strong>Dueño:</strong> {{ detalleAtencion?.duenioNombre }} {{ detalleAtencion?.duenioApellido }}</p>
-  <p><strong>Nombre de la Mascota:</strong> {{ detalleAtencion?.mascotaNombre }}</p>
-  <p><strong>Especie de la Mascota:</strong> {{ detalleAtencion?.mascotaEspecie }}</p>
-  <p><strong>Nombre del Doctor:</strong> Dr. {{ detalleAtencion?.nombreDoctor }} {{ detalleAtencion?.apellidoDoctor }}</p>
-</div>
+    <div *ngIf="detalleAtencion; else loading">
+      <p><strong>Dueño:</strong> {{ detalleAtencion.duenioNombre }} {{ detalleAtencion.duenioApellido }}</p>
+      <p><strong>Nombre de la Mascota:</strong> {{ detalleAtencion.mascotaNombre }}</p>
+      <p><strong>Especie de la Mascota:</strong> {{ detalleAtencion.mascotaEspecie }}</p>
+      <p><strong>Nombre del Doctor:</strong> Dr. {{ detalleAtencion.nombreDoctor }} {{ detalleAtencion.apellidoDoctor }}</p>
+    </div>
 
-<ng-template #loading>
-  <p>Cargando detalles...</p>
-</ng-template>
+    <ng-template #loading>
+      <p>Cargando detalles...</p>
+    </ng-template>
 
-<!-- Botón para cerrar el modal -->
-<button mat-button (click)="goToAtention()">Ir a la Atencion</button>
-<button mat-button (click)="closeModal()">Cerrar</button>
-
+    <!-- Botones dentro del modal -->
+    <button mat-button (click)="goToAtention()">Ir a la Atención</button>
+    <button mat-button class="close-btn" (click)="closeModal()">Cerrar</button>
+  </div>

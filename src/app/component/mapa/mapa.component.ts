@@ -5,6 +5,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { Router } from '@angular/router';
 import { FarmaciasMapa } from '../../model/farmaciasmapa.model';
 import { FarmaciasMapaService } from '../../service/farmaciasmapa.service';
+import { HeaderComponent } from '../../shared/header/header.component';
 
 interface MarkerOption {
   position: google.maps.LatLngLiteral;
@@ -14,7 +15,7 @@ interface MarkerOption {
 @Component({
   selector: 'app-mapa',
   standalone: true,
-  imports: [CommonModule, GoogleMapsModule],
+  imports: [CommonModule, GoogleMapsModule,HeaderComponent],
   templateUrl: './mapa.component.html',
   styleUrls: ['./mapa.component.css']
 })
