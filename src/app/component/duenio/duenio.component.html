@@ -20,9 +20,6 @@
 
   <div class="grid">
     <div class="card" *ngFor="let duenio of paginatedDuenios" (click)="goToDuenioDetail(duenio.id)">
-      <div class="profile-photo">
-        <img src="assets/default-photo.png" alt="Foto del Dueño" class="profile-img" />
-      </div>
       <div class="profile-info">
         <h3>{{ duenio.apellido }}, {{ duenio.nombre }}</h3>
         <p>Contacto: {{ duenio.telefono }}</p>

@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DoctorService } from '../../../service/doctor.service';
 import { Doctor } from '../../../model/doctor.model';  // Importamos el modelo
-import { CommonModule } from '@angular/common';  // Importamos CommonModule para usar *ngIf
-import { FormsModule } from '@angular/forms';   // Importamos FormsModule para usar ngModel
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';  // Importamos el diálogo y los datos
 import { MatSnackBar } from '@angular/material/snack-bar';  // Importamos MatSnackBar
 import Swal from 'sweetalert2';  // Importamos SweetAlert2 para alertas
-
-
+import { CommonModule } from '@angular/common';  
+import { FormsModule } from '@angular/forms';  
 @Component({
   selector: 'app-doctor-detalle',
   standalone: true,
@@ -30,26 +29,21 @@ export class DoctorDetalleComponent implements OnInit {
   disableFields: boolean = false;
 
   constructor(
-    private route: ActivatedRoute,
     private doctorService: DoctorService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public dialogRef: MatDialogRef<DoctorDetalleComponent>, // Para cerrar el modal
+    @Inject(MAT_DIALOG_DATA) public data: any // Recibe los datos del doctor
   ) { }
 
   ngOnInit(): void {
-    const doctorId = this.route.snapshot.paramMap.get('id');
-    if (doctorId && doctorId !== 'nuevo') {
-      this.getDoctorDetails(Number(doctorId));  // Si no es 'nuevo', obtenemos los detalles del doctor
-    }
-  }
-
-  getDoctorDetails(id: number): void {
-    this.doctorService.getDoctorById(id).subscribe(data => {
-      this.doctor = data;
-      if (data.fecharegistro) {
-        data.fecharegistro = this.formatDate(data.fecharegistro);
+    // Si el doctor tiene un id, asignamos los valores al formulario
+    if (this.data.doctor) {
+      this.doctor = this.data.doctor;
+      if (this.doctor.fecharegistro) {
+        this.doctor.fecharegistro = this.formatDate(this.doctor.fecharegistro);
       }
-    });
+    }
   }
 
   formatDate(dateString: string): string {
@@ -83,7 +77,7 @@ export class DoctorDetalleComponent implements OnInit {
             popup: 'animate__animated animate__fadeOutUp'
           }
         });
-        this.router.navigate(['/doctor']);
+        this.dialogRef.close(true);  // Cierra el modal y devuelve true
       });
     } else {
       // Actualizar doctor
@@ -94,13 +88,15 @@ export class DoctorDetalleComponent implements OnInit {
           text: 'Guardado correctamente',
           confirmButtonColor: '#416785'
         });
+        this.dialogRef.close(true);  // Cierra el modal y devuelve true
       });
     }
   }
 
   goBack(): void {
-    this.router.navigate(['/doctor']);  // Regresa a la lista de doctores
+    this.dialogRef.close(false);  // Cierra el modal y no hace nada
   }
+
   // Método para alternar entre habilitar y deshabilitar campos
   toggleDisable(): void {
     this.disableFields = !this.disableFields;  // Cambia el estado de disableFields

@@ -73,51 +73,51 @@ h2 {
     padding-top: 20px;
 }
 
-/* Estilo de las cards */
+/* Estilos de la cuadrícula de tarjetas */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 32px;
+  margin: 32px 0 20px 0;
+}
+
+/* Estilo de las tarjetas de los dueños */
 .card {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 18px 12px 16px 12px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.18s;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 18px rgba(77,182,172,0.10);
+  border: 1.5px solid #f8fafd;
+  align-items: center;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 28px rgba(77,182,172,0.16);
+  border-color: #b2cbdf;
+  transform: translateY(-4px) scale(1.03);
 }
 
-/* Foto de perfil dentro de la card */
-.profile-photo {
-    text-align: center;
-    padding: 20px;
-}
-
-.profile-photo img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-/* Información del dueño */
-.profile-info {
-    padding: 10px 20px 20px;
-}
-
+/* Estilos de la información de los dueños */
 .profile-info h3 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d3a4b;
+  letter-spacing: 0.5px;
 }
 
 .profile-info p {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 5px;
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  color: #416785;
+  font-weight: 500;
 }
+
+
 
 /* Paginación */
 .paginator {

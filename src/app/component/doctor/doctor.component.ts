@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';  
 import { FormsModule } from '@angular/forms'; 
+import { MatDialog } from '@angular/material/dialog';
+import { DoctorDetalleComponent } from './doctor-detalle/doctor-detalle.component';
 
 @Component({
   selector: 'app-doctor',
@@ -28,7 +30,7 @@ export class DoctorComponent implements OnInit, AfterViewInit {
 
   resizeObserver!: ResizeObserver;
 
-  constructor(private doctorService: DoctorService, private router: Router) { }
+  constructor(private doctorService: DoctorService, private router: Router, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getDoctors();
@@ -148,6 +150,46 @@ updatePagination(): void {
   goBack(): void {
     this.router.navigate(['/modulos']);  
   }
+// Método para abrir el modal para agregar un nuevo doctor
+openDoctorModal(): void {
+  const dialogRef = this.dialog.open(DoctorDetalleComponent, {
+    width: '80vw',  // Esto hace que el modal ocupe un 80% del ancho de la ventana
+    maxWidth: '1200px',  // Límite de tamaño máximo del modal
+    minWidth: '350px',  // Mínimo tamaño del modal en pantallas muy pequeñas
+    data: {
+      doctor: { id: 0, nombre: '', apellido: '', telefono: '', email: '', fecharegistro: '', cmvp: '' }  // Un doctor vacío para crear uno nuevo
+    },
+  position: { top: '20px', left: '10vw' }  // Ajusta también la posición horizontal si es necesario
+
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.getDoctors();  // Recarga la lista de doctores después de cerrar el modal
+    }
+  });
+}
+
+// Método para abrir el modal de detalle de un doctor
+openDoctorDetailModal(doctorId: number): void {
+  const doctor = this.doctors.find(d => d.id === doctorId);
+  if (doctor) {
+    const dialogRef = this.dialog.open(DoctorDetalleComponent, {
+      width: '80vw',  // Esto hace que el modal ocupe un 80% del ancho de la ventana
+      maxWidth: '1200px',  // Límite de tamaño máximo del modal
+      minWidth: '350px',  // Mínimo tamaño del modal en pantallas muy pequeñas
+      data: { doctor },
+      position: { bottom: '70px' }  // Ajusta también la posición horizontal si es necesario
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getDoctors();  // Recarga la lista de doctores después de cerrar el modal
+      }
+    });
+  }
+}
 
   // Propiedad para binding en HTML
   searchTerm: string = '';

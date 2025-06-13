@@ -1,3 +1,12 @@
+.modulos-container {
+  min-height: calc(100vh - 80px); /* Ajusta la altura para que no se suba al header (80px es la altura del header) */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Asegúrate de que los módulos se alineen al inicio */
+  align-items: center;
+  padding-top: 80px; /* Esto asegura que los módulos empiecen después del header */
+}
+
 .modulos-title {
   text-align: center;
   color: #416785;
@@ -5,15 +14,10 @@
   font-weight: 800;
   margin-bottom: 2.5rem;
   letter-spacing: 1px;
+  padding-top: 40px; /* Esto asegura que los módulos empiecen después del header */
+
 }
 
-.modulos-container {
-  min-height: calc(100vh - 10px); /* 80px es la altura del header */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 
 .grid-principal {
   display: grid;

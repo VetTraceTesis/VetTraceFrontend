@@ -15,16 +15,13 @@
   <!-- Botones de navegación -->
   <div class="buttons-row">
     <button class="back-button" (click)="goBack()">Atrás</button>
-    <button class="add-doctor-button" (click)="goToAddDoctor()">Agregar Nuevo Doctor</button>
+    <button class="add-doctor-button" (click)="openDoctorModal()">Agregar Nuevo Doctor</button>
   </div>
 
   <!-- Contenedor grid con referencia para calcular el ancho -->
   <div #gridContainer class="grid">
-    <div class="card" *ngFor="let doctor of paginatedDoctors" (click)="goToDoctorDetail(doctor.id)">
+    <div class="card" *ngFor="let doctor of paginatedDoctors" (click)="openDoctorDetailModal(doctor.id)">
       <div class="card-body">
-        <div class="profile-photo">
-          <img src="assets/default-photo.png" alt="Foto del Doctor" class="profile-img" />
-        </div>
         <div class="profile-info">
           <h3>{{ doctor.apellido }}, {{ doctor.nombre }}</h3>
           <p>Contacto: {{ doctor.telefono }}</p>
