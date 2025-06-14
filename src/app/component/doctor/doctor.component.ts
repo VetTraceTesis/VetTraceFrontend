@@ -150,42 +150,39 @@ updatePagination(): void {
   goBack(): void {
     this.router.navigate(['/modulos']);  
   }
-// Método para abrir el modal para agregar un nuevo doctor
 openDoctorModal(): void {
   const dialogRef = this.dialog.open(DoctorDetalleComponent, {
-    width: '80vw',  // Esto hace que el modal ocupe un 80% del ancho de la ventana
-    maxWidth: '1200px',  // Límite de tamaño máximo del modal
-    minWidth: '350px',  // Mínimo tamaño del modal en pantallas muy pequeñas
+    width: '80vw',  
+    maxWidth: '1200px',  
+    minWidth: '350px', 
     data: {
-      doctor: { id: 0, nombre: '', apellido: '', telefono: '', email: '', fecharegistro: '', cmvp: '' }  // Un doctor vacío para crear uno nuevo
+      doctor: { id: 0, nombre: '', apellido: '', telefono: '', email: '', fecharegistro: '', cmvp: '' } 
     },
-  position: { top: '20px', left: '10vw' }  // Ajusta también la posición horizontal si es necesario
-
+      position: { bottom: '70px' }  
   });
 
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
-      this.getDoctors();  // Recarga la lista de doctores después de cerrar el modal
+      this.getDoctors();  
     }
   });
 }
 
-// Método para abrir el modal de detalle de un doctor
 openDoctorDetailModal(doctorId: number): void {
   const doctor = this.doctors.find(d => d.id === doctorId);
   if (doctor) {
     const dialogRef = this.dialog.open(DoctorDetalleComponent, {
-      width: '80vw',  // Esto hace que el modal ocupe un 80% del ancho de la ventana
-      maxWidth: '1200px',  // Límite de tamaño máximo del modal
-      minWidth: '350px',  // Mínimo tamaño del modal en pantallas muy pequeñas
+      width: '80vw',  
+      maxWidth: '1200px',  
+      minWidth: '350px',  
       data: { doctor },
-      position: { bottom: '70px' }  // Ajusta también la posición horizontal si es necesario
+      position: { bottom: '70px' }  
 
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.getDoctors();  // Recarga la lista de doctores después de cerrar el modal
+        this.getDoctors(); 
       }
     });
   }

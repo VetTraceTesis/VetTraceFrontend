@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';  // Importamos Router para la redirección
 import { DuenioService } from '../../service/duenio.service'; // Asegúrate de importar tu servicio
 import { Duenio } from '../../model/duenio.model';  // Importamos el modelo de Duenio
 import { FormsModule } from '@angular/forms';  // Importamos FormsModule
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../shared/header/header.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DuenioDetalleComponent } from './duenio-detalle/duenio-detalle.component';
 
 @Component({
   selector: 'app-duenio',
@@ -14,6 +16,7 @@ import { HeaderComponent } from '../../shared/header/header.component';
   styleUrls: ['./duenio.component.css']
 })
 export class DuenioComponent implements OnInit {
+  @ViewChild('gridContainer', { static: false }) gridContainer!: ElementRef<HTMLDivElement>;
 
   duenios: Duenio[] = [];  // Aquí almacenamos todos los dueños
   filteredDuenios: Duenio[] = [];  // Aquí almacenamos los dueños filtrados
@@ -26,7 +29,8 @@ export class DuenioComponent implements OnInit {
 
   constructor(
     private duenioService: DuenioService,  // Inyectamos el servicio de dueños
-    private router: Router  // Inyectamos el router para manejar la navegación
+    private router: Router,
+    public dialog: MatDialog  // Inyectamos el router para manejar la navegación
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +41,7 @@ export class DuenioComponent implements OnInit {
     this.duenioService.getDuenios().subscribe(
       (duenios) => {
         this.duenios = duenios;
-        this.filteredDuenios = duenios;  // Mostrar todos los dueños por defecto
+        this.filteredDuenios = duenios.sort((a, b) => a.nombre.localeCompare(b.nombre));  // Ordenar por nombre
         this.updatePagination();  // Actualizar la paginación
       },
       (error) => {
@@ -46,7 +50,6 @@ export class DuenioComponent implements OnInit {
     );
   }
 
-  // Filtrar los dueños basados en la búsqueda
   filterDuenios(): void {
     if (!this.searchTerm) {
       this.filteredDuenios = this.duenios;  // Si no hay búsqueda, mostrar todos los dueños
@@ -60,22 +63,18 @@ export class DuenioComponent implements OnInit {
     this.updatePagination();  // Actualizar la paginación después de filtrar
   }
 
-  // Actualizar la paginación
   updatePagination(): void {
     this.totalPages = Math.ceil(this.filteredDuenios.length / this.itemsPerPage);  // Calcular total de páginas
     if (this.totalPages === 0) this.totalPages = 1;
 
-    // Asegúrate de que currentPage no sea mayor que totalPages
     if (this.currentPage > this.totalPages) {
       this.currentPage = this.totalPages;
     }
 
-    // Calcular el rango de items a mostrar en la página actual
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.paginatedDuenios = this.filteredDuenios.slice(startIndex, startIndex + this.itemsPerPage);  // Paginar los dueños
   }
 
-  // Cambiar a la página anterior
   prevPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -83,7 +82,6 @@ export class DuenioComponent implements OnInit {
     }
   }
 
-  // Cambiar a la página siguiente
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
@@ -91,17 +89,49 @@ export class DuenioComponent implements OnInit {
     }
   }
 
-  // Ir a la página de detalle del dueño
   goToDuenioDetail(id: number): void {
     this.router.navigate([`/duenio-detalle/${id}`]);  // Redirigir a la página de detalle del dueño
   }
 
-  // Ir a la página de agregar nuevo dueño
+  openDuenioModal(): void {
+    const dialogRef = this.dialog.open(DuenioDetalleComponent, {
+      width: '80vw',
+      maxWidth: '1200px',
+      minWidth: '350px',
+      data: {
+        duenio: { id: 0, nombre: '', apellido: '', telefono: '', email: '', direccion: '', fechaCreacion: '', idestado: 1 }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadDuenios(); // Cargar los dueños después de cerrar el modal
+      }
+    });
+  }
+
+  openDuenioDetailModal(duenioId: number): void {
+    const duenio = this.duenios.find(d => d.id === duenioId);
+    if (duenio) {
+      const dialogRef = this.dialog.open(DuenioDetalleComponent, {
+        width: '80vw',  
+        maxWidth: '1200px',  
+        minWidth: '350px',  
+        data: { duenio },
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.loadDuenios(); 
+        }
+      });
+    }
+  }
+
   goToAddDuenio(): void {
     this.router.navigate(['/duenio/nuevo']);  // Redirigir a la página de agregar nuevo dueño
   }
 
-  // Volver a la página de módulos
   goBack(): void {
     this.router.navigate(['/modulos']);  // Redirigir a la página de módulos
   }

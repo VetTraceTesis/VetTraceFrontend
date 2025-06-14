@@ -15,6 +15,7 @@
 }
 
 .full-width {
+  margin-top: 15px;
   width: 100%;
 }
 
@@ -55,4 +56,34 @@
 .buttons.bottom {
   justify-content: flex-end;
   margin-top: 2rem;
+}
+.medicamentos-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.medicamentos-table th,
+.medicamentos-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.medicamentos-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.medicamentos-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.medicamentos-table tr:hover {
+  background-color: #e8f4f8;
+}
+
+.medicamentos-table td {
+  word-wrap: break-word;
+  max-width: 200px; /* Ajusta el ancho máximo de las celdas */
 }

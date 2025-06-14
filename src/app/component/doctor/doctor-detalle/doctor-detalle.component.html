@@ -29,7 +29,7 @@
     </div>
 
     <div class="footer">
-      <button class="save-button" (click)="saveDoctor()" [disabled]="disableFields || doctorForm.invalid" type="submit">Guardar</button>
+      <button class="save-button" (click)="saveDoctor()" >Guardar</button>
       <button class="toggle-button" [ngClass]="{'inactive': disableFields, 'active': !disableFields}" (click)="toggleDisable()" type="button">
         {{ disableFields ? 'Desactivar' : 'Activar' }}
       </button>

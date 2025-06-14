@@ -14,12 +14,12 @@
 
     <div class="buttons-row">
       <button class="back-button" (click)="goBack()">Atrás</button>
-      <button class="add-duenio-button" (click)="goToAddDuenio()">Agregar Nuevo Dueño</button>
+      <button class="add-duenio-button" (click)="openDuenioModal()">Agregar Nuevo Dueño</button>
     </div>
 
 
   <div class="grid">
-    <div class="card" *ngFor="let duenio of paginatedDuenios" (click)="goToDuenioDetail(duenio.id)">
+    <div class="card" *ngFor="let duenio of paginatedDuenios" (click)="openDuenioDetailModal(duenio.id)">
       <div class="profile-info">
         <h3>{{ duenio.apellido }}, {{ duenio.nombre }}</h3>
         <p>Contacto: {{ duenio.telefono }}</p>

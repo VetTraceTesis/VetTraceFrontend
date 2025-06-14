@@ -55,6 +55,7 @@ export class DoctorDetalleComponent implements OnInit {
   }
 
   saveDoctor(): void {
+    console.log("recibe")
     if (this.doctor.id === 0) {
       // Nuevo doctor
       this.doctorService.addDoctor(this.doctor).subscribe(response => {

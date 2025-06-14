@@ -1,241 +1,322 @@
-/* Contenedor principal del perfil */
+/* Contenedor principal */
 .profile-container {
-    width: 500px;  /* Ancho fijo */
-    height: auto;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin: auto;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Header */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #0096d6;  /* Color azul claro */
-    padding: 10px;
-    color: white;
-    border-radius: 8px 8px 0 0;
-  }
-  
-  .logo {
-    height: 40px;  /* Tamaño del logo */
-  }
-  
-  .edit-button {
-    background-color: #007bff;
-    color: white;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .edit-button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Detalles del perfil */
-  .profile-details {
-    display: flex;
-    margin-top: 20px;
-  }
-  
-  .profile-photo {
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
-    border-radius: 50%;
-    margin-right: 20px;
-  }
-  
-  .profile-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .profile-info {
-    flex-grow: 1;
-  }
-  
-  .profile-info label {
-    display: block;
-    margin-top: 10px;
-  }
-  
-  .profile-info input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  /* Footer */
-  .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .save-button {
-    background-color: #28a745;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .save-button:hover {
-    background-color: #218838;
-  }
-  
-  .footer label {
-    font-size: 14px;
-  }
-  
-  /* Estilo de la casilla de desactivación */
-  #disable-check {
-    margin-left: 10px;
-    cursor: pointer;
-  }
-  
-  /* Estilo para el botón de desactivar/activar */
-.toggle-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 14px;
-  }
-  
-  .toggle-button.inactive {
-    background-color: #f44336;  /* Rojo cuando está desactivado */
-  }
-  
-  .toggle-button.active {
-    background-color: #4CAF50;  /* Verde cuando está activado */
-  }
-  
-  .toggle-button:hover {
-    opacity: 0.8;
-  }
-  .snack-bar-success {
-    background-color: #4caf50;  /* Verde para éxito */
-    color: white;
-  }
-  
-  .snack-bar-error {
-    background-color: #f44336;  /* Rojo para error */
-    color: white;
-  }
-  
-
-  .mascotas-section {
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 36px rgba(77, 182, 172, 0.2);
+  box-sizing: border-box;
+  max-height: 80vh;
+  overflow: hidden;
 }
 
-.mascotas-list {
-  margin-top: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+/* Sección de los detalles del perfil (Dueño y Mascota) */
+.profile-details {
+  display: flex;
+  gap: 32px;
+  width: 100%;
+  overflow-y: auto;
+  max-height: calc(80vh - 100px);
 }
 
-button.toggle-button {
-  background-color: #007bff;
-  color: white;
-  padding: 8px 16px;
+/* Foto de perfil del dueño */
+.profile-photo {
+  flex: 0 0 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: #f8fafd;
+  border: 3px solid #b2cbdf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(77, 182, 172, 0.2);
+}
+
+.profile-photo img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Estilos para la columna de los campos del formulario (Dueño y Mascota) */
+.profile-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.profile-info label {
+  font-size: 16px;
+  color: #416785;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.profile-info input {
+  width: 80%;
+  padding: 9px 12px;
+  border: 1.5px solid #b2cbdf;
+  border-radius: 12px;
+  background: #f8fafd;
+  font-size: 16px;
+  color: #2d3a4b;
+  transition: border 0.3s;
+}
+
+.profile-info input:focus {
+  border-color: #416785;
+  outline: none;
+}
+
+/* Estilos generales para los botones */
+.botons-style {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  gap: 20px; /* Añadí un espacio entre los botones */
+}
+
+.save-button,
+.add-mascota-button {
+  background: linear-gradient(90deg, #416785 60%, #6C8CA3 100%);
+  color: #fff;
+  padding: 14px 28px;
   border: none;
+  border-radius: 12px;
+  font-weight: 700;
   cursor: pointer;
-  border-radius: 5px;
+  transition: background 0.3s, box-shadow 0.3s;
+  width: 20%;
+  align-items: center;
 }
 
-button.toggle-button.inactive {
-  background-color: #ccc;
+.save-button:hover,
+.add-mascota-button:hover {
+  background: linear-gradient(90deg, #224346 60%, #416785 100%);
 }
 
-button.toggle-button:hover {
-  background-color: #0056b3;
+/* Estilos para el botón de activar/desactivar */
+.toggle-button {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  transition: background 0.3s;
+  width: 20%;
 }
 
-h3 {
-  margin-bottom: 10px;
+.toggle-button.inactive {
+  background: #f44336;
 }
+
+.toggle-button.active {
+  background: #4CAF50;
+}
+
+.toggle-button:hover {
+  opacity: 0.85;
+}
+
+/* Sección de mascotas */
+.mascotas-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .mascotas-cards {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .card-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  gap: 16px;
 }
 
 .card {
-  width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  text-align: center;
+  width: calc(33% - 16px);
+  background: #f8fafd;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(77, 182, 172, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px rgba(77, 182, 172, 0.2);
 }
 
 .card-img {
   width: 100%;
-  height: auto;
-  border-radius: 5px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.card-info {
+  margin-top: 12px;
 }
 
 .card-info h4 {
-  font-size: 16px;
-  margin: 10px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #416785;
 }
 
 .card-info p {
   font-size: 14px;
+  color: #6c7b8c;
 }
 
 .card-info button {
-  background-color: #007bff;
-  color: white;
-  padding: 5px 10px;
+  background-color: #416785;
+  color: #fff;
   border: none;
+  padding: 8px 16px;
+  border-radius: 12px;
   cursor: pointer;
-  border-radius: 5px;
+  transition: background 0.3s;
 }
 
 .card-info button:hover {
-  background-color: #0056b3;
+  background-color: #224346;
 }
 
+/* Estilos para el detalle de la mascota */
 .mascota-detail {
-  margin-top: 20px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-.add-mascota-button {
-  background-color: #28a745;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.add-mascota-button:hover {
-  background-color: #218838;
+.mascota-detail label {
+  font-size: 16px;
+  color: #416785;
+  font-weight: 600;
 }
 
-.mascota-modal button {
-  margin-top: 20px;
+.mascota-detail input {
+  padding: 12px 16px;
+  border: 1.5px solid #b2cbdf;
+  border-radius: 12px;
+  font-size: 16px;
+  background: #f8fafd;
+  transition: border 0.3s;
+}
+
+.mascota-detail input:focus {
+  border-color: #416785;
+}
+
+/* Estilos para el botón de guardar en detalle */
+.save-button {
+  background: linear-gradient(90deg, #416785 60%, #6C8CA3 100%);
+  color: #fff;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
+  width: 20%;
+  align-items: center;
+}
+
+/* Ajustes responsivos para pantallas pequeñas */
+@media (max-width: 900px) {
+  .profile-container {
+    width: 90vw;
+    padding: 16px;
+  }
+
+  .profile-details {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .profile-photo {
+    width: 160px;
+    height: 160px;
+  }
+
+  .profile-photo img {
+    width: 140px;
+    height: 140px;
+  }
+
+  .profile-info label {
+    font-size: 14px;
+  }
+
+  .profile-info input {
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .save-button,
+  .toggle-button {
+    width: 100%;
+  }
+
+  .card {
+    width: calc(50% - 16px);
+  }
+}
+
+@media (max-width: 600px) {
+  .profile-container {
+    width: 100vw;
+    padding: 12px 6vw;
+    margin: 0;
+  }
+
+  .profile-details {
+    gap: 12px;
+  }
+
+  .profile-photo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .profile-photo img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-info label {
+    font-size: 13px;
+  }
+
+  .profile-info input {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .footer {
+    margin-top: 16px;
+  }
+
+  .card {
+    width: 100%;
+  }
 }

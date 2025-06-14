@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';  // Importar CommonModule para u
 })
 export class DuenioMascotaComponent {
 
-   showForm: boolean = false;  // Determina si se debe mostrar el formulario
+   showForm: boolean = true;  // Determina si se debe mostrar el formulario
   newMascota: Mascota = {  // Objeto para almacenar los datos de la nueva mascota
     idPaciente: 0,
     nombre: '',
