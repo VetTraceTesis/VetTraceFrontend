@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Atencion } from '../model/atenciones.model';  // Asegúrate de que el modelo esté bien importado
+import { AtencionDetalle } from '../model/Atencion-detalle.model';  // Asegúrate de que el modelo esté bien importado
+
 import { AuthService } from './auth.service';  // Importamos el servicio de autenticación
 
 @Injectable({
@@ -35,12 +37,12 @@ export class AtencionesService {
     return this.http.get<Atencion[]>(this.apiUrl, { headers });
   }
   // Método para obtener las atenciones por el dueñoId
-   getAtencionesByDuenio(dueñoId: number): Observable<Atencion[]> {
+   getAtencionesByDuenio(dueñoId: number): Observable<AtencionDetalle[]> {
     const token = this.authService.obtenerToken();  // Obtener el token desde el servicio AuthService
     
     if (!token) {
       console.error('No se encontró token JWT');
-      return new Observable<Atencion[]>(); // Retorna un observable vacío si no se encuentra el token
+      return new Observable<AtencionDetalle[]>(); // Retorna un observable vacío si no se encuentra el token
     }
 
     // Agregar el token JWT a los encabezados de la solicitud
@@ -49,7 +51,7 @@ export class AtencionesService {
     });
 
     // Realizamos la solicitud GET al endpoint '/Atencion/duenio/{dueñoId}'
-    return this.http.get<Atencion[]>(`${this.apiUrl}/duenio/${dueñoId}`, { headers });
+    return this.http.get<AtencionDetalle[]>(`${this.apiUrl}/duenio/${dueñoId}`, { headers });
   }
 
   // Método para obtener una sola atencion por su ID

@@ -231,3 +231,10 @@ h2 {
   justify-content: center;
   flex-wrap: wrap;
 }
+
+
+.inactive-card {
+  background-color: #f0f0f0;  /* gris claro */
+  opacity: 0.6;
+  cursor: not-allowed;
+}

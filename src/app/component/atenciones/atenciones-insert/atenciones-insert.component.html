@@ -1,45 +1,83 @@
-<app-header></app-header>
-<div class="atenciones-insert-container">
-    <h2>Crear Nueva Atención</h2>
+<div class="atenciones-container">
+  <form (ngSubmit)="crearAtencion()">
+    <h2 class="form-title">Crear Nueva Atención</h2>
 
-    <form (ngSubmit)="crearAtencion()">
-
-      <div *ngIf="mascotas.length > 0">
-        <label for="mascotaSelect">Selecciona Mascota:</label>
-        <select id="mascotaSelect" [(ngModel)]="nombreMascotaSeleccionada" name="nombreMascotaSeleccionada" required>
+    <div class="form-section">
+      <!-- Selección de Mascota -->
+      <div class="form-group">
+        <label for="mascotaSelect">Mascota:</label>
+        <select
+          id="mascotaSelect"
+          [(ngModel)]="nombreMascotaSeleccionada"
+          name="nombreMascotaSeleccionada"
+          [disabled]="mascotas.length === 0"
+          required
+        >
           <option *ngFor="let mascota of mascotas" [value]="mascota.nombre">
             {{ mascota.nombre }}
           </option>
         </select>
+        <div *ngIf="mascotas.length === 0" class="warning">
+          No se encontraron mascotas registradas para este usuario.
+        </div>
       </div>
 
-      <div *ngIf="mascotas.length === 0">
-        <p style="color: red;">No se encontraron mascotas registradas para este usuario.</p>
+      <!-- Fecha y Hora de Inicio -->
+      <div class="form-group">
+        <label for="fechaInicio">Fecha y Hora de Inicio:</label>
+        <input
+          id="fechaInicio"
+          type="datetime-local"
+          [(ngModel)]="nuevaAtencion.fechaInicio"
+          name="fechaInicio"
+          required
+        />
       </div>
 
-      <div>
-        <label for="fechaInicio">Fecha y Hora Inicio:</label>
-        <input id="fechaInicio" type="datetime-local" [(ngModel)]="nuevaAtencion.fechaInicio" name="fechaInicio" required />
+      <!-- Fecha y Hora de Fin -->
+      <div class="form-group">
+        <label for="fechaFin">Fecha y Hora de Fin:</label>
+        <input
+          id="fechaFin"
+          type="datetime-local"
+          [(ngModel)]="nuevaAtencion.fechaFin"
+          name="fechaFin"
+        />
       </div>
 
-      <div>
-        <label for="fechaFin">Fecha y Hora Fin:</label>
-        <input id="fechaFin" type="datetime-local" [(ngModel)]="nuevaAtencion.fechaFin" name="fechaFin" />
+      <!-- ID Doctor Veterinario -->
+      <div class="form-group">
+         <label for="doctorSelect">Doctor Veterinario:</label>
+          <select id="doctorSelect"
+                  [(ngModel)]="nuevaAtencion.iddoctorVeterinario"
+                  name="iddoctorVeterinario"
+                  required>
+            <option *ngFor="let d of doctoresActivos" [value]="d.veterinario_id">
+              {{ d.nombreVeterinario }} {{ d.apellidoVeterinario }}
+            </option>
+          </select>
       </div>
 
-      <div>
-        <label for="iddoctorVeterinario">ID Doctor Veterinario:</label>
-        <input id="iddoctorVeterinario" type="number" [(ngModel)]="nuevaAtencion.iddoctorVeterinario" name="iddoctorVeterinario" required />
-      </div>
-
-      <div>
+      <!-- ID Estado -->
+      <div class="form-group">
         <label for="id_estado">ID Estado:</label>
-        <input id="id_estado" type="number" [(ngModel)]="nuevaAtencion.id_estado" name="id_estado" required />
+        <input
+          id="id_estado"
+          type="number"
+          [(ngModel)]="nuevaAtencion.id_estado"
+          name="id_estado"
+          required
+        />
       </div>
+    </div>
 
-      <div class="form-buttons">
-        <button type="submit" [disabled]="mascotas.length === 0">Crear Atención</button>
-        <button type="button" (click)="cancelar()">Cancelar</button>
-      </div>
-    </form>
+    <div class="form-footer">
+      <button class="save-button" type="submit" [disabled]="mascotas.length === 0">
+        Crear Atención
+      </button>
+      <button class="cancel-button" type="button" (click)="cancelar()">
+        Cancelar
+      </button>
+    </div>
+  </form>
 </div>

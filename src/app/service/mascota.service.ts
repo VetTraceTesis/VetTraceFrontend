@@ -38,7 +38,7 @@ export class MascotaService {
     });
 
     // Hacer la solicitud GET al endpoint buscarPorDueño/{dueñoId}
-    return this.http.get<Mascota[]>(`${this.apiUrl}/buscarPorDueño/${dueñoId}`, { headers });
+    return this.http.get<Mascota[]>(`${this.apiUrl}/buscarPorDuenio/${dueñoId}`, { headers });
   }
 
   // Método para obtener un solo mascota por su ID

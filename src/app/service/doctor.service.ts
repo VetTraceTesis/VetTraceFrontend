@@ -1,76 +1,63 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Doctor } from '../model/doctor.model';  // Importa el modelo
-import { AuthService } from './auth.service';  // Importamos el servicio de autenticación
+import { Observable, of } from 'rxjs';
+import { Doctor } from '../model/doctor.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DoctorService {
-
-  private apiUrl = 'http://localhost:8080/doctorveterinario'; // URL del backend
+  private apiUrl = 'http://localhost:8080/doctorveterinario';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  // Método para obtener los doctores
-  getDoctors(): Observable<Doctor[]> {  // Usa el modelo Doctor aquí
-    // Recuperar el token JWT
+  private getHeaders(): HttpHeaders {
     const token = this.authService.obtenerToken();
-    
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
+  // Obtener todos los doctores
+  getDoctors(): Observable<Doctor[]> {
+    const token = this.authService.obtenerToken();
     if (!token) {
-      // Si no hay token, redirigir a login o manejar de alguna forma
       console.error('No se encontró token JWT');
-      // Aquí podrías redirigir al usuario a la página de login:
-      // this.router.navigate(['/login']);
-      return new Observable<Doctor[]>(); // Devuelve un observable vacío
+      return of([]); // observable vacío más limpio
     }
-
-    // Establecer los encabezados con el token JWT
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    // Hacer la solicitud GET con el token en el encabezado
-    return this.http.get<Doctor[]>(this.apiUrl, { headers });
+    return this.http.get<Doctor[]>(this.apiUrl, { headers: this.getHeaders() });
   }
 
-  // Método para obtener un solo doctor por su ID
+  // Obtener doctor por ID
   getDoctorById(id: number): Observable<Doctor> {
-    const token = this.authService.obtenerToken();
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.get<Doctor>(`${this.apiUrl}/${id}`, { headers });
+    return this.http.get<Doctor>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
 
+  // Actualizar doctor
   updateDoctor(doctor: Doctor): Observable<Doctor> {
-    const token = this.authService.obtenerToken();  // Obtener el token desde el servicio AuthService
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);  // Agregar el token al encabezado
-
-    return this.http.put<Doctor>(`${this.apiUrl}/${doctor.id}`, doctor, { headers });  // Incluir los encabezados con el token
+    return this.http.put<Doctor>(`${this.apiUrl}/${doctor.id}`, doctor, { headers: this.getHeaders() });
   }
+
+  // Agregar nuevo doctor
   addDoctor(doctor: Doctor): Observable<Doctor> {
     const token = this.authService.obtenerToken();
     if (!token) {
       console.error('No se encontró el token JWT');
-      return new Observable<Doctor>();
+      return of(); // observable vacío
     }
-  
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-  
-    // Asegúrate de no incluir el ID cuando el doctor es nuevo
+
     const doctorWithoutId = {
       ...doctor,
-      id: undefined  // No enviar el ID si el doctor es nuevo
+      id: undefined
     };
-  
-    return this.http.post<Doctor>(this.apiUrl, doctorWithoutId, { headers });
+
+    return this.http.post<Doctor>(this.apiUrl, doctorWithoutId, { headers: this.getHeaders() });
   }
-  
-  
-  
-      
+
+  // Obtener solo doctores activos (nombre y apellido)
+  getDoctoresActivos(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/activos`, { headers: this.getHeaders() });
+  }
 }

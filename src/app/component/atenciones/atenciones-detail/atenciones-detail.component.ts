@@ -1,64 +1,56 @@
 import { Component, OnInit } from '@angular/core';
-import { Atencion } from '../../../model/atenciones.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {AtencionesInsertComponent} from '../atenciones-insert/atenciones-insert.component'
+import { Atencion } from '../../../model/atenciones.model';
+import { AtencionDetalle } from '../../../model/Atencion-detalle.model';
+
 import { AtencionesService } from '../../../service/atenciones.service';
 import { HeaderComponent } from '../../../shared/header/header.component';
 
 @Component({
   selector: 'app-atenciones-detail',
   standalone: true,
-  imports: [FormsModule, CommonModule, HeaderComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent,MatDialogModule],
   templateUrl: './atenciones-detail.component.html',
   styleUrls: ['./atenciones-detail.component.css']
 })
 export class AtencionesDetailComponent implements OnInit {
   duenioId!: number;
-  atenciones: Atencion[] = [];  // Almacenamos todas las atenciones
-  filteredAtenciones: Atencion[] = [];  // Almacenamos las atenciones filtradas
-  currentPage = 1;  // Página actual
-  totalPages = 1;  // Total de páginas
-  itemsPerPage = 5;  // Elementos por página
+  atenciones: AtencionDetalle[] = [];
+  paginatedAtenciones: AtencionDetalle[] = [];
 
-  nuevaAtencion: Atencion = {
-    id: 0,
-    fechaInicio: '',
-    fechaFin: '',
-    idveterinaria: 0,
-    iddoctorVeterinario: 0,
-    idusuario: 0,
-    duenioId: 0,
-    id_estado: 1  // Puedes ajustar el valor por defecto
-  };
+  currentPage = 1;
+  itemsPerPage = 5;
+  totalPages = 1;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private atencionesService: AtencionesService
+    private atencionesService: AtencionesService,
+    private dialog:MatDialog
   ) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      console.log('Params recibidos:', params);
       this.duenioId = +params['duenoId'];
-      console.log('duenioId parseado:', this.duenioId);
-
       if (isNaN(this.duenioId)) {
         console.error('duenioId no es un número válido');
-      } else {
-        this.cargarAtenciones();
-        this.nuevaAtencion.duenioId = this.duenioId;
+        return;
       }
+      this.cargarAtenciones();
     });
   }
 
   cargarAtenciones() {
     this.atencionesService.getAtencionesByDuenio(this.duenioId).subscribe({
       next: data => {
-        this.atenciones = data;
-        this.filteredAtenciones = data;  // Inicializamos las atenciones filtradas
-        this.updatePagination();  // Actualizamos la paginación
+        this.atenciones = data.sort((a, b) => a.atencionId - b.atencionId);
+        console.log(this.atenciones)
+        this.totalPages = Math.max(Math.ceil(data.length / this.itemsPerPage), 1);
+        this.actualizarPagina();
       },
       error: err => {
         console.error('Error al cargar atenciones:', err);
@@ -66,47 +58,46 @@ export class AtencionesDetailComponent implements OnInit {
     });
   }
 
-  // Método para actualizar la paginación
-  updatePagination() {
-    this.totalPages = Math.ceil(this.filteredAtenciones.length / this.itemsPerPage);  // Calcular total de páginas
-    if (this.totalPages === 0) this.totalPages = 1;
-
-    if (this.currentPage > this.totalPages) {
-      this.currentPage = this.totalPages;
-    }
-
+  actualizarPagina() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.filteredAtenciones = this.atenciones.slice(startIndex, startIndex + this.itemsPerPage);
+    this.paginatedAtenciones = this.atenciones.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
-  // Método para la paginación de la página anterior
-  prevPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePagination();  // Actualizamos la paginación
-    }
-  }
-
-  // Método para la paginación de la siguiente página
-  nextPage(): void {
+  nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updatePagination();  // Actualizamos la paginación
+      this.actualizarPagina();
     }
   }
 
-  // Método para redirigir al detalle de la atención
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.actualizarPagina();
+    }
+  }
+
   irADiagnostico(atencionId: number) {
     this.router.navigate(['/atenciones/diagnostico', atencionId]);
   }
 
-  // Método para regresar a la lista de atenciones
-  goBack(): void {
-    this.router.navigate(['/atenciones']);
-  }
+ irANuevaAtencion() {
+  const dialogRef = this.dialog.open(AtencionesInsertComponent, {
+    width: '80vw',  
+    maxWidth: '1200px',  
+    minWidth: '350px', 
+    data: { duenoId: this.duenioId }
+    //position: { bottom: '70px' }  
+  });
 
-  // Método para redirigir a la creación de nueva atención
-  irANuevaAtencion() {
-    this.router.navigate(['/atenciones/nuevo', this.duenioId]);
+  /* cuando se cierre el modal, si se creó algo volvemos a cargar */
+  dialogRef.afterClosed().subscribe(result => {
+    if (result === 'created') {
+      this.cargarAtenciones();
+    }
+  });
+}
+  goBack() {
+    this.router.navigate(['/atenciones']);
   }
 }

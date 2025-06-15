@@ -215,3 +215,9 @@ h2 {
     min-width: 100%;
   }
 }
+
+.inactive-card {
+  background-color: #f0f0f0;  /* gris claro */
+  opacity: 0.6;
+  cursor: not-allowed;
+}

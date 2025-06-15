@@ -58,6 +58,7 @@ export class DoctorDetalleComponent implements OnInit {
     console.log("recibe")
     if (this.doctor.id === 0) {
       // Nuevo doctor
+      this.doctor.id_estado = 1; // ⬅️ Forzamos el valor por defecto
       this.doctorService.addDoctor(this.doctor).subscribe(response => {
         Swal.fire({
           title: '¡Doctor registrado!',
@@ -78,6 +79,7 @@ export class DoctorDetalleComponent implements OnInit {
             popup: 'animate__animated animate__fadeOutUp'
           }
         });
+        console.log(this.doctor)
         this.dialogRef.close(true);  // Cierra el modal y devuelve true
       });
     } else {
@@ -100,6 +102,8 @@ export class DoctorDetalleComponent implements OnInit {
 
   // Método para alternar entre habilitar y deshabilitar campos
   toggleDisable(): void {
+      this.doctor.id_estado = this.doctor.id_estado === 1 ? 0 : 1;
+
     this.disableFields = !this.disableFields;  // Cambia el estado de disableFields
   }
 }

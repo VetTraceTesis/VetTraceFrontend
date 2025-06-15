@@ -3,40 +3,34 @@
 <div class="atenciones-container">
   <h2>Atenciones del dueño {{ duenioId }}</h2>
 
-  <!-- Botones de acción -->
   <div class="buttons-row">
     <button (click)="goBack()" class="btn-back">Atrás</button>
     <button (click)="irANuevaAtencion()" class="btn-crear-nueva">Crear Nueva Atención</button>
   </div>
-  
 
-  <!-- Mensaje si no hay atenciones -->
   <div *ngIf="atenciones.length === 0" class="no-data">
     <p>No se están registrando atenciones para este usuario.</p>
   </div>
 
-  <!-- Contenedor de tarjetas de atenciones -->
-  <div class="cards-container" *ngIf="atenciones.length > 0">
-    <div 
-      class="card" 
-      *ngFor="let atencion of filteredAtenciones"
-      (click)="irADiagnostico(atencion.id)" 
-      style="cursor: pointer;"
-    >
-      <h3>Atención #{{ atencion.id }}</h3>
-      <p><strong>Fecha inicio:</strong> {{ atencion.fechaInicio | date:'dd/MM/yyyy' }}</p>
-      <p><strong>Fecha fin:</strong> {{ atencion.fechaFin | date:'dd/MM/yyyy' }}</p>
-      <p><strong>ID Veterinaria:</strong> {{ atencion.idveterinaria }}</p>
-      <p><strong>ID Doctor Veterinario:</strong> {{ atencion.iddoctorVeterinario }}</p>
-      <p><strong>ID Usuario:</strong> {{ atencion.idusuario }}</p>
-      <p><strong>ID Estado:</strong> {{ atencion.id_estado }}</p>
+  <div class="grid" *ngIf="atenciones.length > 0">
+    <div class="card" *ngFor="let atencion of paginatedAtenciones" (click)="irADiagnostico(atencion.atencionId)">
+      <div class="profile-info">
+        <h3>Atención #{{ atencion.atencionId }}</h3>
+        <p><strong>Mascota:</strong> {{ atencion.mascotaNombre }} ({{ atencion.mascotaEspecie }})</p>
+        <p><strong>Veterinaria:</strong> {{ atencion.nombreVeterinaria }}</p>
+        <p><strong>Doctor:</strong> {{ atencion.nombreDoctor }} {{ atencion.apellidoDoctor }}</p>
+        <p><strong>Inicio:</strong> {{ atencion.fechaInicio | date:'dd/MM/yyyy' }}</p>
+        <p><strong>Fin:</strong> {{ atencion.fechaFin | date:'dd/MM/yyyy' }}</p>
+        <p><strong>Estado:</strong> {{ atencion.estadoAtencion }}</p>
+      </div>
     </div>
   </div>
 
-  <!-- Paginador -->
+   <!-- Paginador -->
   <div class="paginator">
     <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
     <span>Página {{ currentPage }} de {{ totalPages }}</span>
     <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
   </div>
+
 </div>

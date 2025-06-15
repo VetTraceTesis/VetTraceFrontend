@@ -30,9 +30,13 @@
 
     <div class="footer">
       <button class="save-button" (click)="saveDoctor()" >Guardar</button>
-      <button class="toggle-button" [ngClass]="{'inactive': disableFields, 'active': !disableFields}" (click)="toggleDisable()" type="button">
-        {{ disableFields ? 'Desactivar' : 'Activar' }}
-      </button>
+     <button class="toggle-button"
+        [ngClass]="{ 'inactive': doctor.id_estado === 0, 'active': doctor.id_estado === 1 }"
+        (click)="toggleDisable()"
+        type="button">
+  {{ doctor.id_estado === 1 ? 'Desactivar' : 'Activar' }}
+</button>
+
     </div>
   </form>
 </div>

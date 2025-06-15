@@ -56,6 +56,8 @@ export class DuenioDetalleComponent implements OnInit {
       this.getDuenioDetails(this.data.duenio.id);
       this.getMascotasByDuenioId(this.data.duenio.id);
     }
+    this.disableFields = this.duenio.idestado === 0;
+
   }
 
   openMascotaModal(): void {
@@ -89,6 +91,7 @@ export class DuenioDetalleComponent implements OnInit {
   getDuenioDetails(id: number): void {
     this.duenioService.getDuenioById(id).subscribe(data => {
       this.duenio = data;
+      console.log(data)
       if (data.fechaCreacion) {
         data.fechaCreacion = this.formatDate(data.fechaCreacion);
       }
@@ -98,6 +101,7 @@ export class DuenioDetalleComponent implements OnInit {
   getMascotasByDuenioId(duenioId: number): void {
     this.mascotaService.getMascotasByDuenio(duenioId).subscribe(data => {
       this.mascotas = data;  
+      console.log(this.mascotas)
     });
   }
 
@@ -112,6 +116,7 @@ export class DuenioDetalleComponent implements OnInit {
   saveDuenio(): void {
     if (this.duenio.id === 0) {
       this.duenioService.addDuenio(this.duenio).subscribe(response => {
+        console.log(this.duenio,"se guaaarda")
         Swal.fire({
                   title: '¡Doctor registrado!',
                   text: 'Doctor registrado correctamente',
@@ -161,7 +166,11 @@ saveMascota(): void {
             popup: 'swal2-border-radius'
           }
         });
+
+        console.log(this.selectedMascota,"esto actualizado")
         this.getMascotasByDuenioId(this.duenio.id);
+        this.selectedMascota = null; // ⬅️ Esto te regresa a mascotas-cards
+
       },
       (error) => {
         Swal.fire({
@@ -191,27 +200,22 @@ saveMascota(): void {
     this.selectedMascota = null;
   }
 
-  toggleDisable(): void {
-    this.disableFields = !this.disableFields;
+toggleDisable(): void {
+  this.disableFields = !this.disableFields;
 
-    if (this.selectedMascota) {
-      if (this.disableFields) {
-        this.selectedMascota.idEstado = 0;
-      } else {
-        this.selectedMascota.idEstado = 1;
-      }
-    }
+ 
 
-    if (this.duenio) {
-      if (this.disableFields) {
-        this.duenio.idestado = 0;
-      } else {
-        this.duenio.idestado = 1;
-      }
-    }
+  if (this.duenio) {
+    this.duenio.idestado = this.disableFields ? 0 : 1;
   }
+}
+
+
 
   toggleMascotas(): void {
+     if (this.selectedMascota) {
+    this.selectedMascota.idEstado = this.disableFields ? 0 : 1;
+  }
     this.showMascotas = !this.showMascotas;
   }
 }

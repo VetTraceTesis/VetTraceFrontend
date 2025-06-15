@@ -20,7 +20,7 @@
 
   <!-- Contenedor grid con referencia para calcular el ancho -->
   <div #gridContainer class="grid">
-    <div class="card" *ngFor="let doctor of paginatedDoctors" (click)="openDoctorDetailModal(doctor.id)">
+    <div class="card" *ngFor="let doctor of paginatedDoctors"   [ngClass]="{ 'inactive-card': doctor.id_estado === 0 }" (click)="openDoctorDetailModal(doctor.id)">
       <div class="card-body">
         <div class="profile-info">
           <h3>{{ doctor.apellido }}, {{ doctor.nombre }}</h3>

@@ -19,7 +19,7 @@
 
 
   <div class="grid">
-    <div class="card" *ngFor="let duenio of paginatedDuenios" (click)="openDuenioDetailModal(duenio.id)">
+    <div class="card" *ngFor="let duenio of paginatedDuenios"  [ngClass]="{ 'inactive-card': duenio.idestado === 0 }" (click)="openDuenioDetailModal(duenio.id)">
       <div class="profile-info">
         <h3>{{ duenio.apellido }}, {{ duenio.nombre }}</h3>
         <p>Contacto: {{ duenio.telefono }}</p>

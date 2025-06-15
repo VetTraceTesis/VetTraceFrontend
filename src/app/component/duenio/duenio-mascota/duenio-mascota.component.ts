@@ -5,15 +5,20 @@ import { MascotaService } from '../../../service/mascota.service';  // Importa e
 import { Mascota } from '../../../model/mascota.model';  // Importa el modelo de Mascota
 import { FormsModule } from '@angular/forms';  // Importamos FormsModule
 import { CommonModule } from '@angular/common';  // Importar CommonModule para usar ngIf
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button'; // por si usas <button mat-button>
 
 @Component({
   selector: 'app-duenio-mascota',
   standalone: true,
-  imports: [MatDialogModule,FormsModule,CommonModule],  // Asegúrate de importar MatDialog directamente en la propiedad imports
+  imports: [MatDialogModule,FormsModule,CommonModule,MatFormFieldModule,MatSelectModule],  // Asegúrate de importar MatDialog directamente en la propiedad imports
   templateUrl: './duenio-mascota.component.html',
   styleUrls: ['./duenio-mascota.component.css']
 })
 export class DuenioMascotaComponent {
+especiesComunes: string[] = ['Perro', 'Gato', 'Conejo', 'Ave', 'Hámster'];
 
    showForm: boolean = true;  // Determina si se debe mostrar el formulario
   newMascota: Mascota = {  // Objeto para almacenar los datos de la nueva mascota

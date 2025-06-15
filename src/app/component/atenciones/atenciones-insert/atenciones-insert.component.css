@@ -1,84 +1,98 @@
-/* Contenedor principal para el formulario */
-.atenciones-insert-container {
-  margin: 20px;
-  padding: 32px 18px 18px 18px;
-  background: #f6faf8;
-  min-height: calc(100vh - 100px); /* Ajuste para respetar el espacio del header */
-  border-radius: 18px;
-  font-family: 'Segoe UI', Arial, sans-serif;
-}
-
-/* Título del formulario */
-.atenciones-insert-container h2 {
-  color: #416785;
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-/* Estilos de las etiquetas y los inputs */
-label {
-  font-size: 16px;
-  color: #416785;
-  display: block;
-  margin-bottom: 6px;
-}
-
-input,
-select {
+.atenciones-container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  padding: 10px 14px;
-  font-size: 15px;
-  border-radius: 10px;
-  border: 1.5px solid #b2cbdf;
-  background: #f8fafd;
-  transition: border 0.2s;
-  color: #2d3a4b;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 36px rgba(77, 182, 172, 0.2);
+  box-sizing: border-box;
+}
+
+.form-title {
+  font-size: 24px;
+  color: #416785;
+  font-weight: bold;
   margin-bottom: 16px;
 }
 
-input:focus,
-select:focus {
+.form-section {
+  display: flex;
+  justify-content: center;
+
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 16px;
+  color: #416785;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+  width: 80%;
+  padding: 9px 12px;
+  border: 1.5px solid #b2cbdf;
+  border-radius: 12px;
+  background: #f8fafd;
+  font-size: 16px;
+  color: #2d3a4b;
+  transition: border 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
   border-color: #416785;
   outline: none;
 }
 
-/* Estilo para el mensaje de error cuando no hay mascotas */
-.no-data {
+.warning {
   color: red;
-  margin-bottom: 20px;
+  font-size: 14px;
+  margin-top: 6px;
 }
 
-/* Estilo para los botones de acción */
-.form-buttons {
+.form-footer {
   display: flex;
-  gap: 14px;
   justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
 }
 
-button {
-  padding: 10px 22px;
-  border: none;
-  border-radius: 10px;
-  font-weight: 700;
-  cursor: pointer;
+.save-button {
   background: linear-gradient(90deg, #416785 60%, #6C8CA3 100%);
   color: #fff;
-  transition: background 0.2s, box-shadow 0.2s;
-  min-width: 130px;
-  max-width: 200px;
-  box-shadow: 0 2px 8px rgba(77,182,172,0.08);
-  letter-spacing: 0.5px;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
-button:hover {
+.save-button:hover {
   background: linear-gradient(90deg, #224346 60%, #416785 100%);
-  box-shadow: 0 4px 16px rgba(77,182,172,0.13);
 }
 
-button:disabled {
-  background-color: #b2cbdf;
-  cursor: not-allowed;
+.cancel-button {
+  background-color: #f44336;
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancel-button:hover {
+  background-color: #d32f2f;
 }

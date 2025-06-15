@@ -7,4 +7,5 @@ export interface Atencion {
   idusuario: number;
   duenioId: number;
   id_estado: number;
+  tipoDiagnosticoid:number;
 }

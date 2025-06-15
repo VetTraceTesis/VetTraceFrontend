@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,17 +11,18 @@ import { AtencionXMascotaXDuenio } from '../../../model/atencionXmascotaXduenio.
 import { AtencionXMascotaXDuenioService } from '../../../service/atencionXmascotaXduenio.service';
 import { DiagnosticoService } from '../../../service/diagnostico.service';
 import { Diagnostico } from '../../../model/diagnostico.model';
-import { HeaderComponent } from '../../../shared/header/header.component';
-
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {DoctorService} from '../../../service/doctor.service'
 @Component({
   selector: 'app-atenciones-insert',
   standalone: true,
-  imports: [FormsModule, CommonModule,HeaderComponent],
+  imports: [FormsModule, CommonModule],
   templateUrl: './atenciones-insert.component.html',
   styleUrls: ['./atenciones-insert.component.css']
 })
 export class AtencionesInsertComponent implements OnInit {
    duenioIdGlobal!: number;
+  doctoresActivos: { veterinario_id:string;nombreVeterinario: string; apellidoVeterinario: string }[] = [];
 
   nuevaAtencion: Atencion = {
     id: 0,
@@ -31,7 +32,8 @@ export class AtencionesInsertComponent implements OnInit {
     iddoctorVeterinario: 0,
     idusuario: 0,
     duenioId: 0,
-    id_estado: 1
+    id_estado: 1,
+    tipoDiagnosticoid:0
   };
 
   nuevaMultiple: AtencionXMascotaXDuenio = {
@@ -55,22 +57,22 @@ export class AtencionesInsertComponent implements OnInit {
 
   constructor(
     private atencionesService: AtencionesService,
+    private doctoresServices:DoctorService,
     private mascotaService: MascotaService,
     private atencionXmascotaXduenioServic: AtencionXMascotaXDuenioService,
     private diagnosticoService:DiagnosticoService,
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
+    @Inject(MAT_DIALOG_DATA) public data: { duenoId: number },   // ⬅️ nuevo
+    private dialogRef: MatDialogRef<AtencionesInsertComponent>   // ⬅️ nuevo
+
   ) {}
 
   ngOnInit(): void {
     console.log(this.authService.getUsuario())
-
-    this.route.params.subscribe(params => {
-      console.log('Params recibidos:', params);
-      this.duenioIdGlobal = +params['duenoId'];
-      console.log('duenioId parseado:', this.duenioIdGlobal);
-    })
+    this.duenioIdGlobal = this.data.duenoId;
+    console.log(this.data.duenoId,this.duenioIdGlobal)
     
     const usuarioActual = this.authService.getUsuario();
     if (!usuarioActual) {
@@ -94,6 +96,16 @@ export class AtencionesInsertComponent implements OnInit {
         console.error('Error al obtener mascotas:', err);
       }
     });
+ this.doctoresServices.getDoctoresActivos().subscribe({
+    next: (docs) => {
+      this.doctoresActivos = docs;
+      console.log('Doctores activos:', this.doctoresActivos);
+    },
+    error: (err) => {
+      console.error('Error al obtener doctores activos:', err);
+    }
+  });
+    
   }
 
 
@@ -139,6 +151,8 @@ export class AtencionesInsertComponent implements OnInit {
               this.router.navigate(['/atenciones/duenio', this.duenioIdGlobal]);
             }
           });
+        this.dialogRef.close('created');
+
       } else {
         // No se seleccionó mascota: solo navegamos de vuelta
         this.router.navigate(['/atenciones']);
@@ -153,6 +167,6 @@ export class AtencionesInsertComponent implements OnInit {
 
 
   cancelar() {
-    this.router.navigate(['/atenciones']);
+    this.dialogRef.close();    // simplemente cierra sin recargar
   }
 }

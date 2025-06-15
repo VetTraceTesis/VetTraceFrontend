@@ -5,4 +5,5 @@ export interface DetalleAtencion {
   duenioNombre: string;
   nombreDoctor:string;
   apellidoDoctor:string;
+  nombreVeterinaria:string;
 }

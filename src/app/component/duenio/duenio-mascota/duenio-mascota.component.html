@@ -15,8 +15,17 @@
         <label for="edad">Edad:</label>
         <input type="number" id="edad" [(ngModel)]="newMascota.edad" name="edad" required />
 
-        <label for="especie">Especie:</label>
-        <input type="text" id="especie" [(ngModel)]="newMascota.especie" name="especie" required />
+       <label for="especie">Especie:</label>
+        <mat-form-field appearance="outline">
+          <mat-label>Especie</mat-label>
+          <mat-select [(ngModel)]="newMascota.especie" name="especie" required>
+            <mat-option *ngFor="let especie of especiesComunes" [value]="especie">
+              {{ especie }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
 
         <label for="fecharegistro">Fecha de Registro:</label>
         <input type="date" id="fecharegistro" [(ngModel)]="newMascota.fecharegistro" name="fecharegistro" required />

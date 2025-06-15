@@ -26,16 +26,15 @@
           <label for="fecha-creacion">Fecha de Creación:</label>
           <input type="date" id="fecha-creacion" [(ngModel)]="duenio.fechaCreacion" [disabled]="disableFields" />
 
-          <label for="idestado">Estado:</label>
-          <input type="number" id="idestado" [(ngModel)]="duenio.idestado" [disabled]="disableFields" />
           <div class="botons-style">
            <button class="save-button" (click)="saveDuenio()" >Guardar</button>
-           <button 
-              class="toggle-button" 
-              [ngClass]="{'inactive': disableFields, 'active': !disableFields}" 
-              (click)="toggleDisable()">
-              {{ disableFields ? 'Desactivar' : 'Activar' }}
-            </button>
+            <button 
+                      class="toggle-button"
+                      [ngClass]="{ 'inactive': duenio.idestado === 0, 'active': duenio.idestado === 1 }"
+                      (click)="duenio.idestado = duenio.idestado === 1 ? 0 : 1">
+                      {{ duenio.idestado === 1 ? 'Desactivar' : 'Activar' }}
+                    </button>
+
             </div>
         </div>
       </div>
@@ -47,12 +46,11 @@
     <mat-tab label="Mascotas">
       <div class="mascotas-section">
         <!-- Mostrar las mascotas en tarjetas si no estamos en detalle -->
-        <div *ngIf="!selectedMascota" class="mascotas-cards">
+        <div *ngIf="!selectedMascota"  class="mascotas-cards">
           <h3>Mascotas asociadas al dueño:</h3>
           <button class="add-mascota-button" mat-button (click)="openMascotaModal()">Añadir Mascota</button>
           <div class="card-container">
-            <div class="card" *ngFor="let mascota of mascotas">
-              <img src="assets/default-photo.png" alt="Foto de {{ mascota.nombre }}" class="card-img" />
+            <div class="card"    [ngClass]="{ 'inactive-card': mascota.idEstado === 0 }" *ngFor="let mascota of mascotas">
               <div class="card-info">
                 <h4>{{ mascota.nombre }}</h4>
                 <p>{{ mascota.especie }} - {{ mascota.edad }} años</p>
@@ -85,10 +83,11 @@
                     <button class="save-button" (click)="saveMascota()" >Guardar</button>
                     <button 
                       class="toggle-button"
-                      [ngClass]="{'inactive': disableFields, 'active': !disableFields}" 
-                      (click)="toggleDisable()">
-                      {{ disableFields ? 'Desactivar' : 'Activar' }}
+                      [ngClass]="{ 'inactive': selectedMascota.idEstado }"
+                      (click)="selectedMascota.idEstado = selectedMascota.idEstado === 1 ? 0 : 1">
+                      {{ selectedMascota.idEstado === 1 ? 'Desactivar' : 'Activar' }}
                     </button>
+
               </div>
           </div>
           </div>

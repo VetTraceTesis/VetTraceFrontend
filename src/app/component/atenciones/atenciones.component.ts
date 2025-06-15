@@ -40,7 +40,7 @@ export class AtencionesComponent implements OnInit {
 
   getDuenos() {
     this.duenioService.getDuenios().subscribe(data => {
-      this.duenos = data;
+      this.duenos = data.sort((a, b) => a.id - b.id);
       this.filteredDuenos = data;  // Inicializamos los dueños filtrados
       this.updatePagination();  // Actualizamos la paginación después de obtener los datos
     });
@@ -57,14 +57,7 @@ export class AtencionesComponent implements OnInit {
     this.updatePagination();  // Actualizar la paginación después del filtro
   }
 
-  // Método para obtener las atenciones del dueño
-  getAtencionesByDuenio(id: number) {
-    this.atencionesService.getAtencionesByDuenio(id).subscribe(data => {
-      this.atenciones = data;
-      this.filteredAtenciones = data;  // Inicializamos las atenciones filtradas
-      this.updatePagination();  // Actualizamos la paginación
-    });
-  }
+
 
   // Actualizar la paginación
 updatePagination() {
