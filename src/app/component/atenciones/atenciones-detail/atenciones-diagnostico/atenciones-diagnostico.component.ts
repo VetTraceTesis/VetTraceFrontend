@@ -7,6 +7,8 @@ import { Medicamento } from '../../../../model/medicamento.model';  // importa e
 import { formatDate } from '@angular/common';
 import { AtencionXMascotaXDuenio } from '../../../../model/atencionXmascotaXduenio.model';  // importa el modelo
 
+import { ReportePdfService } from '../../../../service/reporte.service';
+
 import { AtencionXMascotaXDuenioService } from '../../../../service/atencionXmascotaXduenio.service';
 import { DiagnosticoService } from '../../../../service/diagnostico.service';
 import { RecetaService } from '../../../../service/receta.service';
@@ -25,6 +27,7 @@ import { MatInputModule }     from '@angular/material/input';    // <-- añadido
 import { MatButtonModule }    from '@angular/material/button';   // <-- añadido
 import { MatDialog } from '@angular/material/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';  // Importamos SweetAlert2 para alertas
 
 
 @Component({
@@ -83,6 +86,7 @@ AtencionXMascotaXDuenio :AtencionXMascotaXDuenio={
     private diagnosticoService: DiagnosticoService,  // inyecta el servicio
     private recetaService: RecetaService,  // inyecta el servicio
     private medicamentoService: MedicamentoService,  // inyecta el servicio
+    private reportePdfService:ReportePdfService
 
   ) {
     // Obtener el parametro duenoId de la ruta actual
@@ -155,65 +159,80 @@ ngOnInit(): void {
 }
 
 
-   guardarDiagnostico(): void {
-    if (!this.atencionId) {
-      console.error('No hay atencionId en la ruta');
-      return;
-    }
-
-    this.diagnostico.atencion_id = +this.atencionId;
-
-    this.diagnosticoService.modificar(this.diagnostico)
-      .subscribe({
-        next: (updated) => {
-          console.log('Diagnóstico actualizado:', updated);
-          // **Reemplazamos todo el objeto**, de modo que ngModel refresca los inputs
-          this.diagnostico = updated;
-        },
-        error: (err) => {
-          console.error('Error al actualizar diagnóstico:', err);
-        }
-      });
+guardarDiagnostico(): void {
+  if (!this.atencionId) {
+    console.error('No hay atencionId en la ruta');
+    return;
   }
+
+  this.diagnostico.atencion_id = +this.atencionId;
+
+  this.diagnosticoService.modificar(this.diagnostico)
+    .subscribe({
+      next: (updated) => {
+        console.log('Diagnóstico actualizado:', updated);
+        
+        // **Reemplazamos todo el objeto**, de modo que ngModel refresca los inputs
+        this.diagnostico = updated;
+
+        // Mostrar alerta de éxito
+        this.showSuccessAlert('¡Diagnóstico actualizado!', 'El diagnóstico ha sido actualizado correctamente.');
+      },
+      error: (err) => {
+        console.error('Error al actualizar diagnóstico:', err);
+
+        // Mostrar alerta de error
+        this.showErrorAlert('Hubo un problema al actualizar el diagnóstico. Inténtalo de nuevo.');
+      }
+    });
+}
 
 guardarReceta() {
   if (!this.diagnostico) {
     console.error('No hay Diagnostico en la ruta');
     return;
   }
-  console.log(this.diagnostico,"diagnostico que llega")
+  
+  console.log(this.diagnostico, "diagnostico que llega");
+
   // 1) Preparamos el DTO de Receta
   this.receta.diagnostico_Id = +this.diagnostico.id;
   this.receta.fechaCreacion = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
-  console.log(this.receta,"Lo que insertarmooos")
+  
+  console.log(this.receta, "Lo que insertarmooos");
+
   // 2) Intentamos crear
   this.recetaService.registrar(this.receta).subscribe({
     next: (recetaGuardada) => {
       // Éxito en POST → seguimos con el flujo normal
+      console.log('Receta guardada correctamente:', recetaGuardada);
+      this.showSuccessAlert('Receta guardada', 'La receta ha sido guardada correctamente');
       this.procesarRecetaYMedicamentos(recetaGuardada);
     },
     error: (err: HttpErrorResponse) => {
       if (err.status === 409 && err.error === 'duplicated') {
-        console.log("entra al caso 2")
+        console.log("entra al caso 2");
         // Ya existía → hacemos PUT para actualizar
         this.recetaService.modificar(this.receta).subscribe({
           next: (recetaActualizada) => {
+            console.log('Receta actualizada correctamente:', recetaActualizada);
+            this.showSuccessAlert('Receta actualizada', 'La receta se ha actualizado correctamente');
             this.procesarRecetaYMedicamentos(recetaActualizada);
           },
           error: (putErr) => {
             console.error('Error al actualizar receta existente:', putErr);
+            this.showErrorAlert('Error al actualizar receta');
           }
         });
       } else {
         console.error('Error al guardar receta:', err);
+        this.showErrorAlert('Error al guardar receta');
       }
     }
   });
 }
 
-/**
- * Asigna la receta (creada o actualizada) y registra cada medicamento.
- */private procesarRecetaYMedicamentos(recetaDTO: Receta) {
+private procesarRecetaYMedicamentos(recetaDTO: Receta) {
   console.log('Receta final recibida:', recetaDTO);
   this.receta = recetaDTO;
 
@@ -229,6 +248,9 @@ guardarReceta() {
 
   console.log(`Procesando ${this.listaMedicamentos.length} medicamentos...`);
 
+  let medicamentosProcesados = 0;
+  let errorEnMedicamento = false;
+
   this.listaMedicamentos.forEach((med, idx) => {
     if (!med) {
       console.warn(`Medicamento índice ${idx} es null o undefined, se omite.`);
@@ -242,9 +264,9 @@ guardarReceta() {
 
     this.medicamentoService.registrar(med).subscribe({
       next: (medGuardado) => {
-          if (!medGuardado) {
-            return;
-          }
+        if (!medGuardado) {
+          return;
+        }
         console.log(`Medicamento ${idx + 1} guardado exitosamente:`, medGuardado);
 
         // Limpia elementos inválidos antes de actualizar MostrarMedicamentos
@@ -265,21 +287,148 @@ guardarReceta() {
           this.MostrarMedicamentos = [...this.MostrarMedicamentos];
           console.log(`Medicamento agregado a MostrarMedicamentos. Total ahora: ${this.MostrarMedicamentos.length}`);
         }
+
+        // Incrementar los medicamentos procesados
+        medicamentosProcesados++;
+
       },
       error: (medErr) => {
         console.error(`Error al guardar medicamento índice ${idx}:`, medErr);
+        errorEnMedicamento = true;
       }
     });
   });
+
+  // Mostrar mensaje de éxito después de procesar todos los medicamentos
+  if (!errorEnMedicamento) {
+    this.showSuccessAlert(
+      '¡Medicamentos procesados!',
+      `Se han procesado correctamente ${medicamentosProcesados} medicamento(s).`
+    );
+  } else {
+    this.showErrorAlert('Hubo un problema al guardar algunos medicamentos. Por favor, inténtalo de nuevo.');
+  }
 
   this.listaMedicamentos = [];
   console.log('listaMedicamentos limpiada después de procesar.');
 }
 
 
-  generarReporte() {
-    // tu lógica de reporte
+
+generarReporte(): void {
+  // Llamar al servicio para obtener el archivo PDF como Blob
+  this.reportePdfService.generarReportePDF(Number(this.atencionId)).subscribe((blob: Blob) => {
+    // Crear una URL para el blob y generar un enlace de descarga
+    const url = window.URL.createObjectURL(blob);
+    
+    // Crear un enlace <a> para realizar la descarga
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `reporte_atencion_${this.atencionId }.pdf`;  // Puedes personalizar el nombre del archivo
+    a.click();
+    
+    // Liberar el objeto URL después de usarlo
+    window.URL.revokeObjectURL(url);
+
+    // Mostrar una alerta de éxito con SweetAlert2
+    Swal.fire({
+      title: '¡Reporte generado!',
+      text: `El reporte para la atención ${this.atencionId} se ha generado correctamente.`,
+      icon: 'success',
+      confirmButtonColor: '#416785',
+      confirmButtonText: 'Aceptar',
+      customClass: {
+        popup: 'swal2-border-radius'
+      },
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      }
+    });
+
+  }, error => {
+    console.error('Error al generar el reporte PDF', error);
+
+    // Mostrar una alerta de error si algo falla
+    Swal.fire({
+      title: 'Error',
+      text: 'Hubo un problema al generar el reporte. Inténtalo de nuevo.',
+      icon: 'error',
+      confirmButtonColor: '#FF0000',
+      confirmButtonText: 'Aceptar'
+    });
+  });
+}
+generarCorreo(): void {
+  if (!this.atencionId || isNaN(Number(this.atencionId))) {
+    console.error('El id de la atención no es válido.');
+    return;
   }
+
+  // Mostrar alerta de "Cargando" mientras esperamos la respuesta
+  Swal.fire({
+    title: 'Enviando correo...',
+    text: 'Por favor, espera mientras enviamos el correo.',
+    icon: 'info',
+    showCancelButton: false,
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    didOpen: () => {
+      Swal.showLoading();  // Mostrar el icono de carga mientras esperamos
+    }
+  });
+
+  this.reportePdfService.enviarReportePorCorreo(Number(this.atencionId)).subscribe(
+    response => {
+      // Verificamos la respuesta del backend
+      if (response && response === 'Correo enviado correctamente') {
+        // Alerta de éxito cuando el correo se ha enviado correctamente
+        Swal.fire({
+          title: '¡Correo enviado!',
+          text: `El correo para la atención ${this.atencionId} ha sido enviado correctamente.`,
+          icon: 'success',
+          confirmButtonColor: '#416785',
+          confirmButtonText: 'Aceptar',
+          customClass: {
+            popup: 'swal2-border-radius'
+          },
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        });
+        console.log('Correo enviado correctamente:', response);
+      } else {
+        // Si la respuesta no es la esperada, mostramos un error
+        Swal.fire({
+          title: 'Error',
+          text: 'Hubo un problema al enviar el correo. Inténtalo de nuevo.',
+          icon: 'error',
+          confirmButtonColor: '#FF0000',
+          confirmButtonText: 'Aceptar'
+        });
+        console.error('Error al enviar correo:', response);
+      }
+    },
+    error => {
+      // Alerta de error si no se pudo enviar el correo
+      Swal.fire({
+        title: 'Error',
+        text: 'Hubo un problema al enviar el correo. Inténtalo de nuevo.',
+        icon: 'error',
+        confirmButtonColor: '#FF0000',
+        confirmButtonText: 'Aceptar'
+      });
+      console.error('Error al enviar correo:', error);
+    }
+  );
+}
+
+
 
 atras() {
   console.log(this.atencionxmascotaxduenio,"GAAAAAAAAAAAAA");
@@ -315,4 +464,36 @@ atras() {
   });
     
   }
+
+  
+// Mostrar alerta de éxito
+private showSuccessAlert(title: string, text: string): void {
+  Swal.fire({
+    title: title,
+    text: text,
+    icon: 'success',
+    confirmButtonColor: '#416785',
+    confirmButtonText: 'Aceptar',
+    customClass: {
+      popup: 'swal2-border-radius'
+    },
+    showClass: {
+      popup: 'animate__animated animate__fadeInDown'
+    },
+    hideClass: {
+      popup: 'animate__animated animate__fadeOutUp'
+    }
+  });
+}
+
+// Mostrar alerta de error
+private showErrorAlert(errorMessage: string): void {
+  Swal.fire({
+    title: 'Error',
+    text: errorMessage,
+    icon: 'error',
+    confirmButtonColor: '#FF0000',
+    confirmButtonText: 'Aceptar'
+  });
+}
 }
