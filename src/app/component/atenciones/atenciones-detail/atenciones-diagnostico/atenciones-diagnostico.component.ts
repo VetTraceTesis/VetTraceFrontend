@@ -15,6 +15,7 @@ import { RecetaService } from '../../../../service/receta.service';
 import { MedicamentoService } from '../../../../service/medicamento.service';
 import { MedicamentoModalComponent } from './medicamento-modal/medicamento-modal.component';
 import { HeaderComponent } from '../../../../shared/header/header.component';
+import { AtencionesService } from '../../../../service/atenciones.service';
 
 
 import { CommonModule } from '@angular/common';
@@ -29,16 +30,24 @@ import { MatDialog } from '@angular/material/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';  // Importamos SweetAlert2 para alertas
 
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-atenciones-diagnostico',
   standalone: true,
-  imports: [CommonModule,MatTabsModule,FormsModule,MatDialogModule,MatFormFieldModule,MatIconModule,MatInputModule,MatButtonModule,HeaderComponent],
+  imports: [CommonModule,MatTabsModule,FormsModule,MatDialogModule,MatFormFieldModule,MatIconModule,MatInputModule,MatButtonModule,HeaderComponent,MatSelectModule],
   templateUrl: './atenciones-diagnostico.component.html',
   styleUrls: ['./atenciones-diagnostico.component.css']
 })
 export class AtencionesDiagnosticoComponent implements OnInit {
   atencionId: string | null = null;
+  tipodiagnosticoId: string | null = null;
+  estadoAtencion: number | null = null;
+  estadosAtencion = [
+    { id: 1, nombre: 'En Proceso' },
+    { id: 2, nombre: 'Finalizado' },
+    { id: 3, nombre: 'Sin Atender' }
+  ];
 
   detalles: DetalleAtencion[] = [];  // Aquí se almacenan los detalles recibidos
   recetas: any[] = [];
@@ -86,16 +95,22 @@ AtencionXMascotaXDuenio :AtencionXMascotaXDuenio={
     private diagnosticoService: DiagnosticoService,  // inyecta el servicio
     private recetaService: RecetaService,  // inyecta el servicio
     private medicamentoService: MedicamentoService,  // inyecta el servicio
-    private reportePdfService:ReportePdfService
+    private reportePdfService:ReportePdfService,
+    private atencionesService:AtencionesService
 
   ) {
     // Obtener el parametro duenoId de la ruta actual
     this.atencionId = this.route.snapshot.paramMap.get('atencionId');
-    console.log(this.atencionId," llega")
+    this.tipodiagnosticoId = this.route.snapshot.paramMap.get('tipodiagnosticoId');
+
+
+    console.log(this.tipodiagnosticoId," llega")
   }
 
 ngOnInit(): void {
   if (!this.atencionId) return;
+
+  this.estadoAtencion = this.tipodiagnosticoId ? Number(this.tipodiagnosticoId) : null;
 
   const atencionIdNum = +this.atencionId;
 
@@ -218,6 +233,7 @@ guardarReceta() {
             console.log('Receta actualizada correctamente:', recetaActualizada);
             this.showSuccessAlert('Receta actualizada', 'La receta se ha actualizado correctamente');
             this.procesarRecetaYMedicamentos(recetaActualizada);
+            this.guardarFechaFiTipoDiagnostico();
           },
           error: (putErr) => {
             console.error('Error al actualizar receta existente:', putErr);
@@ -311,6 +327,34 @@ private procesarRecetaYMedicamentos(recetaDTO: Receta) {
 
   this.listaMedicamentos = [];
   console.log('listaMedicamentos limpiada después de procesar.');
+}
+
+guardarFechaFiTipoDiagnostico(): void {
+  const id = Number(this.atencionId);
+  const tipoDiagnosticoId = this.estadoAtencion;
+
+  if (tipoDiagnosticoId === null || tipoDiagnosticoId === undefined) {
+    console.error('Tipo de diagnóstico no seleccionado.');
+    return;
+  }
+
+  let fechaFinFormateada: string ="";
+
+  // Solo proceder si el estado es 2 (Finalizado)
+  if (tipoDiagnosticoId === 2) {
+    const now = new Date();
+    fechaFinFormateada = now.toISOString().slice(0, 16);  // Ejemplo: "2025-06-18T06:33"
+  }
+
+  this.atencionesService.actualizarTipoDiagnosticoYFechaFin(id, tipoDiagnosticoId, fechaFinFormateada)
+    .subscribe({
+      next: () => {
+        console.log('Atención actualizada correctamente.');
+      },
+      error: (error) => {
+        console.error('Error al actualizar atención:', error);
+      }
+    });
 }
 
 

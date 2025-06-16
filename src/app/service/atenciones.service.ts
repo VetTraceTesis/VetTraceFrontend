@@ -91,4 +91,26 @@ export class AtencionesService {
 
     return this.http.post<Atencion>(this.apiUrl, atencionWithoutId, { headers });
   }
+
+  // Método para actualizar tipoDiagnostico y fechaFin
+actualizarTipoDiagnosticoYFechaFin(id: number, tipoDiagnosticoId: number, fechaFin: string): Observable<any> {
+  const token = this.authService.obtenerToken();
+  if (!token) {
+    console.error('No se encontró token JWT');
+    return new Observable<any>();
+  }
+
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+
+  const params = {
+    tipoDiagnosticoId: tipoDiagnosticoId.toString(),
+    fechaFin: fechaFin
+  };
+
+  const url = `${this.apiUrl}/${id}/actualizar`;  // Reutiliza la base definida en this.apiUrl
+  return this.http.put(url, null, { headers, params });
+}
+
 }

@@ -5,6 +5,7 @@
 
     <div *ngIf="detalleAtencion; else loading">
       <p><strong>Dueño:</strong> {{ detalleAtencion.duenioNombre }} {{ detalleAtencion.duenioApellido }}</p>
+      <p><strong>Número de Dueño:</strong> {{ detalleAtencion.duenioTelefono }}</p>
       <p><strong>Nombre de la Mascota:</strong> {{ detalleAtencion.mascotaNombre }}</p>
       <p><strong>Especie de la Mascota:</strong> {{ detalleAtencion.mascotaEspecie }}</p>
       <p><strong>Nombre del Doctor:</strong> Dr. {{ detalleAtencion.nombreDoctor }} {{ detalleAtencion.apellidoDoctor }}</p>

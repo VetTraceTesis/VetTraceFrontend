@@ -33,7 +33,7 @@ export class AtencionesInsertComponent implements OnInit {
     idusuario: 0,
     duenioId: 0,
     id_estado: 1,
-    tipoDiagnosticoid:0
+    tipoDiagnosticoid:1
   };
 
   nuevaMultiple: AtencionXMascotaXDuenio = {
@@ -110,7 +110,10 @@ export class AtencionesInsertComponent implements OnInit {
 
 
  crearAtencion() {
+  console.log(this.nuevaAtencion)
+  this.nuevaAtencion.tipoDiagnosticoid=1
   this.atencionesService.addAtencion(this.nuevaAtencion).subscribe({
+    
     next: (atencionCreada) => {
       alert('Atención creada exitosamente');
       

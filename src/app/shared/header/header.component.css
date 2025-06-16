@@ -61,3 +61,14 @@
   color: #2d3a4b; /* Texto principal */
   outline: none;
 }
+
+.header-center {
+  flex: 1;
+  text-align: center;
+}
+
+.nombre-veterinaria {
+  font-size: 18px;
+  font-weight: 500;
+  color: #cfdce6;
+}

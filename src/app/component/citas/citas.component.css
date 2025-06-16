@@ -16,6 +16,7 @@ html, body {
   box-sizing: border-box;  /* Asegura que el padding no cause desbordamiento */
 }
 
+
 /* Barra de navegación del calendario */
 .calendar-navigation {
   display: flex;
@@ -71,15 +72,25 @@ th, td {
   border: 1px solid #ddd; /* Bordes suaves */
 }
 
-th {
-  background-color: #416785; /* Fondo azul para la cabecera */
-  color: #fff;  /* Texto blanco */
-  font-weight: bold;
+/* Fila de días de la semana */
+.dias-row th {
+  position: sticky;
+  top: 40px; /* Altura después de la fila de Totales */
+  background-color: #455b7c;
+  color: white;
+  z-index: 5;
+}
+
+/* Fila de Totales */
+.total-row th {
   position: sticky;
   top: 0;
-  z-index: 5;
-  font-size: 1em;
+  background-color: #455b7c;
+  color: white;
+  font-weight: bold;
+  z-index: 6;
 }
+
 
 td {
   font-size: 0.9em;
@@ -91,9 +102,9 @@ td {
 }
 
 td p {
+  font-size: 15px;
   margin: 0;
-  font-size: 0.8em;
-  color: #333;  /* Texto gris oscuro para las celdas */
+  color: #555454;  /* Texto gris oscuro para las celdas */
 }
 
 .sticky-header {

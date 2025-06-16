@@ -54,4 +54,15 @@ export class UsuarioService {
   eliminarUsuario(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
+
+getNombreVeterinariaPorUsuario(veterinariaId: number): Observable<string> {
+  const token = this.authService.obtenerToken();
+
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${token}`
+  });
+
+  return this.http.get(`${this.apiUrl}/veterinaria/${veterinariaId}`, { headers, responseType: 'text' });
+}
+
 }

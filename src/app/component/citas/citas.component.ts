@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CitasModalComponent } from './citas-modal/citas-modal.component';
 import { HeaderComponent } from '../../shared/header/header.component';
+import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-citas',
@@ -34,7 +35,9 @@ export class CitasComponent implements OnInit {
   obtenerAtenciones(): void {
     this.atencionesService.getAtenciones().subscribe({
       next: (data) => {
-        this.atenciones = data;
+        console.log(data,"info")
+        this.atenciones = data.filter(a => a.fechaFin === '');
+        console.log(this.atenciones)
         this.generateCalendar();
       },
       error: (err) => {
@@ -166,4 +169,13 @@ export class CitasComponent implements OnInit {
       console.log('El modal se cerró');
     });
   }
+
+  contarAtencionesPorDia(diaNombre: string): number {
+  let total = 0;
+  for (let hora = 0; hora < 24; hora++) {
+    total += this.calendar[diaNombre][hora].length;
+  }
+  return total;
+}
+
 }

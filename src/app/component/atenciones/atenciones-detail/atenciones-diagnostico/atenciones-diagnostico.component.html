@@ -1,13 +1,21 @@
 <app-header></app-header>
 
 <div class="container">
-  <h2>Reporte de Atención</h2>
+  <h2>Reporte de Atención N° {{atencionId}}</h2>
 
   <!-- Info paciente/dueño -->
   <div class="info" *ngIf="detalles.length > 0">
     <span>Dueño: {{ detalles[0].duenioNombre }} {{ detalles[0].duenioApellido }}</span>
     <span>Paciente: {{ detalles[0].mascotaNombre }} ({{ detalles[0].mascotaEspecie }})</span>
   </div>
+<mat-form-field appearance="outline" class="full-width">
+  <mat-label>Estado de Atención</mat-label>
+  <mat-select [(ngModel)]="estadoAtencion" name="estadoAtencion">
+    <mat-option *ngFor="let estado of estadosAtencion" [value]="estado.id">
+      {{ estado.nombre }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
   <mat-tab-group>
     <!-- Tab Diagnóstico -->
@@ -62,12 +70,6 @@
 </table>
 
 
-
-
-
-
-
-
       <mat-form-field appearance="outline" class="full-width comentario-container">
         <mat-label>Comentario Receta</mat-label>
         <textarea matInput rows="3"
@@ -93,7 +95,7 @@
         </button>
           <button mat-raised-button color="primary" (click)="abrirModal()">
       <mat-icon>open_in_new</mat-icon>
-      Abrir Modal
+      Registrar Medicamento
     </button>
       </div>
     </mat-tab>

@@ -77,8 +77,8 @@ export class AtencionesDetailComponent implements OnInit {
     }
   }
 
-  irADiagnostico(atencionId: number) {
-    this.router.navigate(['/atenciones/diagnostico', atencionId]);
+  irADiagnostico(atencionId: number, tipoDiagnostico: number) {
+      this.router.navigate(['/atenciones/diagnostico', atencionId, tipoDiagnostico]);
   }
 
  irANuevaAtencion() {

@@ -28,7 +28,7 @@ export const routes: Routes = [
   { path: 'atenciones', component: AtencionesComponent, canActivate: [authGuard]   },  // Ruta para agregar nuevo doctor
   { path: 'atenciones/duenio/:duenoId', component: AtencionesDetailComponent, canActivate: [authGuard]   },
   { path: 'atenciones/nuevo/:duenoId', component: AtencionesInsertComponent, canActivate: [authGuard]   },
-  { path: 'atenciones/diagnostico/:atencionId', component: AtencionesDiagnosticoComponent, canActivate: [authGuard]   },
+  { path: 'atenciones/diagnostico/:atencionId/:tipodiagnosticoId', component: AtencionesDiagnosticoComponent, canActivate: [authGuard]   },
 
   { path: 'mapa', component: MapaComponent, canActivate: [authGuard]   },  
 
