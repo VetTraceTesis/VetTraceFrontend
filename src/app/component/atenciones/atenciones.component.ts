@@ -26,7 +26,7 @@ export class AtencionesComponent implements OnInit {
   // Paginación
   currentPage = 1;  // Página actual
   totalPages = 1;  // Total de páginas
-  itemsPerPage = 5;  // Elementos por página
+  itemsPerPage = 15;  // Elementos por página
 
   constructor(
     private atencionesService: AtencionesService,
