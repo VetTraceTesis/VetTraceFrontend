@@ -1,28 +1,59 @@
-import { Component, Inject, OnInit, Output } from '@angular/core';
+import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DuenioService } from '../../../service/duenio.service';  
 import { MascotaService } from '../../../service/mascota.service';  
 import { Duenio } from '../../../model/duenio.model';  
+import { Mascota } from '../../../model/mascota.model';
 import { CommonModule } from '@angular/common';  
 import { FormsModule } from '@angular/forms';   
-import { MatSnackBar } from '@angular/material/snack-bar';  
-import { Mascota } from '../../../model/mascota.model';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';  
 import { MatTabsModule } from '@angular/material/tabs';  
-import { MatDialogModule } from '@angular/material/dialog';  
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';  
 import { DuenioMascotaComponent } from '../duenio-mascota/duenio-mascota.component';
-import { MatDialog } from '@angular/material/dialog';  
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';  
-import { EventEmitter } from '@angular/core';
 import Swal from 'sweetalert2';  // Importamos SweetAlert2 para alertas
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule }    from '@angular/material/select';
+import { MatInputModule }       from '@angular/material/input';
+import { MatAutocompleteModule }from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';  // << Añadido MatCardModule
+import { MatDatepickerModule }from '@angular/material/datepicker';
+import { MatNativeDateModule }from '@angular/material/core';
+import {
+  DateAdapter,
+  NativeDateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_NATIVE_DATE_FORMATS,
+  MAT_DATE_LOCALE
+} from '@angular/material/core';
 @Component({
   selector: 'app-duenio-detalle',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatTabsModule, MatDialogModule],  
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatTabsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],  
+    providers: [
+      { provide: DateAdapter, useClass: NativeDateAdapter },
+      { provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS },
+      { provide: MAT_DATE_LOCALE, useValue: 'es-PE' }
+    ],
   templateUrl: './duenio-detalle.component.html',
   styleUrls: ['./duenio-detalle.component.css']
 })
 export class DuenioDetalleComponent implements OnInit {
+  genero = ['Masculino', 'Femenino', 'No especifica'];
 
   duenio: Duenio = {  
     id: 0,
@@ -32,13 +63,33 @@ export class DuenioDetalleComponent implements OnInit {
     email: '',
     direccion: '',
     fechaCreacion: '',
-    idestado: 1
+    idestado: 1,
+    distrito:'',
+    genero:''
   };
   mascotas: Mascota[] = [];  
   disableFields: boolean = false;
   showMascotas: boolean = false;  
   selectedMascota: Mascota | null = null;  
   @Output() duenioActualizado: EventEmitter<void> = new EventEmitter<void>();
+  // listado de distritos de Lima (provincia)
+  distritos: string[] = [
+    'Ancón', 'Ate', 'Barranco', 'Breña', 'Carabayllo',
+    'Chaclacayo', 'Chorrillos', 'Cieneguilla', 'Comas',
+    'El Agustino', 'Independencia', 'Jesús María',
+    'La Molina', 'La Victoria', 'Lima', 'Lince',
+    'Los Olivos', 'Lurigancho-Chosica', 'Lurín',
+    'Magdalena del Mar', 'Miraflores', 'Pachacamac',
+    'Pucusana', 'Pueblo Libre', 'Puente Piedra',
+    'Punta Hermosa', 'Punta Negra', 'Rímac',
+    'San Bartolo', 'San Borja', 'San Isidro',
+    'San Juan de Lurigancho', 'San Juan de Miraflores',
+    'San Luis', 'San Martín de Porres', 'San Miguel',
+    'Santa Anita', 'Santa María del Mar', 'Santa Rosa',
+    'Santiago de Surco', 'Surquillo', 'Villa El Salvador',
+    'Villa María del Triunfo'
+  ];
+    filteredDistricts: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -57,9 +108,15 @@ export class DuenioDetalleComponent implements OnInit {
       this.getMascotasByDuenioId(this.data.duenio.id);
     }
     this.disableFields = this.duenio.idestado === 0;
+    this.filteredDistricts = this.distritos.slice();
 
   }
-
+ filterDistricts(value: string) {
+    const filterValue = value.toLowerCase();
+    this.filteredDistricts = this.distritos.filter(d =>
+      d.toLowerCase().includes(filterValue)
+    );
+  }
   openMascotaModal(): void {
     const duenioId = this.duenio.id;
     if (duenioId) {
@@ -97,7 +154,13 @@ export class DuenioDetalleComponent implements OnInit {
       }
     });
   }
-
+ private getFechaHoy(): string {
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm   = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dd   = String(hoy.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
   getMascotasByDuenioId(duenioId: number): void {
     this.mascotaService.getMascotasByDuenio(duenioId).subscribe(data => {
       this.mascotas = data;  
@@ -115,6 +178,7 @@ export class DuenioDetalleComponent implements OnInit {
 
   saveDuenio(): void {
     if (this.duenio.id === 0) {
+      this.duenio.fechaCreacion=this.getFechaHoy();
       this.duenioService.addDuenio(this.duenio).subscribe(response => {
         console.log(this.duenio,"se guaaarda")
         Swal.fire({

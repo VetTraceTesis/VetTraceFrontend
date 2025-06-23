@@ -1,0 +1,58 @@
+/* src/app/atenciones/medication-dialog/medication-dialog.component.css */
+
+/* Hacer el diálogo más ancho */
+:host ::ng-deep .mat-dialog-container {
+  width: 80vw !important;
+  max-width: none !important;
+  padding: 24px;
+}
+
+/* Contenedor del contenido: disposición horizontal */
+.form-dialog {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Cada formulario ocupa un tercio aprox. del espacio */
+.full-width {
+  flex: 1;
+  min-width: 0; /* para que flex-basis respete el espacio */
+}
+
+/* Ajustes visuales de los campos */
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  border-radius: 8px;
+}
+
+.mat-form-field textarea.mat-input-element,
+.mat-form-field input.mat-input-element {
+  padding: 8px;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+/* Encabezado */
+h2[mat-dialog-title] {
+  font-size: 1.75rem;
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Botones de acción */
+mat-dialog-actions {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+mat-dialog-actions button {
+  min-width: 100px;
+}

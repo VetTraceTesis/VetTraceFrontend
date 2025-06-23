@@ -36,7 +36,9 @@ export class ModulosComponent implements OnInit {
     this.authService.logout();
     this.menuVisible = false;
   }
-
+  navigateToFarmacia():void{
+    this.router.navigate(['/farmacia']);
+  }
   navigateToDoctor(): void {
     this.router.navigate(['/doctor']);
   }

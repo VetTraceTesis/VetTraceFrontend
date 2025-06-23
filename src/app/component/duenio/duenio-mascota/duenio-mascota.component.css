@@ -1,62 +1,39 @@
-/* Estilos para el detalle de la mascota */
+/* src/app/components/duenio/duenio.component.css */
+
+/* Tarjeta principal */
 .mascota-detail {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  display: flex;
-  flex-direction: column;
   width: 100%;
   max-width: 1200px;
   padding: 16px;
-  background-color: #fff;
+  background: #fff;
   border-radius: 16px;
   box-shadow: 0 8px 36px rgba(77, 182, 172, 0.2);
   box-sizing: border-box;
   max-height: 80vh;
-  overflow: hidden;
+  overflow: auto;
 }
 
-.mascota-detail label {
-  font-size: 16px;
-  color: #416785;
-  font-weight: 600;
-}
-
-.mascota-detail input {
-  padding: 12px 16px;
-  border: 1.5px solid #b2cbdf;
-  border-radius: 12px;
-  font-size: 16px;
-  background: #f8fafd;
-  transition: border 0.3s;
-}
-
-.mascota-detail input:focus {
-  border-color: #416785;
-}
-
-/* Sección de los detalles del perfil (Dueño y Mascota) */
+/* Contenedor de foto y formulario */
 .profile-details {
   display: flex;
   gap: 32px;
-  width: 100%;
-  overflow-y: auto;
-  max-height: calc(80vh - 100px);
 }
 
-/* Foto de perfil del dueño */
+/* Logo */
 .profile-photo {
-  width: 150px; /* Tamaño de la imagen */
+  width: 150px;
   height: 150px;
   border-radius: 50%;
   background: #f8fafd;
   border: 3px solid #b2cbdf;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   box-shadow: 0 4px 10px rgba(77, 182, 172, 0.2);
 }
-
 .profile-photo img {
   width: 100%;
   height: 100%;
@@ -64,93 +41,23 @@
   border-radius: 50%;
 }
 
-/* Sección con la información del perfil (Dueño y Mascota) */
+/* Formulario */
 .profile-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
+  text-align: left;
+}
+
+/* Mat-form-field ocupa todo el ancho */
+.full-width {
   width: 100%;
-  text-align: center;
 }
 
-h3 {
-  font-size: 24px;
-  color: #416785;
-  margin-bottom: 20px;
-}
-
-label {
-  font-size: 16px;
-  color: #354f6f;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-input[type="text"], input[type="number"], input[type="date"] {
-  padding: 10px;
-  border: 1px solid #b2cbdf;
-  border-radius: 8px;
-  background-color: #f8fafd;
-  font-size: 16px;
-  color: #2d3a4b;
-  width: 100%;
-  box-sizing: border-box;
-  transition: border 0.3s;
-}
-
-input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus {
-  border-color: #416785;
-  outline: none;
-}
-
-
-.save-button,
-.add-mascota-button {
-  background: linear-gradient(90deg, #416785 60%, #6C8CA3 100%);
-  color: #fff;
-  padding: 14px 28px;
-  margin: 15px;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.3s, box-shadow 0.3s;
-  width: 20%;
-  align-items: center;
-}
-
-mat-form-field {
-  width: 100%;
-  margin-bottom: 16px;
-}
-
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  border-color: #b2cbdf !important;
-  border-radius: 12px;
-}
-
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick {
-  border-width: 1.5px !important;
-}
-
-::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-  border-color: #416785 !important;
-}
-
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
-  background-color: #f8fafd;
-  border-radius: 12px;
-}
-
-::ng-deep .mat-select {
-  font-size: 16px;
-  color: #2d3a4b;
-  padding: 9px 12px;
-}
-
-::ng-deep .mat-select-panel {
-  font-size: 16px;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 4px 10px rgba(77, 182, 172, 0.2);
+/* Botón registrar */
+.botons-style {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
 }

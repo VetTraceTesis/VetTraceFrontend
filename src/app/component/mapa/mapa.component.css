@@ -1,211 +1,295 @@
-/* Elimina márgenes y padding del body y html para que no haya scroll extra */
+/* farmacias.component.css */
+/* Reset global */
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
-  overflow: hidden; /* Evita scroll global */
   font-family: Arial, sans-serif;
+  overflow: hidden;
 }
 
-/* Asegura que el header quede fijo */
+/* Header fijo */
 app-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 70px; /* Ajustado al tamaño de tu logo */
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000; /* Asegura que quede por encima de otros elementos */
-  border-bottom: 2px solid #416785; /* Borde inferior del header con el color especificado */
-}
-
-/* Contenedor principal para la lista y mapa */
-.map-container {
-  display: flex;
-  height: calc(100vh - 100px); /* Alto total de la ventana menos el alto del header */
-  width: 100vw;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  position: relative;
-  top: 100px; /* Ajustar el espacio para el header */
-}
-
-/* Sidebar ocupa un ancho fijo y scroll vertical si hay muchos items */
-.sidebar {
-  width: 320px;
-  background: #f9f9f9;
-  padding: 20px;
-  overflow-y: auto;
-  box-sizing: border-box;
-  border-right: 1px solid #ddd;
-  display: flex;
-  flex-direction: column;
-  background-color: #f4f9fc; /* Fondo suave para el sidebar */
-}
-
-/* Lista sin estilos extra */
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  flex-grow: 1;
-}
-
-/* El mapa ocupa el resto del ancho y todo el alto */
-.map-wrapper {
-  flex-grow: 1;
-  position: relative;
-  height: 100%;
-  width: calc(100vw - 320px); /* El resto del ancho menos sidebar */
-}
-
-/* Estilos de logo */
-.logo img {
-  height: 70px;
-  width: auto;
-  object-fit: contain;
-}
-
-/* Navbar y menús de navegación */
-.nav-bar {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.nav-toggle {
-  background-color: #416785; /* Color principal botón */
-  border: none;
-  color: white;
-  padding: 8px 12px;
-  font-weight: 600;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.nav-toggle:hover,
-.nav-toggle:focus {
-  background-color: #6C8CA3; /* Hover igual que login */
-  outline: none;
-}
-
-.nav-menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: #fff; /* Fondo blanco como login */
-  color: #2d3a4b; /* Texto principal */
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(77,182,172,0.13); /* Sombra igual que login */
-  padding: 10px 0;
-  min-width: 150px;
-  display: none;
-  flex-direction: column;
+  height: 80px;
+  background: #fff;
+  border-bottom: 2px solid #416785;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   z-index: 1000;
 }
 
-.nav-menu.show {
+/* Contenedor principal */
+.content-container {
+  position: absolute;
+  top: 100px;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.nav-menu a {
-  color: #416785; /* Color principal */
-  padding: 8px 16px;
-  text-decoration: none;
-  font-weight: 600;
-  border-radius: 4px;
-  transition: background 0.2s, color 0.2s;
+/* ===== FIX PARA SCROLL EN LISTA DE FARMACIAS Y MEDICAMENTOS ===== */
+.farmacias-area,
+.farmacias-section,
+.medicamentos-col,
+.medicamentos-section {
+  min-height: 0;
+}
+.farmacias-section ul,
+.table-container {
+  overflow-y: auto;
+  padding-right: 6px;
 }
 
-.nav-menu a:hover,
-.nav-menu a:focus {
-  background-color: #f8fafd; /* Fondo input login */
-  color: #2d3a4b; /* Texto principal */
-  outline: none;
+/* === Mitad superior (50%) === */
+.top-section {
+  display: flex;
+  height: 50%;
+  gap: 20px;
+  padding: 10px;
+  background: #f0f4f8;
+  box-sizing: border-box;
 }
 
-/* Botón atrás y estilos de lista se mantienen igual, opcionales */
-.btn-back {
-  background-color: #416785; /* Color principal */
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
-  margin-bottom: 15px;
-  cursor: pointer;
-  font-size: 14px;
-  align-self: flex-start;
-  transition: background-color 0.3s ease;
+.map-area {
+  flex: 2;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.btn-back:hover {
-  background-color: #6C8CA3; /* Hover */
+.farmacias-area {
+  flex: 1;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
 }
-
-.sidebar li {
-  cursor: pointer;
-  padding: 10px 6px;
+.farmacias-section {
+  padding: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.farmacias-section li {
+  padding: 8px;
   border-bottom: 1px solid #ddd;
-  transition: background-color 0.3s ease;
+  cursor: pointer;
+  transition: background-color .3s;
 }
-
-.sidebar li.selected,
-.sidebar li:hover {
+.farmacias-section li:hover,
+.farmacias-section li.selected {
   background-color: #e2e6ea;
 }
 
-.sidebar small {
-  color: #555;
+/* === Mitad inferior (50%) en dos columnas === */
+.bottom-section {
+  display: flex;
+  height: 50%;
+  gap: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  background: #fff;
 }
 
-.sidebar a {
-  font-size: 13px;
-  color: #416785; /* Enlaces con el color principal */
-  text-decoration: underline;
+.col {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.sidebar a:hover {
-  color: #0056b3;
+/* Correlativo ocupa más espacio */
+.correlativo-col { flex: 0.4; }
+.medicamentos-col { flex: 2; }
+
+.control {
+  background: #fff;
+  border-radius: 6px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Estilos para el contenido del map-info-window */
+/* Input Correlativo: ahora 50% de ancho */
+.correlativo-section .input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.correlativo-section input {
+  flex: none;
+  width: 50%;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Medicamentos */
+.medicamentos-section {
+  padding: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.med-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.table-container {
+  flex: 1;
+  margin-top: 10px;
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+thead {
+  position: sticky;
+  top: 0;
+  background-color: #416785;
+  color: #fff;
+  z-index: 2;
+}
+th, td {
+  padding: 10px 8px;
+  border: 1px solid #ddd;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+tbody tr:nth-child(even) {
+  background-color: #f4f9fc;
+}
+
+/* Botones generales */
+.btn-primary,
+.btn-secondary,
+.btn-refresh,
+.btn-wsp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-primary {
+  background-color: #416785;
+}
+.btn-primary:hover {
+  background-color: #2F5A6E;
+  transform: translateY(-1px);
+}
+
+/* --- Botón Refresh --- */
+.btn-refresh {
+  background-color: #416785;
+}
+.btn-refresh:hover {
+  background-color: #2F5A6E;
+  transform: translateY(-1px);
+}
+
+/* Botón secundario */
+.btn-secondary {
+  background-color: #6C8CA3;
+}
+.btn-secondary:hover {
+  background-color: #5a7480;
+}
+
+/* Botón Reporte */
+.btn-report {
+  background: linear-gradient(135deg, #FF8C00, #FFB347);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.btn-report:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Info window */
 .info-window-content {
-  background-color: #fff; /* Fondo blanco */
+  background: #fff;
   padding: 10px;
   border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-  color: #333; /* Color de texto */
-  max-width: 300px; /* Tamaño máximo */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  max-width: 300px;
 }
-
-/* Título del info-window */
 .info-title {
-  color: #416785; /* El mismo color que mencionaste antes */
+  color: #416785;
   font-size: 18px;
-  font-weight: bold;
   margin-bottom: 8px;
 }
-
-/* Estilo para el enlace */
-.info-link {
-  color: #416785; /* Color principal */
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 600;
-  transition: color 0.2s ease;
-}
-
-.info-link:hover {
-  color: #0056b3; /* Color al hacer hover */
-}
-
-/* Estilo para el párrafo */
 .info-window-content p {
   font-size: 14px;
   color: #555;
   margin-bottom: 12px;
+}
+
+/* === Enlaces (toda la app) === */
+a {
+  color: #416785;
+  text-decoration: none;
+  font-weight: 600;
+}
+a:hover {
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+/* === Icono WhatsApp === */
+.btn-wsp {
+  background: none;
+  color: #25D366;
+  font-size: 1.2em;
+  padding: 6px;
+}
+.btn-wsp:hover {
+  transform: scale(1.2);
+}
+
+/* === Títulos de sección === */
+.farmacias-section > h4,
+.correlativo-section > h4,
+.medicamentos-section .med-header > h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #416785;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #416785;
+  padding-bottom: 4px;
+}
+
+/* Variaciones de títulos */
+.correlativo-section > h4 {
+  font-style: italic;
+}
+.medicamentos-section .med-header > h4 {
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: 0.5px;
+}
+.farmacias-section > h4 {
+  background: linear-gradient(90deg, #416785, #6C8CA3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

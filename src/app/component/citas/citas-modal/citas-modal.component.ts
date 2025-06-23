@@ -35,6 +35,7 @@ export class CitasModalComponent implements OnInit {
     this.atencionService.obtenerDetallesPorAtencion(this.atencionId).subscribe({
       next: (data) => {
         this.detalleAtencion = data[0];  // Asumimos que solo se devuelve un objeto
+        console.log(this.detalleAtencion)
       },
       error: (err) => {
         console.error('Error al obtener los detalles de la atención:', err);
@@ -48,7 +49,7 @@ export class CitasModalComponent implements OnInit {
   }
    goToAtention(): void {
     // Redirige a la ruta de diagnóstico de atención, pasando el atencionId como parámetro
-    this.router.navigate([`/atenciones/diagnostico/${this.atencionId}`]);
+    this.router.navigate([`/atenciones/diagnostico/${this.atencionId}/${this.detalleAtencion?.tipoDiagnosticoId}`]);
     this.closeModal();  // Opcional: Cierra el modal después de redirigir
   }
 }

@@ -7,5 +7,6 @@ export interface Doctor {
     id_estado: number;
     id: number;
     fecharegistro:string;
+    genero:string;
   }
   

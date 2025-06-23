@@ -40,8 +40,10 @@ export class DuenioComponent implements OnInit {
   loadDuenios(): void {
     this.duenioService.getDuenios().subscribe(
       (duenios) => {
-        this.duenios = duenios;
+
         this.filteredDuenios = duenios.sort((a, b) => a.nombre.localeCompare(b.nombre));  // Ordenar por nombre
+        this.duenios = duenios.sort((a, b) => a.id - b.id);
+
         this.updatePagination();  // Actualizar la paginación
       },
       (error) => {
@@ -114,10 +116,10 @@ export class DuenioComponent implements OnInit {
     const duenio = this.duenios.find(d => d.id === duenioId);
     if (duenio) {
       const dialogRef = this.dialog.open(DuenioDetalleComponent, {
-        width: '80vw',  
-        maxWidth: '1200px',  
-        minWidth: '350px',  
-        data: { duenio },
+        width: '70vw',  
+        maxWidth: '1100px',  
+        minWidth: '300px',  
+        data: { duenio }
       });
 
       dialogRef.afterClosed().subscribe(result => {

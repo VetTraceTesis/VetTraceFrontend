@@ -8,4 +8,5 @@ export interface Atencion {
   duenioId: number;
   id_estado: number;
   tipoDiagnosticoid:number;
+  correlativo:string;
 }

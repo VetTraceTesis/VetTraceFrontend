@@ -29,7 +29,8 @@
       tabindex="0"
       (blur)="closeDropdown()"
     >
-      <a routerLink="/perfil" (click)="OpenPerfil()">Perfil</a>
+      <a  (click)="OpenPerfil()">Perfil</a>
+      <a  *ngIf="esAdmin() || esUsuario()" (click)="OpenPanel()">Panel Administrador</a>
       <a href="#" (click)="logout()">Cerrar sesión</a>
     </div>
   </nav>

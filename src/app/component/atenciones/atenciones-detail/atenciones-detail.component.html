@@ -18,8 +18,9 @@
        'tipo-2': atencion.tipoDiagnostico === 2,
        'tipo-3': atencion.tipoDiagnostico === 3
      }"(click)="irADiagnostico(atencion.atencionId,atencion.tipoDiagnostico)">
-      <div class="profile-info">
+      <div class="profile-info" >
         <h3>Atención #{{ atencion.atencionId }}</h3>
+        <p><strong>Correlativo: </strong>{{atencion.correlativo}}</p>
         <p><strong>Mascota:</strong> {{ atencion.mascotaNombre }} ({{ atencion.mascotaEspecie }})</p>
         <p><strong>Veterinaria:</strong> {{ atencion.nombreVeterinaria }}</p>
         <p><strong>Doctor:</strong> {{ atencion.nombreDoctor }} {{ atencion.apellidoDoctor }}</p>

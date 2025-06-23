@@ -3,11 +3,12 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { Usuario } from '../../model/usuarios.model';
 import { UsuarioService } from '../../service/users.service';
+import { CommonModule } from '@angular/common'; // 👈 Necesario para *ngIf
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -15,7 +16,7 @@ export class HeaderComponent implements OnInit{
    dropdownOpen = false;
   usuario: Usuario | null = null; 
   nombreVeterinaria: string = '';
-
+  rol: string | null = null;
   constructor(private router: Router,private authService:AuthService,private usuarioService:UsuarioService) {}
 
   ngOnInit(): void {
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit{
      if (this.usuario && this.usuario.id) {
       this.usuarioService.getNombreVeterinariaPorUsuario(this.usuario.veterinariaId).subscribe({
         next: (nombre) => {
-          this.nombreVeterinaria = nombre;
+          this.nombreVeterinaria = nombre.split(',')[0];
           console.log(this.nombreVeterinaria)
         },
         error: (error) => {
@@ -32,12 +33,24 @@ export class HeaderComponent implements OnInit{
         }
       });
     }
+    this.rol = this.authService.obtenerRol();
+
   }
 
+  esAdmin(): boolean {
+    return this.rol === 'Admin';
+  }
+
+  esUsuario(): boolean {
+    return this.rol === 'Users';
+  }
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }
+OpenPanel():void {
+      this.router.navigate(['/panelAdministrador'])
 
+}
   closeDropdown() {
     this.dropdownOpen = false;
   }

@@ -1,0 +1,78 @@
+
+
+/* Header */
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid #e0e0e0;
+  position: relative;
+}
+
+/* Cerrar */
+.close-btn {
+  color: #666;
+}
+.close-btn:hover {
+  color: #000;
+}
+
+/* Contenido: grid 2 columnas */
+.detalle-content {
+  padding: 16px;
+}
+.detalle-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 24px;
+}
+@media (max-width: 600px) {
+  .detalle-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* Imagen */
+.detalle-imagen img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Información */
+.detalle-info p {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+.highlight {
+  color: #388E3C;
+  font-weight: bold;
+}
+
+/* Sección indicaciones */
+.indicaciones h3 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 4px;
+}
+.indicacion-text {
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* Botón de cierre */
+mat-dialog-actions {
+  padding: 8px 16px;
+  border-top: 1px solid #e0e0e0;
+}
+mat-dialog-actions button {
+  min-width: 100px;
+}

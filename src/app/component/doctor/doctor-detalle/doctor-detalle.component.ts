@@ -7,14 +7,19 @@ import { MatSnackBar } from '@angular/material/snack-bar';  // Importamos MatSna
 import Swal from 'sweetalert2';  // Importamos SweetAlert2 para alertas
 import { CommonModule } from '@angular/common';  
 import { FormsModule } from '@angular/forms';  
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { formatDate } from '@angular/common';
+
 @Component({
   selector: 'app-doctor-detalle',
   standalone: true,
-  imports: [CommonModule, FormsModule],  // No necesitas MatSnackBarModule aquí
+  imports: [CommonModule, FormsModule,MatSelectModule,MatFormFieldModule],  // No necesitas MatSnackBarModule aquí
   templateUrl: './doctor-detalle.component.html',
   styleUrls: ['./doctor-detalle.component.css']
 })
 export class DoctorDetalleComponent implements OnInit {
+  genero = ['Masculino', 'Femenino', 'No especifica'];
 
   doctor: Doctor = {  // Inicializamos un doctor vacío para el registro
     id: 0,
@@ -24,7 +29,8 @@ export class DoctorDetalleComponent implements OnInit {
     email: '',
     fecharegistro: '',
     cmvp: '',
-    id_estado: 1
+    id_estado: 1,
+    genero:'',
   };
   disableFields: boolean = false;
 
@@ -53,11 +59,20 @@ export class DoctorDetalleComponent implements OnInit {
     const year = date.getFullYear();
     return `${year}-${month}-${day}`;
   }
-
+  private getFechaHoy(): string {
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm   = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dd   = String(hoy.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
   saveDoctor(): void {
     console.log("recibe")
     if (this.doctor.id === 0) {
       // Nuevo doctor
+      const today = new Date();
+
+      this.doctor.fecharegistro = this.getFechaHoy();
       this.doctor.id_estado = 1; // ⬅️ Forzamos el valor por defecto
       this.doctorService.addDoctor(this.doctor).subscribe(response => {
         Swal.fire({

@@ -1,18 +1,59 @@
-<!-- src/app/atenciones/medication-dialog/medication-dialog.component.html -->
-<h2 mat-dialog-title>Registrar Medicamento</h2>
+<!-- src/app/atenciones/medication-dialog/medicamento-modal.component.html -->
+
+<h2 mat-dialog-title>
+  Registrar Medicamento
+</h2>
+
 <mat-dialog-content class="form-dialog">
+  <!-- Medicamento (autocomplete) -->
   <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Cantidad</mat-label>
-    <input matInput type="number" [(ngModel)]="medicamento.cantidad">
+    <mat-label>Medicamento</mat-label>
+    <input
+      type="text"
+      matInput
+      [formControl]="productoControl"
+      [matAutocomplete]="auto"
+      #trigger="matAutocompleteTrigger"
+      placeholder="Busca por nombre..."
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      [displayWith]="displayFn.bind(this)"
+      (optionSelected)="onOptionSelected($event.option.value)"
+      autoActiveFirstOption
+    >
+      <mat-option *ngFor="let prod of filteredProductos" [value]="prod">
+        {{ prod.name }}
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
 
+  <!-- Dosis -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Dosis</mat-label>
+    <input
+      matInput
+      [(ngModel)]="medicamento.cantidad"
+      placeholder="2 veces al día"
+    />
+  </mat-form-field>
+
+  <!-- Indicaciones -->
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Indicaciones</mat-label>
-    <textarea matInput rows="3" [(ngModel)]="medicamento.indicacion"></textarea>
+    <textarea
+      matInput
+      rows="3"
+      [(ngModel)]="medicamento.indicacion"
+    ></textarea>
   </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="cancelar()">Cancelar</button>
-  <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+  <button mat-button (click)="cancelar()">
+    Cancelar
+  </button>
+  <button mat-raised-button color="primary" (click)="guardar()">
+    Guardar
+  </button>
 </mat-dialog-actions>

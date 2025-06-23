@@ -1,1 +1,30 @@
-<p>farmacia-detalle works!</p>
+<!-- farmacia-detalle.component.html -->
+<h2 mat-dialog-title class="dialog-header">
+  {{ item.name }}
+  <button mat-icon-button (click)="close()" class="close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</h2>
+
+<mat-dialog-content class="detalle-content">
+  <div class="detalle-grid">
+    <div class="detalle-imagen">
+      <img
+        [src]="getImageUrl(item.imageFile)"
+        [alt]="item.name"
+      />
+    </div>
+    <div class="detalle-info">
+      <p><strong>Precio:</strong> <span class="highlight">{{ item.price }}</span></p>
+      <p><strong>Farmacia:</strong> {{ item.farmacia }}</p>
+      <section class="indicaciones">
+        <h3>Indicaciones</h3>
+        <p class="indicacion-text">{{ item.indicacion }}</p>
+      </section>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" (click)="close()">Cerrar</button>
+</mat-dialog-actions>

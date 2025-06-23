@@ -1,41 +1,101 @@
+<!-- src/app/components/duenio/duenio.component.html -->
+
 <div *ngIf="showForm" class="mascota-detail">
-  <!-- Imagen de perfil -->
   <div class="profile-details">
-            
-      <div class="profile-photo">
-        <img src="path/to/logo.png" alt="Logo de Perfil" />
-      </div>
-      <div class="profile-info">
+    <!-- Logo -->
+    <div class="profile-photo">
+      <img src="path/to/logo.png" alt="Logo de Perfil" />
+    </div>
 
+    <!-- Formulario -->
+    <div class="profile-info">
       <h3>Añadir nueva mascota</h3>
-      <form (ngSubmit)="submitForm()">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" [(ngModel)]="newMascota.nombre" name="nombre" required />
 
-        <label for="edad">Edad:</label>
-        <input type="number" id="edad" [(ngModel)]="newMascota.edad" name="edad" required />
+      <form (ngSubmit)="submitForm()" #mascotaForm="ngForm">
+        <!-- Nombre -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            type="text"
+            id="nombre"
+            name="nombre"
+            [(ngModel)]="newMascota.nombre"
+            required
+          />
+        </mat-form-field>
 
-       <label for="especie">Especie:</label>
-        <mat-form-field appearance="outline">
+        <!-- Edad -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Edad</mat-label>
+          <input
+            matInput
+            type="number"
+            id="edad"
+            name="edad"
+            [(ngModel)]="newMascota.edad"
+            required
+          />
+        </mat-form-field>
+
+        <!-- Especie -->
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Especie</mat-label>
-          <mat-select [(ngModel)]="newMascota.especie" name="especie" required>
-            <mat-option *ngFor="let especie of especiesComunes" [value]="especie">
+          <mat-select
+            name="especie"
+            [(ngModel)]="newMascota.especie"
+            required
+          >
+            <mat-option
+              *ngFor="let especie of especiesComunes"
+              [value]="especie"
+            >
               {{ especie }}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
+        <!-- Fecha de Registro -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Fecha de Registro</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [(ngModel)]="newMascota.fecharegistro"
+            name="fecharegistro"
+            required
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
 
+        <!-- Campos ocultos -->
+        <input
+          type="hidden"
+          name="duenioId"
+          [(ngModel)]="newMascota.duenioId"
+        />
+        <input
+          type="hidden"
+          name="idEstado"
+          [(ngModel)]="newMascota.idEstado"
+        />
 
-        <label for="fecharegistro">Fecha de Registro:</label>
-        <input type="date" id="fecharegistro" [(ngModel)]="newMascota.fecharegistro" name="fecharegistro" required />
-
-        <!-- Asignamos dueñoId y idEstado automáticamente (esto puede ser ajustado según el flujo de la app) -->
-        <input type="hidden" [(ngModel)]="newMascota.duenioId" [value]="newMascota.duenioId" name="dueñoId" />
-        <input type="hidden" [(ngModel)]="newMascota.idEstado" [value]="newMascota.idEstado" name="idEstado" />
-
-        <button class="save-button" mat-button type="submit">Registrar Mascota</button>
+        <!-- Botón de enviar -->
+        <div class="botons-style">
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="mascotaForm.invalid"
+          >
+            Registrar Mascota
+          </button>
+        </div>
       </form>
-      </div>
-   </div>
+    </div>
+  </div>
 </div>

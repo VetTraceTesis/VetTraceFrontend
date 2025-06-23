@@ -202,3 +202,48 @@
     margin-top: 16px;
   }
 }
+
+.profile-select {
+  width: 83%;
+
+  /* campo raíz */
+  ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+    background: #f8fafd;
+    border: 1.5px solid #b2cbdf;
+    border-radius: 12px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  }
+
+  /* al enfocarse */
+  ::ng-deep .mat-form-field-appearance-fill.mat-focused .mat-form-field-flex {
+    border-color: #416785;
+  }
+
+  /* trigger (texto desplegable) */
+  ::ng-deep .mat-select-trigger {
+    font-size: 16px;
+    color: #2d3a4b;
+    height: 40px;            /* similar al input */
+    display: flex;
+    align-items: center;
+  }
+
+  /* icono flecha */
+  ::ng-deep .mat-select-arrow {
+    color: #416785;
+  }
+
+  /* panel de opciones */
+  ::ng-deep .mat-select-panel {
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  /* cada opción */
+  ::ng-deep .mat-option {
+    font-size: 16px;
+    color: #2d3a4b;
+  }
+}

@@ -1,6 +1,7 @@
 export interface Medicamento {
   id: number;
-  cantidad: number;
+  medicamento:string;
+  cantidad: string;
   indicacion: string;
   id_receta: number;
 }

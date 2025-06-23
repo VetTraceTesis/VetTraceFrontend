@@ -24,9 +24,14 @@ export class ReportePdfService {
   // Método para generar el reporte PDF y devolverlo como archivo
   generarReportePDF(idAtencion: number): Observable<Blob> {
     const url = `${this.apiUrl}/atencion/${idAtencion}`;
+    console.log(url)
     return this.http.get(url, { headers: this.getHeaders(), responseType: 'blob' });
   }
-
+ // Método para generar el reporte PDF y devolverlo como archivo
+  generarReportePDFCorrelativo(correlativo: string): Observable<Blob> {
+    const url = `${this.apiUrl}/atencion/correlativo/${correlativo}`;
+    return this.http.get(url, { headers: this.getHeaders(), responseType: 'blob' });
+  }
 // Método para enviar el reporte por correo
 enviarReportePorCorreo(id: number): Observable<string> {
   const url = `${this.apiUrl}/enviarcorreo/${id}`;

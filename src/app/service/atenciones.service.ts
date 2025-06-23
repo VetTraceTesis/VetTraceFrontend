@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Atencion } from '../model/atenciones.model';  // Asegúrate de que el modelo esté bien importado
 import { AtencionDetalle } from '../model/Atencion-detalle.model';  // Asegúrate de que el modelo esté bien importado
@@ -93,24 +93,38 @@ export class AtencionesService {
   }
 
   // Método para actualizar tipoDiagnostico y fechaFin
-actualizarTipoDiagnosticoYFechaFin(id: number, tipoDiagnosticoId: number, fechaFin: string): Observable<any> {
+actualizarTipoDiagnosticoYFechaFin(
+  id: number,
+  tipoDiagnosticoId: number,
+  fechaFin: string | null
+): Observable<string> {                // ahora devolvemos Observable<string>
   const token = this.authService.obtenerToken();
   if (!token) {
     console.error('No se encontró token JWT');
-    return new Observable<any>();
+      return new Observable<any>();
+                     // retornamos un Observable<string> vacío
   }
 
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${token}`
   });
 
-  const params = {
-    tipoDiagnosticoId: tipoDiagnosticoId.toString(),
-    fechaFin: fechaFin
-  };
+  let params = new HttpParams()
+    .set('tipoDiagnosticoId', tipoDiagnosticoId.toString());
 
-  const url = `${this.apiUrl}/${id}/actualizar`;  // Reutiliza la base definida en this.apiUrl
-  return this.http.put(url, null, { headers, params });
+  if (fechaFin !== null) {
+    params = params.set('fechaFin', fechaFin);
+  }
+
+  const url = `${this.apiUrl}/${id}/actualizar`;
+  return this.http.put(
+    url,
+    null,
+    {
+      headers,
+      params,
+      responseType: 'text'            // <— le decimos que espere texto
+    }
+  );
 }
-
 }

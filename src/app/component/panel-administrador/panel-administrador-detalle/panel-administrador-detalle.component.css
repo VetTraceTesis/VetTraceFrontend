@@ -1,0 +1,107 @@
+/* --- Contenedor y Título --- */
+
+.mat-dialog-container {
+  padding: 0;
+  overflow: visible;
+}
+
+.dialog-title {
+  margin: 0;
+  padding: 20px 24px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #416785;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* --- Contenido del Formulario --- */
+
+.dialog-content {
+  padding: 16px 24px;
+  background: #fff;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px 24px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* mat-form-field estilizado */
+.mat-form-field {
+  --background: #f8fafd;
+}
+
+.mat-form-field.mat-focused .mat-form-field-flex {
+  background: #fff;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background: var(--background);
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+
+.mat-form-field-label {
+  color: #416785;
+  font-weight: 600;
+}
+
+.mat-input-element, .mat-select-trigger {
+  padding: 8px 4px;
+  font-size: 0.95rem;
+  color: #2d3a4b;
+}
+
+/* Checkbox centrado */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
+}
+
+/* --- Acciones --- */
+
+.dialog-actions {
+  padding: 16px 24px 24px;
+  background: #fff;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.dialog-actions button.mat-button {
+  color: #416785;
+}
+
+.dialog-actions button.mat-button:hover {
+  background: #f0f0f0;
+}
+
+.dialog-actions button.mat-raised-button {
+  background: linear-gradient(90deg, #416785 60%, #6C8CA3 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(77, 182, 172, 0.08);
+}
+
+.dialog-actions button.mat-raised-button:hover {
+  background: linear-gradient(90deg, #224346 60%, #416785 100%);
+  box-shadow: 0 4px 16px rgba(77, 182, 172, 0.13);
+}
+
+/* --- Responsive --- */
+
+@media (max-width: 480px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .dialog-title {
+    font-size: 1.3rem;
+  }
+}

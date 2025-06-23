@@ -1,103 +1,139 @@
+<!-- src/app/components/duenio/duenio.component.html -->
+
 <div class="profile-container" *ngIf="duenio">
   <mat-tab-group>
-    <!-- Tab for the "Dueño" information -->
+
+    <!-- TAB DUEÑO -->
     <mat-tab label="Dueño">
       <div class="profile-details">
-        <div class="profile-photo">
-          <img src="assets/default-photo.png" alt="Foto del Dueño" class="profile-img" />
-        </div>
-
         <div class="profile-info">
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" [(ngModel)]="duenio.nombre" placeholder="Nombre del Dueño" [disabled]="disableFields" />
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre</mat-label>
+            <input matInput [(ngModel)]="duenio.nombre" [disabled]="disableFields" placeholder="Nombre del Dueño" />
+          </mat-form-field>
 
-          <label for="apellido">Apellido:</label>
-          <input type="text" id="apellido" [(ngModel)]="duenio.apellido" placeholder="Apellido del Dueño" [disabled]="disableFields" />
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Apellido</mat-label>
+            <input matInput [(ngModel)]="duenio.apellido" [disabled]="disableFields" placeholder="Apellido del Dueño" />
+          </mat-form-field>
 
-          <label for="telefono">Contacto:</label>
-          <input type="text" id="telefono" [(ngModel)]="duenio.telefono" placeholder="Número de contacto" [disabled]="disableFields" />
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Contacto</mat-label>
+            <input matInput type="tel" [(ngModel)]="duenio.telefono" [disabled]="disableFields" placeholder="Número de contacto" />
+          </mat-form-field>
 
-          <label for="email">Email:</label>
-          <input type="email" id="email" [(ngModel)]="duenio.email" placeholder="Email del Dueño" [disabled]="disableFields" />
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" [(ngModel)]="duenio.email" [disabled]="disableFields" placeholder="Email del Dueño" />
+          </mat-form-field>
 
-          <label for="direccion">Dirección:</label>
-          <input type="text" id="direccion" [(ngModel)]="duenio.direccion" placeholder="Dirección del Dueño" [disabled]="disableFields" />
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Género</mat-label>
+            <mat-select [(ngModel)]="duenio.genero" [disabled]="disableFields">
+              <mat-option *ngFor="let g of genero" [value]="g">{{ g }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-          <label for="fecha-creacion">Fecha de Creación:</label>
-          <input type="date" id="fecha-creacion" [(ngModel)]="duenio.fechaCreacion" [disabled]="disableFields" />
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Distrito</mat-label>
+            <input
+              matInput
+              [(ngModel)]="duenio.distrito"
+              [matAutocomplete]="auto"
+              (ngModelChange)="filterDistricts($event)"
+              [disabled]="disableFields"
+              placeholder="Escribe o selecciona un distrito"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let d of filteredDistricts" [value]="d">{{ d }}</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Dirección</mat-label>
+            <input matInput [(ngModel)]="duenio.direccion" [disabled]="disableFields" placeholder="Dirección del Dueño" />
+          </mat-form-field>
 
           <div class="botons-style">
-           <button class="save-button" (click)="saveDuenio()" >Guardar</button>
-            <button 
-                      class="toggle-button"
-                      [ngClass]="{ 'inactive': duenio.idestado === 0, 'active': duenio.idestado === 1 }"
-                      (click)="duenio.idestado = duenio.idestado === 1 ? 0 : 1">
-                      {{ duenio.idestado === 1 ? 'Desactivar' : 'Activar' }}
-                    </button>
-
-            </div>
+            <button mat-flat-button color="primary" (click)="saveDuenio()">Guardar</button>
+            <button
+              mat-flat-button
+              [color]="duenio.idestado === 1 ? 'warn' : 'accent'"
+              (click)="duenio.idestado = duenio.idestado === 1 ? 0 : 1"
+            >
+              {{ duenio.idestado === 1 ? 'Desactivar' : 'Activar' }}
+            </button>
+          </div>
         </div>
       </div>
-
-  
     </mat-tab>
 
-    <!-- Tab for the "Mascotas" information -->
+    <!-- TAB MASCOTAS -->
+    <!-- TAB MASCOTAS -->
     <mat-tab label="Mascotas">
       <div class="mascotas-section">
-        <!-- Mostrar las mascotas en tarjetas si no estamos en detalle -->
-        <div *ngIf="!selectedMascota"  class="mascotas-cards">
+
+        <!-- Listado de mascotas -->
+        <div *ngIf="!selectedMascota" class="mascotas-cards">
           <h3>Mascotas asociadas al dueño:</h3>
-          <button class="add-mascota-button" mat-button (click)="openMascotaModal()">Añadir Mascota</button>
+          <button mat-flat-button color="primary" (click)="openMascotaModal()">Añadir Mascota</button>
           <div class="card-container">
-            <div class="card"    [ngClass]="{ 'inactive-card': mascota.idEstado === 0 }" *ngFor="let mascota of mascotas">
-              <div class="card-info">
+            <mat-card class="mascota-card" *ngFor="let mascota of mascotas" [ngClass]="{ 'inactive-card': mascota.idEstado === 0 }">
+              <mat-card-content>
                 <h4>{{ mascota.nombre }}</h4>
                 <p>{{ mascota.especie }} - {{ mascota.edad }} años</p>
-                <button (click)="viewMascotaDetail(mascota)">Ver Detalle</button>
-              </div>
+                <button mat-button color="accent" (click)="viewMascotaDetail(mascota)">Ver Detalle</button>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+
+        <!-- Detalle de la mascota seleccionada -->
+        <div *ngIf="selectedMascota" class="mascota-detail">
+          <!-- Columna de imagen -->
+          <div class="profile-photo">
+            <img src="assets/default-photo.png" alt="Foto de {{ selectedMascota.nombre }}" />
+          </div>
+
+          <!-- Columna de formulario -->
+          <div class="profile-info">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nombre Mascota</mat-label>
+              <input matInput [(ngModel)]="selectedMascota.nombre" [disabled]="disableFields" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Especie</mat-label>
+              <input matInput [(ngModel)]="selectedMascota.especie" [disabled]="disableFields" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Edad</mat-label>
+              <input matInput type="number" [(ngModel)]="selectedMascota.edad" [disabled]="disableFields" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Fecha de Nacimiento</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              [(ngModel)]="selectedMascota.fecharegistro"
+              [disabled]="disableFields"
+              placeholder="Selecciona fecha"
+            />
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+
+            <div class="botons-style">
+              <button mat-flat-button color="primary" (click)="saveMascota()">Guardar</button>
+              <button mat-flat-button [color]="selectedMascota.idEstado === 1 ? 'warn' : 'accent'" (click)="selectedMascota.idEstado = selectedMascota.idEstado === 1 ? 0 : 1">
+                {{ selectedMascota.idEstado === 1 ? 'Desactivar' : 'Activar' }}
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- Mostrar el detalle de la mascota seleccionada -->
-        <div *ngIf="selectedMascota" class="mascota-detail">
-          <h3>Detalle de la mascota:</h3>
-          <div class="profile-details">
-              <div class="profile-photo">
-                <img src="assets/default-photo.png" alt="Foto de {{ selectedMascota.nombre }}" class="card-img" />
-              </div>
-              <div class="profile-info">
-                <label for="mascota-nombre">Nombre:</label>
-                <input type="text" id="mascota-nombre" [(ngModel)]="selectedMascota.nombre" [disabled]="disableFields" />
-
-                <label for="mascota-especie">Especie:</label>
-                <input type="text" id="mascota-especie" [(ngModel)]="selectedMascota.especie" [disabled]="disableFields" />
-
-                <label for="mascota-edad">Edad:</label>
-                <input type="number" id="mascota-edad" [(ngModel)]="selectedMascota.edad" [disabled]="disableFields" />
-
-                <label for="mascota-fecha-registro">Fecha de Registro:</label>
-                <input type="date" id="mascota-fecha-registro" [(ngModel)]="selectedMascota.fecharegistro" [disabled]="disableFields" />
-                <div class="botons-style">
-                    <button class="save-button" (click)="saveMascota()" >Guardar</button>
-                    <button 
-                      class="toggle-button"
-                      [ngClass]="{ 'inactive': selectedMascota.idEstado }"
-                      (click)="selectedMascota.idEstado = selectedMascota.idEstado === 1 ? 0 : 1">
-                      {{ selectedMascota.idEstado === 1 ? 'Desactivar' : 'Activar' }}
-                    </button>
-
-              </div>
-          </div>
-          </div>
-         
-         
-
-          
-
-          <!-- Botón para regresar a las tarjetas -->
-        </div>
       </div>
     </mat-tab>
   </mat-tab-group>

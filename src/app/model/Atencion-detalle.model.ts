@@ -8,7 +8,7 @@ nombreTipoDiagnostico:string;
   duenioId: number;
   duenioNombre: string;
   duenioApellido: string;
-
+  correlativo:string;
   mascotaNombre: string;
   mascotaEspecie: string;
 

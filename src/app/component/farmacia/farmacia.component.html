@@ -1,1 +1,78 @@
-<p>farmacia works!</p>
+<!-- src/app/components/farmacia/farmacia.component.html -->
+
+<app-header></app-header>
+
+<div class="farmacia-container">
+  <div class="header-controls">
+    
+    <h2>Productos Veterinarios</h2>
+    <div class="buttons-row">
+      <button class="back-button" (click)="goBack()">Atrás</button>
+    </div>
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar producto</mat-label>
+      <input
+        matInput
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="applyFilter()"
+        placeholder="Nombre del Producto"
+      />
+      <button
+        mat-button
+        *ngIf="searchTerm"
+        matSuffix
+        mat-icon-button
+        aria-label="Limpiar"
+        (click)="searchTerm=''; applyFilter()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div class="paginator-container">
+    <mat-paginator
+      [length]="filteredMedicamentos.length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[pageSize]"
+      (page)="onPageChange($event)"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+  </div>
+  <div *ngIf="isLoading" class="loading">Cargando productos...</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <div *ngIf="!isLoading && !errorMessage" class="market-grid">
+    <mat-card
+      *ngFor="let med of paginatedMedicamentos"
+      class="market-card"
+      (click)="openDetail(med.id)"
+    >
+      <img
+        mat-card-image
+        [src]="getImageUrl(med.imageFile)"
+        [alt]="med.name"
+        loading="lazy"
+      />
+      <mat-card-content>
+        <h3 class="card-title">{{ med.name }}</h3>
+        <!-- Usamos parsePrice para convertir -->
+        <p class="card-price">
+          {{ parsePrice(med.price) | currency:'S/. ' }}
+        </p>
+        <p class="card-farmacia">{{ med.farmacia }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="paginator-container">
+    <mat-paginator
+      [length]="filteredMedicamentos.length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[pageSize]"
+      (page)="onPageChange($event)"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+  </div>
+</div>

@@ -7,6 +7,9 @@
   <div class="info" *ngIf="detalles.length > 0">
     <span>Dueño: {{ detalles[0].duenioNombre }} {{ detalles[0].duenioApellido }}</span>
     <span>Paciente: {{ detalles[0].mascotaNombre }} ({{ detalles[0].mascotaEspecie }})</span>
+    <span>Correlativo: {{ detalles[0].correlativo }}</span>
+    <span>Email Paciente: {{ detalles[0].emailPaciente }} </span>
+
   </div>
 <mat-form-field appearance="outline" class="full-width">
   <mat-label>Estado de Atención</mat-label>
@@ -57,12 +60,12 @@
 <table *ngIf="MostrarMedicamentos?.length" class="medicamentos-table">
   <thead>
     <tr>
-      <th>#</th><th>Cantidad</th><th>Indicación</th>
+      <th>Medicamento</th><th>Cantidad</th><th>Indicación</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let med of MostrarMedicamentos; let i = index">
-      <td>{{ i + 1 }}</td>
+    <tr *ngFor="let med of MostrarMedicamentos; ">
+      <td>{{ med.medicamento }}</td>      <!-- ya no hay ?? -->
       <td>{{ med.cantidad }}</td>      <!-- ya no hay ?? -->
       <td>{{ med.indicacion }}</td>
     </tr>
@@ -93,10 +96,14 @@
           <mat-icon>save</mat-icon>
           Guardar Receta
         </button>
-          <button mat-raised-button color="primary" (click)="abrirModal()">
-      <mat-icon>open_in_new</mat-icon>
-      Registrar Medicamento
-    </button>
+        <button mat-raised-button color="primary" (click)="abrirModal()">
+        <mat-icon>open_in_new</mat-icon>
+          Registrar Medicamento
+        </button>
+        <button mat-raised-button color="primary" (click)="buscarMapa(detalles[0].correlativo)">
+        <mat-icon>open_in_new</mat-icon>
+          Buscar en el Mapa
+        </button>
       </div>
     </mat-tab>
   </mat-tab-group>

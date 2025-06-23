@@ -1,0 +1,70 @@
+<h2 mat-dialog-title class="dialog-title">
+  {{ data ? 'Editar Usuario' : 'Nuevo Usuario' }}
+</h2>
+
+<mat-dialog-content class="dialog-content">
+  <form #userForm="ngForm" class="form-grid">
+
+    <!-- Nombre / Apellido -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput name="nombre" [(ngModel)]="usuarioEditable.nombre" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Apellido</mat-label>
+      <input matInput name="apellido" [(ngModel)]="usuarioEditable.apellido" required>
+    </mat-form-field>
+
+    <!-- Correo / Teléfono -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Correo</mat-label>
+      <input matInput type="email" name="correo" [(ngModel)]="usuarioEditable.correo" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Teléfono</mat-label>
+      <input matInput name="telefono" [(ngModel)]="usuarioEditable.telefono">
+    </mat-form-field>
+
+    <!-- Veterinaria ID / Role -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Veterinaria ID</mat-label>
+      <input matInput type="number" name="veterinariaId" [(ngModel)]="usuarioEditable.veterinariaId" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Role</mat-label>
+      <mat-select name="roleId" [(ngModel)]="usuarioEditable.roleId" required>
+        <mat-option [value]="1">Admin</mat-option>
+        <mat-option [value]="2">Users</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Usuario / Password -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Username</mat-label>
+      <input matInput name="username" [(ngModel)]="usuarioEditable.username" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width" *ngIf="!data">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" name="password" [(ngModel)]="usuarioEditable.password" required>
+    </mat-form-field>
+
+    <!-- Activo -->
+    <div class="full-width checkbox-container">
+      <mat-checkbox name="enabled" [(ngModel)]="usuarioEditable.enabled">
+        Activo
+      </mat-checkbox>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button (click)="close()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="!userForm.form.valid">
+    {{ data ? 'Guardar cambios' : 'Crear usuario' }}
+  </button>
+</mat-dialog-actions>

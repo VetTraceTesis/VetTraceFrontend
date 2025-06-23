@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Medicamento } from '../model/medicamento.model';  // Asegúrate de crear este modelo TS
 import { AuthService } from './auth.service';
+import { RecetaMedicamento } from '../model/RecetaMedicamentoDetalle.model';  // Asegúrate de crear este modelo TS
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +41,9 @@ export class MedicamentoService {
 
   eliminar(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+  }
+    // Método para obtener los detalles de receta por correlativo
+  getRecetaDetailsByCorrelativo(correlativo: string): Observable<RecetaMedicamento[]> {
+    return this.http.get<RecetaMedicamento[]>(`${this.apiUrl}/receta-detalle/${correlativo}`, { headers: this.getHeaders() });
   }
 }

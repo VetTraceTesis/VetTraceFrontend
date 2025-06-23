@@ -14,6 +14,8 @@ import { authGuard } from './AuthGuard/auth.guard';
 import { CitasComponent } from './component/citas/citas.component';
 import { CitasModalComponent } from './component/citas/citas-modal/citas-modal.component';
 import { PerfilComponent } from './component/perfil/perfil.component';
+import { FarmaciaComponent } from './component/farmacia/farmacia.component';
+import { PanelAdministradorComponent } from './component/panel-administrador/panel-administrador.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -31,12 +33,16 @@ export const routes: Routes = [
   { path: 'atenciones/diagnostico/:atencionId/:tipodiagnosticoId', component: AtencionesDiagnosticoComponent, canActivate: [authGuard]   },
 
   { path: 'mapa', component: MapaComponent, canActivate: [authGuard]   },  
+    { path: 'mapa/:correlativo', component: MapaComponent, canActivate: [authGuard]   },  
+
+  { path: 'farmacia', component: FarmaciaComponent, canActivate: [authGuard]   },  
 
   { path: 'citas', component: CitasComponent, canActivate: [authGuard]   },  
   { path: 'citasmodal', component: CitasModalComponent, canActivate: [authGuard]   },  
 
   { path: 'modulos', component: ModulosComponent, canActivate: [authGuard]   },
 
-  { path: 'perfil', component: PerfilComponent, canActivate: [authGuard]   }
+  { path: 'perfil', component: PerfilComponent, canActivate: [authGuard]   },
+  { path: 'panelAdministrador', component: PanelAdministradorComponent, canActivate: [authGuard]   }
 
 ];

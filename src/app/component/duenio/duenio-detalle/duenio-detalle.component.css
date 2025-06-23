@@ -1,318 +1,171 @@
+/* src/app/components/duenio/duenio.component.css */
+
+
 /* Contenedor principal */
 .profile-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 1200px;
-  padding: 16px;
-  background-color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 8px 36px rgba(77, 182, 172, 0.2);
-  box-sizing: border-box;
-  max-height: 80vh;
-  overflow: hidden;
+  max-width: 1400px;
+  padding: 10px;
 }
 
-/* Sección de los detalles del perfil (Dueño y Mascota) */
-.profile-details {
-  display: flex;
-  gap: 32px;
-  width: 100%;
-  overflow-y: auto;
-  max-height: calc(80vh - 100px);
-}
-
-/* Foto de perfil del dueño */
-.profile-photo {
-  flex: 0 0 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: #f8fafd;
-  border: 3px solid #b2cbdf;
+/* Layout: una sola columna centrada */
+.profile-details,
+.mascota-detail {
   display: flex;
   justify-content: center;
-  align-items: center;
-  box-shadow: 0 4px 10px rgba(77, 182, 172, 0.2);
 }
 
-.profile-photo img {
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-/* Estilos para la columna de los campos del formulario (Dueño y Mascota) */
+/* Formulario centrado y menos alto */
+/* Formulario centrado y de ancho moderado */
 .profile-info {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+  width: 90%;         /* ocupa un 90% del contenedor */
+  max-width: 800px;   /* nunca más ancho de 800px */
+  padding-top: 10px;
+  flex-direction: column;  /* si queda necesitando flex, mantenlo */
+  gap: 12px;          /* espacio entre campos */
+}
+
+
+/* Forzar ancho de los campos */
+.full-width {
   width: 100%;
-  justify-content: flex-start;
 }
 
-.profile-info label {
-  font-size: 16px;
-  color: #416785;
-  font-weight: 600;
-  margin-bottom: 6px;
+/* Reducir altura de inputs */
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  padding-top: 0.20em;
+  padding-bottom: 0.20em;
+}
+.mat-form-field-label {
+  font-size: 0.9rem;
+}
+.mat-input-element {
+  padding: 5px 7px;
+  font-size: 0.8rem;
 }
 
-.profile-info input {
-  width: 80%;
-  padding: 9px 12px;
-  border: 1.5px solid #b2cbdf;
-  border-radius: 12px;
-  background: #f8fafd;
-  font-size: 16px;
-  color: #2d3a4b;
-  transition: border 0.3s;
-}
-
-.profile-info input:focus {
-  border-color: #416785;
-  outline: none;
-}
-
-/* Estilos generales para los botones */
+/* Botones */
 .botons-style {
-  align-items: center;
-  justify-content: center;
   display: flex;
-  gap: 20px; /* Añadí un espacio entre los botones */
+  justify-content: flex-end;
+  gap: 12px;
 }
 
-.save-button,
-.add-mascota-button {
-  background: linear-gradient(90deg, #416785 60%, #6C8CA3 100%);
-  color: #fff;
-  padding: 14px 28px;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.3s, box-shadow 0.3s;
-  width: 20%;
-  align-items: center;
+/* Tarjetas de mascotas en dos columnas */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
 }
 
-.save-button:hover,
-.add-mascota-button:hover {
-  background: linear-gradient(90deg, #224346 60%, #416785 100%);
+/* Responsivo */
+@media (max-width: 800px) {
+  .profile-info {
+    width: 100%;
+  }
+  .card-container {
+    grid-template-columns: 1fr;
+  }
 }
+/* src/app/components/duenio/duenio.component.css */
 
-.toggle-button {
-  padding: 12px 26px;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  color: #fff;
-  cursor: pointer;
-  transition: background .3s;
-}
-.toggle-button.active   { background: #4caf50; }  /* verde */
-.toggle-button.inactive { background: #f44336; }  /* rojo  */
-
-.toggle-button:hover {
-  opacity: 0.85;
-}
-
-/* Sección de mascotas */
+/* Estilos aplicados únicamente dentro del tab “Mascotas” */
 .mascotas-section {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-}
-
-.mascotas-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.card {
-  width: calc(33% - 16px);
-  background: #f8fafd;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(77, 182, 172, 0.1);
-  transition: box-shadow 0.3s;
-}
-
-.card:hover {
-  box-shadow: 0 4px 20px rgba(77, 182, 172, 0.2);
-}
-
-.card-img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.card-info {
-  margin-top: 12px;
-}
-
-.card-info h4 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #416785;
-}
-
-.card-info p {
-  font-size: 14px;
-  color: #6c7b8c;
-}
-
-.card-info button {
-  background-color: #416785;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.card-info button:hover {
-  background-color: #224346;
-}
-
-/* Estilos para el detalle de la mascota */
-.mascota-detail {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.mascota-detail label {
-  font-size: 16px;
-  color: #416785;
-  font-weight: 600;
-}
-
-.mascota-detail input {
-  padding: 12px 16px;
-  border: 1.5px solid #b2cbdf;
-  border-radius: 12px;
-  font-size: 16px;
-  background: #f8fafd;
-  transition: border 0.3s;
-}
-
-.mascota-detail input:focus {
-  border-color: #416785;
-}
-
-/* Estilos para el botón de guardar en detalle */
-.save-button {
-  background: linear-gradient(90deg, #416785 60%, #6C8CA3 100%);
-  color: #fff;
-  padding: 14px 28px;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.3s, box-shadow 0.3s;
-  width: 20%;
   align-items: center;
+  gap: 16px;
+  padding: 16px 0;
 }
 
-/* Ajustes responsivos para pantallas pequeñas */
-@media (max-width: 900px) {
-  .profile-container {
-    width: 90vw;
-    padding: 16px;
-  }
+/* Título y botón “Añadir Mascota” centrados */
+.mascotas-section > h3,
+.mascotas-section > button {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
 
-  .profile-details {
-    flex-direction: column;
-    gap: 16px;
-  }
+/* Contenedor de tarjetas en dos columnas, centrado */
+.mascotas-section .card-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  justify-items: center;
+}
 
-  .profile-photo {
-    width: 160px;
-    height: 160px;
-  }
+/* Ajuste de cada tarjeta dentro del tab */
+.mascotas-section .mascota-card {
+  width: 100%;
+  max-width: 360px;
+}
 
-  .profile-photo img {
-    width: 140px;
-    height: 140px;
-  }
+/* Botones “Ver Detalle” centrados dentro de cada tarjeta */
+.mascotas-section .mascota-card button {
+  display: block;
+  margin: 12px auto 0;
+}
 
-  .profile-info label {
-    font-size: 14px;
-  }
+/* Detalle de mascota: formulario centrado y compacto */
+.mascotas-section .mascota-detail {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 16px;
+}
 
-  .profile-info input {
-    font-size: 14px;
-    padding: 12px 16px;
-  }
+.mascotas-section .mascota-detail .profile-info {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-  .footer {
-    flex-direction: column;
-    gap: 12px;
-    align-items: stretch;
-  }
+/* Mat-form-field ancho completo dentro de “Mascotas” */
+.mascotas-section .full-width {
+  width: 100%;
+}
 
-  .save-button,
-  .toggle-button {
+/* Inputs más compactos dentro de “Mascotas” */
+.mascotas-section .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+.mascotas-section .mat-form-field-label {
+  font-size: 0.9rem;
+}
+.mascotas-section .mat-input-element {
+  padding: 5px 7px;
+  font-size: 0.8rem;
+}
+
+/* Botones de acción dentro de “Mascotas” */
+.mascotas-section .botons-style {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Responsive: pasa a una columna en pantallas pequeñas */
+@media (max-width: 800px) {
+  .mascotas-section .card-container {
+    grid-template-columns: 1fr;
+  }
+  .mascotas-section .mascota-card {
+    max-width: none;
+  }
+  .mascotas-section .mascota-detail .profile-info {
     width: 100%;
   }
-
-  .card {
-    width: calc(50% - 16px);
-  }
 }
-
-@media (max-width: 600px) {
-  .profile-container {
-    width: 100vw;
-    padding: 12px 6vw;
-    margin: 0;
-  }
-
-  .profile-details {
-    gap: 12px;
-  }
-
-  .profile-photo {
-    width: 120px;
-    height: 120px;
-  }
-
-  .profile-photo img {
-    width: 100px;
-    height: 100px;
-  }
-
-  .profile-info label {
-    font-size: 13px;
-  }
-
-  .profile-info input {
-    font-size: 13px;
-    padding: 8px;
-  }
-
-  .footer {
-    margin-top: 16px;
-  }
-
-  .card {
-    width: 100%;
-  }
-}
-.inactive-card {
-  background-color: #f0f0f0;  /* gris claro */
-  opacity: 0.6;
-  cursor: not-allowed;
+.mat-mdc-button-touch-target{
+  padding-bottom: 25px;
 }

@@ -7,4 +7,7 @@ export interface DetalleAtencion {
   apellidoDoctor:string;
   nombreVeterinaria:string;
   duenioTelefono:string;
+  correlativo:string;
+  emailPaciente:string;
+  tipoDiagnosticoId:number;
 }

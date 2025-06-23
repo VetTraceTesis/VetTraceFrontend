@@ -33,7 +33,8 @@ export class AtencionesInsertComponent implements OnInit {
     idusuario: 0,
     duenioId: 0,
     id_estado: 1,
-    tipoDiagnosticoid:1
+    tipoDiagnosticoid:1,
+    correlativo:''
   };
 
   nuevaMultiple: AtencionXMascotaXDuenio = {
@@ -83,8 +84,9 @@ export class AtencionesInsertComponent implements OnInit {
     this.nuevaAtencion.idusuario = usuarioActual.id;
     this.nuevaAtencion.idveterinaria = usuarioActual.veterinariaId;
     this.nuevaAtencion.duenioId = this.duenioIdGlobal;
-
+    
     this.nuevaMultiple.id_duenio = this.duenioIdGlobal;
+
 
     // Obtener mascotas del dueño
     this.mascotaService.getMascotasByDuenio(this.duenioIdGlobal).subscribe({

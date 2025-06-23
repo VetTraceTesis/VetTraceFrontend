@@ -20,8 +20,18 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" [(ngModel)]="doctor.email" placeholder="Email del Doctor" [readonly]="disableFields" required #email="ngModel" />
 
-        <label for="fecha-registro">Fecha de Registro:</label>
-        <input type="date" id="fecha-registro" name="fechaRegistro" [(ngModel)]="doctor.fecharegistro" [readonly]="disableFields" required #fechaRegistro="ngModel" />
+        <mat-form-field class="profile-select" appearance="fill">
+        <mat-label>Género</mat-label>
+        <mat-select [(ngModel)]="doctor.genero" name="sexo">
+          <mat-option
+            *ngFor="let g of genero"
+            [value]="g"
+          >
+            {{ g }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
 
         <label for="cmvp">CMVP:</label>
         <input type="text" id="cmvp" name="cmvp" [(ngModel)]="doctor.cmvp" placeholder="Número CMVP" [readonly]="disableFields" required pattern="^[0-9]+$" #cmvp="ngModel" />

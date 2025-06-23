@@ -1,0 +1,46 @@
+<app-header></app-header>
+
+<div class="panel-container">
+  <h2>Usuarios registrados</h2>
+
+  <div class="buttons-row">
+    <button mat-raised-button color="primary" (click)="openNuevo()">Nuevo usuario</button>
+    <button mat-raised-button color="primary" (click)="openInicio()">Inicio</button>
+  </div>
+
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Buscar usuario</mat-label>
+    <input
+      matInput
+      placeholder="Nombre o apellido"
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="applyFilter()"
+    >
+  </mat-form-field>
+
+  <div *ngIf="loading" class="loading">Cargando usuarios...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <!-- GRID -->
+  <div #cardsGrid class="cards-grid" *ngIf="!loading && !error">
+    <div
+      class="card"
+      *ngFor="let usuario of paginatedUsuarios"
+      (click)="openDetalle(usuario)"
+    >
+      <h3>{{ usuario.nombre }} {{ usuario.apellido }}</h3>
+      <p><strong>Email:</strong> {{ usuario.correo }}</p>
+      <p><strong>Rol:</strong> {{ usuario.roleId === 2 ? 'Admin' : 'Users' }}</p>
+    </div>
+  </div>
+
+  <!-- PAGINATOR just below the grid -->
+  <mat-paginator
+    [length]="filteredUsuarios.length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[pageSize]"    
+    (page)="onPageChange($event)"
+    class="paginator"
+  >
+  </mat-paginator>
+</div>

@@ -71,7 +71,8 @@ export class AtencionesDiagnosticoComponent implements OnInit {
 
   medicamento:Medicamento= {
   id: 0,
-  cantidad: 0,
+  medicamento:'',
+  cantidad: '',
   indicacion: '',
   id_receta: 0,
   }
@@ -303,7 +304,7 @@ private procesarRecetaYMedicamentos(recetaDTO: Receta) {
           this.MostrarMedicamentos = [...this.MostrarMedicamentos];
           console.log(`Medicamento agregado a MostrarMedicamentos. Total ahora: ${this.MostrarMedicamentos.length}`);
         }
-
+        console.log("Medicamentos Procesado", medicamentosProcesados)
         // Incrementar los medicamentos procesados
         medicamentosProcesados++;
 
@@ -319,7 +320,7 @@ private procesarRecetaYMedicamentos(recetaDTO: Receta) {
   if (!errorEnMedicamento) {
     this.showSuccessAlert(
       '¡Medicamentos procesados!',
-      `Se han procesado correctamente ${medicamentosProcesados} medicamento(s).`
+      `Se han procesado correctamente ${this.listaMedicamentos.length} medicamento(s).`
     );
   } else {
     this.showErrorAlert('Hubo un problema al guardar algunos medicamentos. Por favor, inténtalo de nuevo.');
@@ -338,7 +339,7 @@ guardarFechaFiTipoDiagnostico(): void {
     return;
   }
 
-  let fechaFinFormateada: string ="";
+  let fechaFinFormateada: string ='';
 
   // Solo proceder si el estado es 2 (Finalizado)
   if (tipoDiagnosticoId === 2) {
@@ -364,7 +365,7 @@ generarReporte(): void {
   this.reportePdfService.generarReportePDF(Number(this.atencionId)).subscribe((blob: Blob) => {
     // Crear una URL para el blob y generar un enlace de descarga
     const url = window.URL.createObjectURL(blob);
-    
+    console.log(url)
     // Crear un enlace <a> para realizar la descarga
     const a = document.createElement('a');
     a.href = url;
@@ -488,10 +489,14 @@ atras() {
 
   abrirModal(): void {
     const dialogRef = this.dialog.open(MedicamentoModalComponent, {
-      width: '600px',
+      width: '80vw',  
+      maxWidth: '1200px',  
+      minWidth: '350px',       
       data: {
         // aquí puedes pasar cualquier dato al modal
-      }
+      },
+        autoFocus: false,      // 🔥 evita que enfoque el primer control
+
     });
     dialogRef.afterClosed().subscribe((result: Medicamento | null) => {
     if (result) {
@@ -509,6 +514,9 @@ atras() {
     
   }
 
+  buscarMapa(correlativo:string):void{
+      this.router.navigate([`/mapa/${this.detalles[0].correlativo}`]);
+  }
   
 // Mostrar alerta de éxito
 private showSuccessAlert(title: string, text: string): void {
