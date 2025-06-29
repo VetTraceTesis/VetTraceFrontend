@@ -1,5 +1,5 @@
 <div class="profile-container">
-  <form #doctorForm="ngForm">
+  <form #doctorForm="ngForm" (ngSubmit)="saveDoctor()">
     <div class="profile-details">
       <!-- Columna para la Foto -->
       <div class="profile-photo">
@@ -8,45 +8,125 @@
 
       <!-- Columna para la Información del Doctor -->
       <div class="profile-info">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" [(ngModel)]="doctor.nombre" placeholder="Nombre del Doctor" [readonly]="disableFields" required pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" #nombre="ngModel" />
+        <!-- Nombre -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            type="text"
+            id="nombre"
+            name="nombre"
+            [(ngModel)]="doctor.nombre"
+            [readonly]="disableFields"
+            required
+            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
+            #nombre="ngModel"
+          />
+          <mat-error *ngIf="nombre.invalid && nombre.touched">
+            El nombre es obligatorio y solo debe contener letras
+          </mat-error>
+        </mat-form-field>
 
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" [(ngModel)]="doctor.apellido" placeholder="Apellido del Doctor" [readonly]="disableFields" required pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" #apellido="ngModel" />
+        <!-- Apellido -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Apellido</mat-label>
+          <input
+            matInput
+            type="text"
+            id="apellido"
+            name="apellido"
+            [(ngModel)]="doctor.apellido"
+            [readonly]="disableFields"
+            required
+            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
+            #apellido="ngModel"
+          />
+          <mat-error *ngIf="apellido.invalid && apellido.touched">
+            El apellido es obligatorio y solo debe contener letras
+          </mat-error>
+        </mat-form-field>
 
-        <label for="contacto">Contacto:</label>
-        <input type="text" id="contacto" name="contacto" [(ngModel)]="doctor.telefono" placeholder="Número de contacto" [readonly]="disableFields" required pattern="^[0-9]+$" #contacto="ngModel" />
+        <!-- Contacto -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Contacto</mat-label>
+          <input
+            matInput
+            type="text"
+            id="contacto"
+            name="contacto"
+            [(ngModel)]="doctor.telefono"
+            [readonly]="disableFields"
+            required
+            pattern="^[0-9]+$"
+            #contacto="ngModel"
+          />
+          <mat-error *ngIf="contacto.invalid && contacto.touched">
+            El número de contacto es obligatorio y solo debe contener números
+          </mat-error>
+        </mat-form-field>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" [(ngModel)]="doctor.email" placeholder="Email del Doctor" [readonly]="disableFields" required #email="ngModel" />
+        <!-- Email -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="doctor.email"
+            [readonly]="disableFields"
+            required
+            #email="ngModel"
+          />
+          <mat-error *ngIf="email.invalid && email.touched">
+            El correo electrónico es obligatorio y debe ser válido
+          </mat-error>
+        </mat-form-field>
 
-        <mat-form-field class="profile-select" appearance="fill">
-        <mat-label>Género</mat-label>
-        <mat-select [(ngModel)]="doctor.genero" name="sexo">
-          <mat-option
-            *ngFor="let g of genero"
-            [value]="g"
-          >
-            {{ g }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+        <!-- Género -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Género</mat-label>
+          <mat-select [(ngModel)]="doctor.genero" name="sexo" required>
+            <mat-option *ngFor="let g of genero" [value]="g">{{ g }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="doctor.genero === '' && doctor.genero !== null">
+            El género es obligatorio.
+          </mat-error>
+        </mat-form-field>
 
-
-        <label for="cmvp">CMVP:</label>
-        <input type="text" id="cmvp" name="cmvp" [(ngModel)]="doctor.cmvp" placeholder="Número CMVP" [readonly]="disableFields" required pattern="^[0-9]+$" #cmvp="ngModel" />
+        <!-- CMVP -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>CMVP</mat-label>
+          <input
+            matInput
+            type="text"
+            id="cmvp"
+            name="cmvp"
+            [(ngModel)]="doctor.cmvp"
+            [readonly]="disableFields"
+            required
+            pattern="^[0-9]+$"
+            #cmvp="ngModel"
+          />
+          <mat-error *ngIf="cmvp.invalid && cmvp.touched">
+            El número CMVP es obligatorio y solo debe contener números
+          </mat-error>
+        </mat-form-field>
       </div>
     </div>
 
     <div class="footer">
-      <button class="save-button" (click)="saveDoctor()" >Guardar</button>
-     <button class="toggle-button"
+      <button mat-flat-button color="primary" type="submit" [disabled]="doctorForm.invalid">
+        Guardar
+      </button>
+      <button
+        mat-flat-button
         [ngClass]="{ 'inactive': doctor.id_estado === 0, 'active': doctor.id_estado === 1 }"
         (click)="toggleDisable()"
-        type="button">
-  {{ doctor.id_estado === 1 ? 'Desactivar' : 'Activar' }}
-</button>
-
+        type="button"
+      >
+        {{ doctor.id_estado === 1 ? 'Desactivar' : 'Activar' }}
+      </button>
     </div>
   </form>
 </div>

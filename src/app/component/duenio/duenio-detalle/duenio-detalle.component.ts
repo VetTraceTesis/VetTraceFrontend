@@ -10,22 +10,17 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';  
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';  
 import { DuenioMascotaComponent } from '../duenio-mascota/duenio-mascota.component';
-import Swal from 'sweetalert2';  // Importamos SweetAlert2 para alertas
+import Swal from 'sweetalert2';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule }    from '@angular/material/select';
-import { MatInputModule }       from '@angular/material/input';
-import { MatAutocompleteModule }from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';  // << Añadido MatCardModule
-import { MatDatepickerModule }from '@angular/material/datepicker';
-import { MatNativeDateModule }from '@angular/material/core';
-import {
-  DateAdapter,
-  NativeDateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_NATIVE_DATE_FORMATS,
-  MAT_DATE_LOCALE
-} from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, NativeDateAdapter, MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+
 @Component({
   selector: 'app-duenio-detalle',
   standalone: true,
@@ -43,17 +38,16 @@ import {
     MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule
-  ],  
-    providers: [
-      { provide: DateAdapter, useClass: NativeDateAdapter },
-      { provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS },
-      { provide: MAT_DATE_LOCALE, useValue: 'es-PE' }
-    ],
+  ],
+  providers: [
+    { provide: DateAdapter, useClass: NativeDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-PE' }
+  ],
   templateUrl: './duenio-detalle.component.html',
   styleUrls: ['./duenio-detalle.component.css']
 })
 export class DuenioDetalleComponent implements OnInit {
-  genero = ['Masculino', 'Femenino', 'No especifica'];
 
   duenio: Duenio = {  
     id: 0,
@@ -64,32 +58,28 @@ export class DuenioDetalleComponent implements OnInit {
     direccion: '',
     fechaCreacion: '',
     idestado: 1,
-    distrito:'',
-    genero:''
+    distrito: '',
+    genero: ''
   };
+  genero = ['Masculino', 'Femenino', 'No especifica'];
+
   mascotas: Mascota[] = [];  
   disableFields: boolean = false;
   showMascotas: boolean = false;  
   selectedMascota: Mascota | null = null;  
   @Output() duenioActualizado: EventEmitter<void> = new EventEmitter<void>();
-  // listado de distritos de Lima (provincia)
+
   distritos: string[] = [
-    'Ancón', 'Ate', 'Barranco', 'Breña', 'Carabayllo',
-    'Chaclacayo', 'Chorrillos', 'Cieneguilla', 'Comas',
-    'El Agustino', 'Independencia', 'Jesús María',
-    'La Molina', 'La Victoria', 'Lima', 'Lince',
-    'Los Olivos', 'Lurigancho-Chosica', 'Lurín',
-    'Magdalena del Mar', 'Miraflores', 'Pachacamac',
-    'Pucusana', 'Pueblo Libre', 'Puente Piedra',
-    'Punta Hermosa', 'Punta Negra', 'Rímac',
-    'San Bartolo', 'San Borja', 'San Isidro',
-    'San Juan de Lurigancho', 'San Juan de Miraflores',
-    'San Luis', 'San Martín de Porres', 'San Miguel',
-    'Santa Anita', 'Santa María del Mar', 'Santa Rosa',
-    'Santiago de Surco', 'Surquillo', 'Villa El Salvador',
-    'Villa María del Triunfo'
+    'Ancón', 'Ate', 'Barranco', 'Breña', 'Carabayllo', 'Chaclacayo', 'Chorrillos', 'Cieneguilla', 'Comas',
+    'El Agustino', 'Independencia', 'Jesús María', 'La Molina', 'La Victoria', 'Lima', 'Lince',
+    'Los Olivos', 'Lurigancho-Chosica', 'Lurín', 'Magdalena del Mar', 'Miraflores', 'Pachacamac',
+    'Pucusana', 'Pueblo Libre', 'Puente Piedra', 'Punta Hermosa', 'Punta Negra', 'Rímac',
+    'San Bartolo', 'San Borja', 'San Isidro', 'San Juan de Lurigancho', 'San Juan de Miraflores',
+    'San Luis', 'San Martín de Porres', 'San Miguel', 'Santa Anita', 'Santa María del Mar', 'Santa Rosa',
+    'Santiago de Surco', 'Surquillo', 'Villa El Salvador', 'Villa María del Triunfo'
   ];
-    filteredDistricts: string[] = [];
+
+  filteredDistricts: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -109,14 +99,15 @@ export class DuenioDetalleComponent implements OnInit {
     }
     this.disableFields = this.duenio.idestado === 0;
     this.filteredDistricts = this.distritos.slice();
-
   }
- filterDistricts(value: string) {
+
+  filterDistricts(value: string) {
     const filterValue = value.toLowerCase();
     this.filteredDistricts = this.distritos.filter(d =>
       d.toLowerCase().includes(filterValue)
     );
   }
+
   openMascotaModal(): void {
     const duenioId = this.duenio.id;
     if (duenioId) {
@@ -148,23 +139,23 @@ export class DuenioDetalleComponent implements OnInit {
   getDuenioDetails(id: number): void {
     this.duenioService.getDuenioById(id).subscribe(data => {
       this.duenio = data;
-      console.log(data)
       if (data.fechaCreacion) {
         data.fechaCreacion = this.formatDate(data.fechaCreacion);
       }
     });
   }
- private getFechaHoy(): string {
+
+  private getFechaHoy(): string {
     const hoy = new Date();
     const yyyy = hoy.getFullYear();
-    const mm   = String(hoy.getMonth() + 1).padStart(2, '0');
-    const dd   = String(hoy.getDate()).padStart(2, '0');
+    const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dd = String(hoy.getDate()).padStart(2, '0');
     return `${yyyy}-${mm}-${dd}`;
   }
+
   getMascotasByDuenioId(duenioId: number): void {
     this.mascotaService.getMascotasByDuenio(duenioId).subscribe(data => {
       this.mascotas = data;  
-      console.log(this.mascotas)
     });
   }
 
@@ -178,80 +169,54 @@ export class DuenioDetalleComponent implements OnInit {
 
   saveDuenio(): void {
     if (this.duenio.id === 0) {
-      this.duenio.fechaCreacion=this.getFechaHoy();
+      this.duenio.fechaCreacion = this.getFechaHoy();
       this.duenioService.addDuenio(this.duenio).subscribe(response => {
-        console.log(this.duenio,"se guaaarda")
         Swal.fire({
-                  title: '¡Doctor registrado!',
-                  text: 'Doctor registrado correctamente',
-                  icon: 'success',
-                  background: '#f8fafd',
-                  color: '#416785',
-                  iconColor: '#4bb543',
-                  confirmButtonColor: '#416785',
-                  confirmButtonText: 'Aceptar',
-                  customClass: {
-                    popup: 'swal2-border-radius'
-                  },
-                  showClass: {
-                    popup: 'animate__animated animate__fadeInDown'
-                  },
-                  hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp'
-                  }
-                });
-                this.dialogRef.close(true);  // Cierra el modal y devuelve true
+          title: 'Dueño registrado!',
+          text: 'Dueño registrado correctamente',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+        this.dialogRef.close(true); 
       });
     } else {
       this.duenioService.updateDuenio(this.duenio).subscribe(response => {
-       Swal.fire({
-                icon: 'success',
-                title: '¡Guardado!',
-                text: 'Guardado correctamente',
-                confirmButtonColor: '#416785'
-              });
-              this.dialogRef.close(true);  // Cierra el modal y devuelve true
+        Swal.fire({
+          title: '¡Guardado!',
+          text: 'Guardado correctamente',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+        this.dialogRef.close(true);  
       });
     }
   }
 
-
-saveMascota(): void {
-  if (this.selectedMascota) {
-    this.mascotaService.updateMascota(this.selectedMascota).subscribe(
-      (response) => {
-        Swal.fire({
-          title: '¡Guardado!',
-          text: 'La mascota ha sido actualizada correctamente',
-          icon: 'success',
-          confirmButtonColor: '#416785',
-          confirmButtonText: 'Aceptar',
-          customClass: {
-            popup: 'swal2-border-radius'
-          }
-        });
-
-        console.log(this.selectedMascota,"esto actualizado")
-        this.getMascotasByDuenioId(this.duenio.id);
-        this.selectedMascota = null; // ⬅️ Esto te regresa a mascotas-cards
-
-      },
-      (error) => {
-        Swal.fire({
-          title: 'Error',
-          text: 'Hubo un problema al actualizar la mascota',
-          icon: 'error',
-          confirmButtonColor: '#e74c3c',
-          confirmButtonText: 'Aceptar',
-          customClass: {
-            popup: 'swal2-border-radius'
-          }
-        });
-        console.error('Error al actualizar la mascota:', error);
-      }
-    );
+  saveMascota(): void {
+    if (this.selectedMascota) {
+      this.mascotaService.updateMascota(this.selectedMascota).subscribe(
+        (response) => {
+          Swal.fire({
+            title: '¡Guardado!',
+            text: 'La mascota ha sido actualizada correctamente',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+          });
+          this.getMascotasByDuenioId(this.duenio.id);
+          this.selectedMascota = null;
+        },
+        (error) => {
+          Swal.fire({
+            title: 'Error',
+            text: 'Hubo un problema al actualizar la mascota',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+          });
+        }
+      );
+    }
   }
-}
+
   viewMascotaDetail(mascota: Mascota): void {
     this.selectedMascota = mascota;
   }
@@ -264,22 +229,17 @@ saveMascota(): void {
     this.selectedMascota = null;
   }
 
-toggleDisable(): void {
-  this.disableFields = !this.disableFields;
-
- 
-
-  if (this.duenio) {
-    this.duenio.idestado = this.disableFields ? 0 : 1;
+  toggleDisable(): void {
+    this.disableFields = !this.disableFields;
+    if (this.duenio) {
+      this.duenio.idestado = this.disableFields ? 0 : 1;
+    }
   }
-}
-
-
 
   toggleMascotas(): void {
-     if (this.selectedMascota) {
-    this.selectedMascota.idEstado = this.disableFields ? 0 : 1;
-  }
+    if (this.selectedMascota) {
+      this.selectedMascota.idEstado = this.disableFields ? 0 : 1;
+    }
     this.showMascotas = !this.showMascotas;
   }
 }
