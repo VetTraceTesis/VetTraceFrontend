@@ -9,7 +9,7 @@
   gap: 40px;
   width: 100%;
   box-sizing: border-box;
-  margin-top: 80px; /* deja espacio para el header fijo */
+  margin-top: 85px; /* deja espacio para el header fijo */
 }
 /* Estilos para el título */
 h2 {
@@ -126,5 +126,5 @@ mat-card-content {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 16px;
+  margin-top: 10px;
 }
