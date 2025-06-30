@@ -1,16 +1,20 @@
+<!-- profile.component.html -->
 <app-header></app-header>
 
-<div *ngIf="usuario; else loading">
-  <h1>Perfil del Usuario</h1>
-  <p><strong>Nombre:</strong> {{ usuario.nombre }} {{ usuario.apellido }}</p>
-  <p><strong>Correo:</strong> {{ usuario.correo }}</p>
-  <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
-  <p><strong>Veterinaria ID:</strong> {{ usuario.veterinariaId }}</p>
-  <p><strong>Rol:</strong> {{ usuario.roleId }}</p>
+<div *ngIf="usuario; else loading" class="profile-container">
+  <div class="profile-card">
+    <h1 class="profile-title">Perfil del Usuario</h1>
+    <p><span class="label">Nombre:</span> {{ usuario.nombre }} {{ usuario.apellido }}</p>
+    <p><span class="label">Correo:</span> {{ usuario.correo }}</p>
+    <p><span class="label">Teléfono:</span> {{ usuario.telefono }}</p>
+    <p><span class="label">Veterinaria ID:</span> {{ usuario.veterinariaId }}</p>
+    <p><span class="label">Rol:</span> {{ usuario.roleId }}</p>
+    <button (click)="goBack()" class="back-button">← Volver</button>
+  </div>
 </div>
-<button (click)="goBack()" class="back-button">← Volver</button>
 
-<!-- Mostrar mensaje de carga mientras se obtiene el usuario -->
 <ng-template #loading>
-  <p>Cargando perfil...</p>
+  <div class="loading">
+    <p>Cargando perfil…</p>
+  </div>
 </ng-template>

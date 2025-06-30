@@ -5,13 +5,17 @@ import { Atencion } from '../model/atenciones.model';  // Asegúrate de que el m
 import { AtencionDetalle } from '../model/Atencion-detalle.model';  // Asegúrate de que el modelo esté bien importado
 
 import { AuthService } from './auth.service';  // Importamos el servicio de autenticación
+import { environment } from '../environmets/environment.prod';  // Importamos el servicio de autenticación
 
 @Injectable({
   providedIn: 'root'
 })
 export class AtencionesService {
 
-  private apiUrl = 'http://localhost:8080/Atencion'; // URL del backend
+   private baseUrl = environment.apiUrl;
+
+  // Endpoint específico de “Atencion”
+  private apiUrl = `${this.baseUrl}/Atencion`;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 

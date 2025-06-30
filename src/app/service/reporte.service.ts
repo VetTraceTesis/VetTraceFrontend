@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { EmailRequestDTO } from '../model/reportepdf.model';  // Asegúrate de tener el modelo EmailRequestDTO
+import { environment } from '../environmets/environment.prod';  // Importamos el servicio de autenticación
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportePdfService {
-
-  private apiUrl = 'http://localhost:8080/api/reportes'; // La URL de tu API
+private baseUrl = environment.apiUrl;
+  private apiUrl = `${this.baseUrl}/reportes`;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 

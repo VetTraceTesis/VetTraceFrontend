@@ -4,13 +4,15 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { AtencionXMascotaXDuenio } from '../model/atencionXmascotaXduenio.model';
 import { DetalleAtencion } from '../model/atencionXmascotaXdueniodetalle.model'; // importa el nuevo modelo
+import { environment } from '../environmets/environment.prod';  // Importamos el servicio de autenticación
 
 @Injectable({
   providedIn: 'root'
 })
 export class AtencionXMascotaXDuenioService {
+   private baseUrl = environment.apiUrl;
 
-  private apiUrl = 'http://localhost:8080/AtencionXMascotaXDuenio';
+  private apiUrl = `${this.baseUrl}/AtencionXMascotaXDuenio`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

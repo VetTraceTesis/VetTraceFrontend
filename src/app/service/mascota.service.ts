@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Mascota } from '../model/mascota.model';  // Importa el modelo de Mascota
 import { AuthService } from './auth.service';  // Importamos el servicio de autenticación
+import { environment } from '../environmets/environment.prod';  // Importamos el servicio de autenticación
 
 @Injectable({
   providedIn: 'root'
 })
 export class MascotaService {
-
-  private apiUrl = 'http://localhost:8080/mascota'; // URL del backend para las mascotas
+ private baseUrl = environment.apiUrl;
+  private apiUrl = `${this.baseUrl}/mascota`;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 

@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Duenio } from '../model/duenio.model';  // Importa el modelo de Duenio
 import { AuthService } from './auth.service';  // Importamos el servicio de autenticación
+import { environment } from '../environmets/environment.prod';  // Importamos el servicio de autenticación
 
 @Injectable({
   providedIn: 'root'
 })
 export class DuenioService {
-
-  private apiUrl = 'http://localhost:8080/duenio'; // URL del backend para los dueños
+    private baseUrl = environment.apiUrl;
+  private apiUrl = `${this.baseUrl}/duenio`;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 

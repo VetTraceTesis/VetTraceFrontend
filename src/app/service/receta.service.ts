@@ -3,13 +3,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Receta } from '../model/receta.model';  // Crea el modelo Receta con los campos correspondientes
 import { AuthService } from './auth.service';
+import { environment } from '../environmets/environment.prod';  // Importamos el servicio de autenticación
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecetaService {
+private baseUrl = environment.apiUrl;
+  private apiUrl = `${this.baseUrl}/Receta`;
 
-  private apiUrl = 'http://localhost:8080/Receta';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 

@@ -8,12 +8,14 @@ import { ProductoAll } from '../model/farmacia-productos-detalle.model';
 import { shareReplay } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
+import { environment } from '../environmets/environment.prod';  // Importamos el servicio de autenticación
 
 @Injectable({
   providedIn: 'root'
 })
 export class FarmaciaProductosService {
-  private apiUrl = 'http://localhost:8080/ProductoVeterinario';
+      private baseUrl = environment.apiUrl;
+  private apiUrl = `${this.baseUrl}/ProductoVeterinario`;
   private productosCache$?: Observable<ProductoAll[]>;
 
   constructor(

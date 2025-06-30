@@ -4,13 +4,14 @@ import { Observable } from 'rxjs';
 import { Medicamento } from '../model/medicamento.model';  // Asegúrate de crear este modelo TS
 import { AuthService } from './auth.service';
 import { RecetaMedicamento } from '../model/RecetaMedicamentoDetalle.model';  // Asegúrate de crear este modelo TS
+import { environment } from '../environmets/environment.prod';  // Importamos el servicio de autenticación
 
 @Injectable({
   providedIn: 'root'
 })
 export class MedicamentoService {
-
-  private apiUrl = 'http://localhost:8080/Medicamento';
+ private baseUrl = environment.apiUrl;
+  private apiUrl = `${this.baseUrl}/Medicamento`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

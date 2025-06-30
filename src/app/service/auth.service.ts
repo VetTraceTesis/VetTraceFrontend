@@ -4,12 +4,15 @@ import { Router } from '@angular/router';
 import { LoginRequest } from '../model/login.model';
 import { LoginResponse } from '../model/login-response.model';
 import { Usuario } from '../model/usuarios.model';  // Modelo Usuario
+import { environment } from '../environmets/environment.prod';  // Importamos el servicio de autenticación
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/autenticar';
+
+  private baseUrl = environment.apiUrl;
+  private apiUrl = `${this.baseUrl}/autenticar`;
 
   constructor(private http: HttpClient, private router: Router) {}
 

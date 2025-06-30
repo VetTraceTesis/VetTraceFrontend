@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FarmaciasMapa } from '../model/farmaciasmapa.model'; // crea este modelo
 import { AuthService } from './auth.service';
+import { environment } from '../environmets/environment.prod';  // Importamos el servicio de autenticación
 
 @Injectable({
   providedIn: 'root'
 })
 export class FarmaciasMapaService {
-
-  private apiUrl = 'http://localhost:8080/farmaciamapa';
+ private baseUrl = environment.apiUrl;
+  private apiUrl = `${this.baseUrl}/farmaciamapa`;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
