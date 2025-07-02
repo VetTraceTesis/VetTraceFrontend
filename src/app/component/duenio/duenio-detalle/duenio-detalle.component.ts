@@ -124,7 +124,7 @@ export class DuenioDetalleComponent implements OnInit {
   }
 
   openMascotaModal(): void {
-    const duenioId = this.duenio.id;
+    const duenioId = this.dueniodata[0].id;
     console.log(duenioId)
     if (duenioId) {
       const dialogRef = this.dialog.open(DuenioMascotaComponent, {

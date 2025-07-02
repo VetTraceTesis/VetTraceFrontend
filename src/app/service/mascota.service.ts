@@ -89,7 +89,7 @@ export class MascotaService {
         console.error('No se encontró token JWT');
         return of();
       }
-  
+      console.log("llega")
       const formData = new FormData();
       formData.append('imagen', imagen);
   

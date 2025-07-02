@@ -33,11 +33,16 @@
           <input matInput type="text" name="nombre" [(ngModel)]="newMascota.nombre" required />
         </mat-form-field>
 
-        <!-- Especie -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Especie</mat-label>
-          <input matInput type="text" name="especie" [(ngModel)]="newMascota.especie" required />
-        </mat-form-field>
+      <!-- Especie -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Especie</mat-label>
+        <mat-select [(ngModel)]="newMascota.especie" name="especie" required>
+          <mat-option *ngFor="let especie of especiesComunes" [value]="especie">
+            {{ especie }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
 
         <!-- Edad -->
         <mat-form-field appearance="outline" class="full-width">
