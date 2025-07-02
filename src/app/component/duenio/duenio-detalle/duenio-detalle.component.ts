@@ -124,25 +124,27 @@ export class DuenioDetalleComponent implements OnInit {
   }
 
   openMascotaModal(): void {
-    const duenioId = this.dueniodata[0].id;
-    console.log(duenioId)
-    if (duenioId) {
-      const dialogRef = this.dialog.open(DuenioMascotaComponent, {
-        width: '60vw',
-        maxWidth: '800px',
-        minWidth: '350px',
-        data: { duenioId: duenioId }
-      });
+  const duenioId = this.dueniodata?.[0]?.id || this.duenio?.id;
+  console.log('ID del dueño usado:', duenioId);
 
-      dialogRef.afterClosed().subscribe(result => {
-        if (result === 'nuevo') {
-          this.getMascotasByDuenioId(Number(duenioId));
-        }
-      });
-    } else {
-      console.error('No se encontró el duenioId');
-    }
+  if (duenioId) {
+    const dialogRef = this.dialog.open(DuenioMascotaComponent, {
+      width: '60vw',
+      maxWidth: '800px',
+      minWidth: '350px',
+      data: { duenioId: duenioId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'nuevo') {
+        this.getMascotasByDuenioId(Number(duenioId));
+      }
+    });
+  } else {
+    console.error('No se encontró el duenioId válido');
   }
+}
+
 
   addNewMascota(): void {
     console.log('Añadir nueva mascota');
