@@ -3,15 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Doctor } from '../model/doctor.model';
 import { AuthService } from './auth.service';
-import { environment } from '../environmets/environment.prod';  // Importamos el servicio de autenticación
+import { environment } from '../environmets/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DoctorService {
-    private baseUrl = environment.apiUrl;
+  private baseUrl = environment.apiUrl;
   private apiUrl = `${this.baseUrl}/doctorveterinario`;
-
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -28,7 +27,7 @@ export class DoctorService {
     const token = this.authService.obtenerToken();
     if (!token) {
       console.error('No se encontró token JWT');
-      return of([]); // observable vacío más limpio
+      return of([]);
     }
     return this.http.get<Doctor[]>(this.apiUrl, { headers: this.getHeaders() });
   }
@@ -48,7 +47,7 @@ export class DoctorService {
     const token = this.authService.obtenerToken();
     if (!token) {
       console.error('No se encontró el token JWT');
-      return of(); // observable vacío
+      return of();
     }
 
     const doctorWithoutId = {
@@ -62,5 +61,24 @@ export class DoctorService {
   // Obtener solo doctores activos (nombre y apellido)
   getDoctoresActivos(): Observable<any> {
     return this.http.get(`${this.apiUrl}/activos`, { headers: this.getHeaders() });
+  }
+
+  // 🆕 Subir imagen al servidor
+  uploadImagenDoctor(imagen: File): Observable<{ ruta: string }> {
+    const token = this.authService.obtenerToken();
+    if (!token) {
+      console.error('No se encontró token JWT');
+      return of();
+    }
+
+    const formData = new FormData();
+    formData.append('imagen', imagen);
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+      // No pongas 'Content-Type': 'multipart/form-data', Angular lo configura automáticamente
+    });
+
+    return this.http.post<{ ruta: string }>(`${this.apiUrl}/upload-image`, formData, { headers });
   }
 }

@@ -8,5 +8,6 @@ export interface Doctor {
     id: number;
     fecharegistro:string;
     genero:string;
+    rutaimagen:string;
   }
   

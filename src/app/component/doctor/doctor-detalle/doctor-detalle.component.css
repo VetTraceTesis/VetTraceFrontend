@@ -5,7 +5,7 @@
   width: 100%;
   max-width: 100%;
   padding: 16px;
-  background-color: #f2f6fc;  /* Color de fondo más claro similar al de las imágenes */
+  background-color: #f2f6fc;
   border-radius: 12px;
   box-shadow: 0 8px 36px rgba(77, 182, 172, 0.2);
   box-sizing: border-box;
@@ -22,27 +22,52 @@
   max-height: calc(80vh - 100px);
 }
 
-/* Estilos para la foto del doctor */
-.profile-photo {
-  flex: 0 0 150px;
-  height: 150px;
+/* Contenedor para la foto del doctor */
+.profile-photo-container {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-top: 10px;
+}
+
+/* Envoltorio de imagen redonda */
+.profile-photo-wrapper {
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
-  background: #f2f6fc;  /* Fondo suave para la foto */
-  border: 3px solid #b2cbdf;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 10px rgba(77, 182, 172, 0.2);
 }
 
-.profile-photo img {
-  width: 120px;
-  height: 120px;
+/* Imagen circular */
+.profile-photo-img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 50%;
+  transition: transform 0.3s ease-in-out;
 }
 
-/* Estilos para los campos de información */
+.profile-photo-img:hover {
+  transform: scale(1.05);
+}
+
+/* Input de carga */
+.profile-photo-input {
+  font-size: 12px;
+  cursor: pointer;
+  color: #333;
+  background: transparent;
+  border: none;
+}
+
+/* Información del doctor */
 .profile-info {
   flex-grow: 1;
   display: flex;
@@ -51,9 +76,9 @@
   width: 100%;
 }
 
-/* Estilos de mat-form-field */
+/* Campos de entrada */
 .mat-form-field {
-  background-color: #ffffff;  /* Fondo blanco para los campos de entrada */
+  background-color: #ffffff;
   border-radius: 12px;
   padding: 0 12px;
   font-size: 16px;
@@ -61,18 +86,16 @@
 
 .mat-form-field-appearance-fill .mat-form-field-flex {
   background-color: #fff;
-  border: 1.5px solid #c8d6e5; /* Borde suave */
+  border: 1.5px solid #c8d6e5;
   border-radius: 12px;
   transition: border 0.3s;
-  
 }
-
 
 .mat-form-field-appearance-fill.mat-focused .mat-form-field-flex {
   border-color: #dee0e2;
 }
 
-/* Estilos para los botones */
+/* Botones */
 .footer {
   display: flex;
   justify-content: flex-end;
@@ -81,7 +104,7 @@
 }
 
 .save-button {
-  background-color: #416785;  /* Color del fondo del botón Guardar */
+  background-color: #416785;
   color: #fff;
   padding: 14px 28px;
   border: none;
@@ -95,7 +118,7 @@
   background-color: #224346;
 }
 
-/* Estilos para el botón de activar/desactivar */
+/* Botón de activar/desactivar */
 .toggle-button {
   padding: 14px 28px;
   border: none;
@@ -108,18 +131,18 @@
 }
 
 .toggle-button.inactive {
-  background-color: #f44336;  /* Rojo para inactivo */
+  background-color: #f44336;
 }
 
 .toggle-button.active {
-  background-color: #4CAF50;  /* Verde para activo */
+  background-color: #4CAF50;
 }
 
 .toggle-button:hover {
   opacity: 0.85;
 }
 
-/* Ajustes para pantallas más pequeñas */
+/* Responsive para tablets */
 @media (max-width: 900px) {
   .profile-container {
     width: 90vw;
@@ -129,20 +152,6 @@
   .profile-details {
     flex-direction: column;
     gap: 16px;
-  }
-
-  .profile-photo {
-    width: 130px;
-    height: 130px;
-  }
-
-  .profile-photo img {
-    width: 110px;
-    height: 110px;
-  }
-
-  .profile-info label {
-    font-size: 14px;
   }
 
   .footer {
@@ -157,6 +166,7 @@
   }
 }
 
+/* Responsive para móviles */
 @media (max-width: 600px) {
   .profile-container {
     width: 100vw;
@@ -165,16 +175,6 @@
 
   .profile-details {
     gap: 12px;
-  }
-
-  .profile-photo {
-    width: 100px;
-    height: 100px;
-  }
-
-  .profile-photo img {
-    width: 80px;
-    height: 80px;
   }
 
   .profile-info label {
@@ -188,5 +188,15 @@
 
   .footer {
     margin-top: 16px;
+  }
+
+  .profile-photo-wrapper {
+    width: 70px;
+    height: 70px;
+  }
+
+  .profile-photo-img {
+    width: 100%;
+    height: 100%;
   }
 }

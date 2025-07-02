@@ -1,5 +1,6 @@
-/* src/app/components/duenio/duenio.component.css */
-
+/* ----------------------- */
+/* Estilos generales */
+/* ----------------------- */
 
 /* Contenedor principal */
 .profile-container {
@@ -14,16 +15,14 @@
   justify-content: center;
 }
 
-/* Formulario centrado y menos alto */
 /* Formulario centrado y de ancho moderado */
 .profile-info {
-  width: 90%;         /* ocupa un 90% del contenedor */
-  max-width: 800px;   /* nunca más ancho de 800px */
+  width: 90%;
+  max-width: 800px;
   padding-top: 10px;
-  flex-direction: column;  /* si queda necesitando flex, mantenlo */
-  gap: 12px;          /* espacio entre campos */
+  flex-direction: column;
+  gap: 12px;
 }
-
 
 /* Forzar ancho de los campos */
 .full-width {
@@ -57,7 +56,7 @@
   gap: 16px;
 }
 
-/* Responsivo */
+/* Responsive */
 @media (max-width: 800px) {
   .profile-info {
     width: 100%;
@@ -66,9 +65,11 @@
     grid-template-columns: 1fr;
   }
 }
-/* src/app/components/duenio/duenio.component.css */
 
-/* Estilos aplicados únicamente dentro del tab “Mascotas” */
+/* ----------------------- */
+/* Sección Mascotas (tabs) */
+/* ----------------------- */
+
 .mascotas-section {
   display: flex;
   flex-direction: column;
@@ -77,7 +78,6 @@
   padding: 16px 0;
 }
 
-/* Título y botón “Añadir Mascota” centrados */
 .mascotas-section > h3,
 .mascotas-section > button {
   width: 90%;
@@ -86,7 +86,6 @@
   text-align: center;
 }
 
-/* Contenedor de tarjetas en dos columnas, centrado */
 .mascotas-section .card-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -97,19 +96,16 @@
   justify-items: center;
 }
 
-/* Ajuste de cada tarjeta dentro del tab */
 .mascotas-section .mascota-card {
   width: 100%;
   max-width: 360px;
 }
 
-/* Botones “Ver Detalle” centrados dentro de cada tarjeta */
 .mascotas-section .mascota-card button {
   display: block;
   margin: 12px auto 0;
 }
 
-/* Detalle de mascota: formulario centrado y compacto */
 .mascotas-section .mascota-detail {
   display: flex;
   justify-content: center;
@@ -126,12 +122,10 @@
   gap: 12px;
 }
 
-/* Mat-form-field ancho completo dentro de “Mascotas” */
 .mascotas-section .full-width {
   width: 100%;
 }
 
-/* Inputs más compactos dentro de “Mascotas” */
 .mascotas-section .mat-form-field-appearance-outline .mat-form-field-wrapper {
   padding-top: 0.2em;
   padding-bottom: 0.2em;
@@ -144,7 +138,6 @@
   font-size: 0.8rem;
 }
 
-/* Botones de acción dentro de “Mascotas” */
 .mascotas-section .botons-style {
   display: flex;
   justify-content: flex-end;
@@ -154,7 +147,6 @@
   margin: 0 auto;
 }
 
-/* Responsive: pasa a una columna en pantallas pequeñas */
 @media (max-width: 800px) {
   .mascotas-section .card-container {
     grid-template-columns: 1fr;
@@ -166,6 +158,74 @@
     width: 100%;
   }
 }
-.mat-mdc-button-touch-target{
+
+.mat-mdc-button-touch-target {
   padding-bottom: 25px;
+}
+
+/* ----------------------- */
+/* Estilos para las imágenes */
+/* ----------------------- */
+/* Contenedor general: imagen circular + input */
+.profile-photo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* Imagen en círculo */
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #f2f6fc;
+  border: 3px solid #b2cbdf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(77, 182, 172, 0.2);
+  overflow: hidden;
+}
+
+/* Imagen */
+.profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Hover en la imagen */
+.profile-photo img:hover {
+  transform: scale(1.05);
+}
+
+/* Estilo del input de archivo */
+.file-input {
+  margin-top: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  background: none;
+  color: #444;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .profile-photo {
+    width: 90px;
+    height: 90px;
+  }
+
+  .profile-photo img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .mascotas-section .profile-photo-container {
+    margin: 0 auto 10px;
+  }
 }

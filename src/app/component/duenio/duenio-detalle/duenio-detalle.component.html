@@ -147,9 +147,37 @@
 
         <!-- Detalle de la mascota seleccionada -->
         <div *ngIf="selectedMascota" class="mascota-detail">
-          <div class="profile-photo">
-            <img src="assets/default-photo.png" alt="Foto de {{ selectedMascota.nombre }}" />
-          </div>
+         
+           <div class="profile-photo-container">
+  <div class="profile-photo">
+    <!-- Vista previa -->
+    <img
+      *ngIf="previewUrl"
+      [src]="previewUrl"
+      alt="Vista previa de la mascota"
+      class="mascota-image"
+    />
+
+    <!-- Imagen existente desde BD -->
+    <img
+      *ngIf="!previewUrl && selectedMascota?.rutaimagen"
+      [src]="'http://localhost:8080' + selectedMascota.rutaimagen"
+      alt="Imagen actual"
+      class="mascota-image"
+    />
+  </div>
+
+  <!-- input fuera del círculo -->
+  <input
+    type="file"
+    (change)="onFileSelected($event)"
+    accept="image/*"
+    class="file-input"
+  />
+</div>
+ 
+
+
           <div class="profile-info">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Nombre Mascota</mat-label>

@@ -1,4 +1,4 @@
-import { Component, OnInit,Inject  } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,9 @@ import { AtencionXMascotaXDuenioService } from '../../../service/atencionXmascot
 import { DiagnosticoService } from '../../../service/diagnostico.service';
 import { Diagnostico } from '../../../model/diagnostico.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {DoctorService} from '../../../service/doctor.service'
+import { DoctorService } from '../../../service/doctor.service';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-atenciones-insert',
   standalone: true,
@@ -21,8 +23,8 @@ import {DoctorService} from '../../../service/doctor.service'
   styleUrls: ['./atenciones-insert.component.css']
 })
 export class AtencionesInsertComponent implements OnInit {
-   duenioIdGlobal!: number;
-  doctoresActivos: { veterinario_id:string;nombreVeterinario: string; apellidoVeterinario: string }[] = [];
+  duenioIdGlobal!: number;
+  doctoresActivos: { veterinario_id: string; nombreVeterinario: string; apellidoVeterinario: string }[] = [];
 
   nuevaAtencion: Atencion = {
     id: 0,
@@ -33,8 +35,8 @@ export class AtencionesInsertComponent implements OnInit {
     idusuario: 0,
     duenioId: 0,
     id_estado: 1,
-    tipoDiagnosticoid:1,
-    correlativo:''
+    tipoDiagnosticoid: 1,
+    correlativo: ''
   };
 
   nuevaMultiple: AtencionXMascotaXDuenio = {
@@ -45,12 +47,12 @@ export class AtencionesInsertComponent implements OnInit {
     id_estado: 1
   };
 
-  diagnostico:Diagnostico ={
-  id: 0,
-  comentario: '',
-  resultado: '',
-  atencion_id: 0,
-  id_Estado: 1
+  diagnostico: Diagnostico = {
+    id: 0,
+    comentario: '',
+    resultado: '',
+    atencion_id: 0,
+    id_Estado: 1
   };
 
   mascotas: Mascota[] = []; // Lista de mascotas para mostrar
@@ -58,26 +60,25 @@ export class AtencionesInsertComponent implements OnInit {
 
   constructor(
     private atencionesService: AtencionesService,
-    private doctoresServices:DoctorService,
+    private doctoresServices: DoctorService,
     private mascotaService: MascotaService,
     private atencionXmascotaXduenioServic: AtencionXMascotaXDuenioService,
-    private diagnosticoService:DiagnosticoService,
+    private diagnosticoService: DiagnosticoService,
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public data: { duenoId: number },   // ⬅️ nuevo
     private dialogRef: MatDialogRef<AtencionesInsertComponent>   // ⬅️ nuevo
-
   ) {}
 
   ngOnInit(): void {
     console.log(this.authService.getUsuario())
     this.duenioIdGlobal = this.data.duenoId;
-    console.log(this.data.duenoId,this.duenioIdGlobal)
+    console.log(this.data.duenoId, this.duenioIdGlobal)
     
     const usuarioActual = this.authService.getUsuario();
     if (!usuarioActual) {
-      alert('Usuario no autenticado');
+      Swal.fire('Error', 'Usuario no autenticado', 'error');
       return;
     }
 
@@ -87,91 +88,86 @@ export class AtencionesInsertComponent implements OnInit {
     
     this.nuevaMultiple.id_duenio = this.duenioIdGlobal;
 
-
     // Obtener mascotas del dueño
     this.mascotaService.getMascotasByDuenio(this.duenioIdGlobal).subscribe({
       next: (mascotas) => {
         this.mascotas = mascotas;
-
       },
       error: (err) => {
         console.error('Error al obtener mascotas:', err);
       }
     });
- this.doctoresServices.getDoctoresActivos().subscribe({
-    next: (docs) => {
-      this.doctoresActivos = docs;
-      console.log('Doctores activos:', this.doctoresActivos);
-    },
-    error: (err) => {
-      console.error('Error al obtener doctores activos:', err);
-    }
-  });
-    
+
+    this.doctoresServices.getDoctoresActivos().subscribe({
+      next: (docs) => {
+        this.doctoresActivos = docs;
+        console.log('Doctores activos:', this.doctoresActivos);
+      },
+      error: (err) => {
+        console.error('Error al obtener doctores activos:', err);
+      }
+    });
   }
 
-
- crearAtencion() {
-  console.log(this.nuevaAtencion)
-  this.nuevaAtencion.tipoDiagnosticoid=1
-  this.atencionesService.addAtencion(this.nuevaAtencion).subscribe({
+  crearAtencion() {
+    console.log(this.nuevaAtencion)
+    this.nuevaAtencion.tipoDiagnosticoid = 1;
     
-    next: (atencionCreada) => {
-      alert('Atención creada exitosamente');
-      
-      // Buscamos la mascota por nombre
-      const mascotaSeleccionada = this.mascotas.find(
-        m => m.nombre === this.nombreMascotaSeleccionada
-      );
+    this.atencionesService.addAtencion(this.nuevaAtencion).subscribe({
+      next: (atencionCreada) => {
+        Swal.fire('Éxito', 'Atención creada exitosamente', 'success');
 
-      // Asignamos IDs
-      this.nuevaMultiple.id_atencion = atencionCreada.id;
-      this.nuevaMultiple.id_mascota = mascotaSeleccionada?.idPaciente ?? 0;
-      this.diagnostico.atencion_id = atencionCreada.id;
+        // Buscamos la mascota por nombre
+        const mascotaSeleccionada = this.mascotas.find(
+          m => m.nombre === this.nombreMascotaSeleccionada
+        );
 
-      // Si tenemos mascota seleccionada, guardamos la relación y después el diagnóstico
-      if (this.nuevaMultiple.id_mascota > 0) {
-        this.atencionXmascotaXduenioServic
-          .registrar(this.nuevaMultiple)
-          .subscribe({
-            next: () => {
-              console.log('Relación atención–mascota registrada:', this.nuevaMultiple);
+        // Asignamos IDs
+        this.nuevaMultiple.id_atencion = atencionCreada.id;
+        this.nuevaMultiple.id_mascota = mascotaSeleccionada?.idPaciente ?? 0;
+        this.diagnostico.atencion_id = atencionCreada.id;
 
-              this.diagnosticoService.registrar(this.diagnostico).subscribe({
-                next: (diagRes) => {
-                  console.log('Diagnóstico guardado:', diagRes);
-                  console.log('Diagnóstico guardado:', this.duenioIdGlobal);
-                  // Finalmente navegamos a la lista de atenciones del dueño
-                  this.router.navigate(['/atenciones/duenio', this.duenioIdGlobal]);
-                },
-                error: (diagErr) => {
-                  console.error('Error al guardar diagnóstico:', diagErr);
-                  // Aun así navegamos para no dejar al usuario bloqueado
-                  this.router.navigate(['/atenciones/duenio', this.duenioIdGlobal]);
-                }
-              });
-            },
-            error: (relErr) => {
-              console.error('Error al registrar relación atención–mascota:', relErr);
-              this.router.navigate(['/atenciones/duenio', this.duenioIdGlobal]);
-            }
-          });
-        this.dialogRef.close('created');
+        // Si tenemos mascota seleccionada, guardamos la relación y después el diagnóstico
+        if (this.nuevaMultiple.id_mascota > 0) {
+          this.atencionXmascotaXduenioServic
+            .registrar(this.nuevaMultiple)
+            .subscribe({
+              next: () => {
+                console.log('Relación atención–mascota registrada:', this.nuevaMultiple);
 
-      } else {
-        // No se seleccionó mascota: solo navegamos de vuelta
-        this.router.navigate(['/atenciones']);
+                this.diagnosticoService.registrar(this.diagnostico).subscribe({
+                  next: (diagRes) => {
+                    console.log('Diagnóstico guardado:', diagRes);
+                    // Finalmente navegamos a la lista de atenciones del dueño
+                    this.router.navigate(['/atenciones/duenio', this.duenioIdGlobal]);
+                  },
+                  error: (diagErr) => {
+                    console.error('Error al guardar diagnóstico:', diagErr);
+                    // Aun así navegamos para no dejar al usuario bloqueado
+                    this.router.navigate(['/atenciones/duenio', this.duenioIdGlobal]);
+                  }
+                });
+              },
+              error: (relErr) => {
+                console.error('Error al registrar relación atención–mascota:', relErr);
+                this.router.navigate(['/atenciones/duenio', this.duenioIdGlobal]);
+              }
+            });
+          this.dialogRef.close('created');
+
+        } else {
+          // No se seleccionó mascota: solo navegamos de vuelta
+          this.router.navigate(['/atenciones']);
+        }
+      },
+      error: (atErr) => {
+        console.error('Error al crear atención:', atErr);
+        Swal.fire('Error', 'Error al crear la atención. Revisa la consola.', 'error');
       }
-    },
-    error: (atErr) => {
-      console.error('Error al crear atención:', atErr);
-      alert('Error al crear la atención. Revisa la consola.');
-    }
-  });
-}
-
+    });
+  }
 
   cancelar() {
-    this.dialogRef.close();    // simplemente cierra sin recargar
+    this.dialogRef.close(); // simplemente cierra sin recargar
   }
 }

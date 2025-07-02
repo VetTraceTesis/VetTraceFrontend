@@ -1,10 +1,25 @@
-<!-- src/app/components/duenio/duenio.component.html -->
-
 <div *ngIf="showForm" class="mascota-detail">
   <div class="profile-details">
-    <!-- Logo -->
+    <!-- Contenedor circular para la imagen -->
     <div class="profile-photo">
-      <img src="path/to/logo.png" alt="Logo de Perfil" />
+      <div class="image-wrapper">
+        <!-- Vista previa -->
+        <img
+          *ngIf="previewUrl"
+          [src]="previewUrl"
+          alt="Vista previa de la mascota"
+          class="mascota-image"
+        />
+
+        <!-- Imagen existente desde BD -->
+        <img
+          *ngIf="!previewUrl && newMascota.rutaimagen"
+          [src]="'http://localhost:8080' + newMascota.rutaimagen"
+          alt="Imagen actual"
+          class="mascota-image"
+        />
+      </div>
+      <input type="file" (change)="onFileSelected($event)" accept="image/*" />
     </div>
 
     <!-- Formulario -->
@@ -14,85 +29,44 @@
       <form (ngSubmit)="submitForm()" #mascotaForm="ngForm">
         <!-- Nombre -->
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Nombre</mat-label>
-          <input
-            matInput
-            type="text"
-            id="nombre"
-            name="nombre"
-            [(ngModel)]="newMascota.nombre"
-            required
-          />
-        </mat-form-field>
-
-        <!-- Edad -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Edad</mat-label>
-          <input
-            matInput
-            type="number"
-            id="edad"
-            name="edad"
-            [(ngModel)]="newMascota.edad"
-            required
-          />
+          <mat-label>Nombre Mascota</mat-label>
+          <input matInput type="text" name="nombre" [(ngModel)]="newMascota.nombre" required />
         </mat-form-field>
 
         <!-- Especie -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Especie</mat-label>
-          <mat-select
-            name="especie"
-            [(ngModel)]="newMascota.especie"
-            required
-          >
-            <mat-option
-              *ngFor="let especie of especiesComunes"
-              [value]="especie"
-            >
-              {{ especie }}
-            </mat-option>
-          </mat-select>
+          <input matInput type="text" name="especie" [(ngModel)]="newMascota.especie" required />
         </mat-form-field>
 
-        <!-- Fecha de Registro -->
+        <!-- Edad -->
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Fecha de Registro</mat-label>
+          <mat-label>Edad</mat-label>
+          <input matInput type="number" name="edad" [(ngModel)]="newMascota.edad" required />
+        </mat-form-field>
+
+        <!-- Fecha nacimiento -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Fecha de Nacimiento</mat-label>
           <input
             matInput
             [matDatepicker]="picker"
-            [(ngModel)]="newMascota.fecharegistro"
             name="fecharegistro"
+            [(ngModel)]="newMascota.fecharegistro"
             required
           />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
-        <!-- Campos ocultos -->
-        <input
-          type="hidden"
-          name="duenioId"
-          [(ngModel)]="newMascota.duenioId"
-        />
-        <input
-          type="hidden"
-          name="idEstado"
-          [(ngModel)]="newMascota.idEstado"
-        />
+        <!-- Ocultos -->
+        <input type="hidden" name="duenioId" [(ngModel)]="newMascota.duenioId" />
+        <input type="hidden" name="idEstado" [(ngModel)]="newMascota.idEstado" />
 
-        <!-- Botón de enviar -->
+        <!-- Botón -->
         <div class="botons-style">
-          <button
-            mat-flat-button
-            color="primary"
-            type="submit"
-            [disabled]="mascotaForm.invalid"
-          >
-            Registrar Mascota
+          <button mat-flat-button color="primary" type="submit" [disabled]="mascotaForm.invalid">
+            Guardar
           </button>
         </div>
       </form>

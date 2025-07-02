@@ -61,14 +61,18 @@ export class DuenioDetalleComponent implements OnInit {
     distrito: '',
     genero: ''
   };
-  genero = ['Masculino', 'Femenino', 'No especifica'];
 
+  selectedFile: File | null = null;
+  previewUrl: string | ArrayBuffer | null = null;
+  renamedFileName: string = '';
+  dueniodata: Duenio[] = [];
   mascotas: Mascota[] = [];  
   disableFields: boolean = false;
   showMascotas: boolean = false;  
   selectedMascota: Mascota | null = null;  
   @Output() duenioActualizado: EventEmitter<void> = new EventEmitter<void>();
 
+  genero = ['Masculino', 'Femenino', 'No especifica'];
   distritos: string[] = [
     'Ancón', 'Ate', 'Barranco', 'Breña', 'Carabayllo', 'Chaclacayo', 'Chorrillos', 'Cieneguilla', 'Comas',
     'El Agustino', 'Independencia', 'Jesús María', 'La Molina', 'La Victoria', 'Lima', 'Lince',
@@ -101,6 +105,17 @@ export class DuenioDetalleComponent implements OnInit {
     this.filteredDistricts = this.distritos.slice();
   }
 
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (!file) return;
+
+    this.selectedFile = file;
+
+    const reader = new FileReader();
+    reader.onload = e => this.previewUrl = reader.result;
+    reader.readAsDataURL(file);
+  }
+
   filterDistricts(value: string) {
     const filterValue = value.toLowerCase();
     this.filteredDistricts = this.distritos.filter(d =>
@@ -110,6 +125,7 @@ export class DuenioDetalleComponent implements OnInit {
 
   openMascotaModal(): void {
     const duenioId = this.duenio.id;
+    console.log(duenioId)
     if (duenioId) {
       const dialogRef = this.dialog.open(DuenioMascotaComponent, {
         width: '60vw',
@@ -171,13 +187,14 @@ export class DuenioDetalleComponent implements OnInit {
     if (this.duenio.id === 0) {
       this.duenio.fechaCreacion = this.getFechaHoy();
       this.duenioService.addDuenio(this.duenio).subscribe(response => {
+        this.dueniodata=[response];
+        console.log(response)
         Swal.fire({
           title: 'Dueño registrado!',
           text: 'Dueño registrado correctamente',
           icon: 'success',
           confirmButtonText: 'Aceptar'
         });
-        this.dialogRef.close(true); 
       });
     } else {
       this.duenioService.updateDuenio(this.duenio).subscribe(response => {
@@ -187,33 +204,55 @@ export class DuenioDetalleComponent implements OnInit {
           icon: 'success',
           confirmButtonText: 'Aceptar'
         });
-        this.dialogRef.close(true);  
       });
     }
   }
 
   saveMascota(): void {
     if (this.selectedMascota) {
-      this.mascotaService.updateMascota(this.selectedMascota).subscribe(
-        (response) => {
-          Swal.fire({
-            title: '¡Guardado!',
-            text: 'La mascota ha sido actualizada correctamente',
-            icon: 'success',
-            confirmButtonText: 'Aceptar'
-          });
-          this.getMascotasByDuenioId(this.duenio.id);
-          this.selectedMascota = null;
-        },
-        (error) => {
-          Swal.fire({
-            title: 'Error',
-            text: 'Hubo un problema al actualizar la mascota',
-            icon: 'error',
-            confirmButtonText: 'Aceptar'
-          });
-        }
-      );
+      const mascotaParaActualizar = { ...this.selectedMascota };
+
+      const actualizarMascota = () => {
+        this.mascotaService.updateMascota(mascotaParaActualizar).subscribe(
+          (response) => {
+            Swal.fire({
+              title: '¡Guardado!',
+              text: 'La mascota ha sido actualizada correctamente',
+              icon: 'success',
+              confirmButtonText: 'Aceptar'
+            });
+            this.getMascotasByDuenioId(this.duenio.id);
+            this.selectedMascota = null;
+          },
+          (error) => {
+            Swal.fire({
+              title: 'Error',
+              text: 'Hubo un problema al actualizar la mascota',
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        );
+      };
+
+      if (this.selectedFile) {
+        this.mascotaService.uploadImagenDoctor(this.selectedFile).subscribe(
+          (response) => {
+            mascotaParaActualizar.rutaimagen = response.ruta;
+            actualizarMascota();
+          },
+          (error) => {
+            Swal.fire({
+              title: 'Error',
+              text: 'No se pudo subir la imagen',
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        );
+      } else {
+        actualizarMascota();
+      }
     }
   }
 

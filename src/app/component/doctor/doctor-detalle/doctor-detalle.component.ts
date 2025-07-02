@@ -4,7 +4,7 @@ import { DoctorService } from '../../../service/doctor.service';
 import { Doctor } from '../../../model/doctor.model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import Swal from 'sweetalert2';  // Importamos SweetAlert2 para alertas
+import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
@@ -15,14 +15,16 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-doctor-detalle',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSelectModule, MatFormFieldModule,MatInputModule,MatButtonModule],  // No necesitas MatSnackBarModule aquí
+  imports: [CommonModule, FormsModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './doctor-detalle.component.html',
   styleUrls: ['./doctor-detalle.component.css']
 })
 export class DoctorDetalleComponent implements OnInit {
   genero = ['Masculino', 'Femenino', 'No especifica'];
+  selectedFile: File | null = null;
+  previewUrl: string | ArrayBuffer | null = null;
 
-  doctor: Doctor = {  // Inicializamos un doctor vacío para el registro
+  doctor: Doctor = {
     id: 0,
     nombre: '',
     apellido: '',
@@ -32,6 +34,7 @@ export class DoctorDetalleComponent implements OnInit {
     cmvp: '',
     id_estado: 1,
     genero: '',
+    rutaimagen: ''
   };
   disableFields: boolean = false;
 
@@ -39,18 +42,28 @@ export class DoctorDetalleComponent implements OnInit {
     private doctorService: DoctorService,
     private router: Router,
     private snackBar: MatSnackBar,
-    public dialogRef: MatDialogRef<DoctorDetalleComponent>, // Para cerrar el modal
-    @Inject(MAT_DIALOG_DATA) public data: any // Recibe los datos del doctor
-  ) { }
+    public dialogRef: MatDialogRef<DoctorDetalleComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
   ngOnInit(): void {
-    // Si el doctor tiene un id, asignamos los valores al formulario
     if (this.data.doctor) {
       this.doctor = this.data.doctor;
       if (this.doctor.fecharegistro) {
         this.doctor.fecharegistro = this.formatDate(this.doctor.fecharegistro);
       }
     }
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (!file) return;
+
+    this.selectedFile = file;
+
+    const reader = new FileReader();
+    reader.onload = e => this.previewUrl = reader.result;
+    reader.readAsDataURL(file);
   }
 
   formatDate(dateString: string): string {
@@ -64,46 +77,62 @@ export class DoctorDetalleComponent implements OnInit {
   private getFechaHoy(): string {
     const hoy = new Date();
     const yyyy = hoy.getFullYear();
-    const mm   = String(hoy.getMonth() + 1).padStart(2, '0');
-    const dd   = String(hoy.getDate()).padStart(2, '0');
+    const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dd = String(hoy.getDate()).padStart(2, '0');
     return `${yyyy}-${mm}-${dd}`;
   }
 
   saveDoctor(): void {
-    if (this.doctor.id === 0) {
-      // Nuevo doctor
-      this.doctor.fecharegistro = this.getFechaHoy();
-      this.doctor.id_estado = 1; // ⬅️ Forzamos el valor por defecto
-      this.doctorService.addDoctor(this.doctor).subscribe(response => {
-        Swal.fire({
-          title: '¡Doctor registrado!',
-          text: 'Doctor registrado correctamente',
-          icon: 'success',
-          confirmButtonText: 'Aceptar'
+    const guardarDoctor = () => {
+      if (this.doctor.id === 0) {
+        this.doctor.fecharegistro = this.getFechaHoy();
+        this.doctor.id_estado = 1;
+
+        this.doctorService.addDoctor(this.doctor).subscribe(() => {
+          Swal.fire({
+            title: '¡Doctor registrado!',
+            text: 'Doctor registrado correctamente',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+          });
+          this.dialogRef.close(true);
         });
-        this.dialogRef.close(true);  // Cierra el modal y devuelve true
+      } else {
+        this.doctorService.updateDoctor(this.doctor).subscribe(() => {
+          Swal.fire({
+            icon: 'success',
+            title: '¡Guardado!',
+            text: 'Guardado correctamente',
+            confirmButtonText: 'Aceptar'
+          });
+          this.dialogRef.close(true);
+        });
+      }
+    };
+
+    if (this.selectedFile) {
+      this.doctorService.uploadImagenDoctor(this.selectedFile).subscribe(resp => {
+        this.doctor.rutaimagen = resp.ruta; // Asignar ruta generada por el backend
+        guardarDoctor();
+      }, err => {
+        console.error('Error al subir imagen:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo subir la imagen'
+        });
       });
     } else {
-      // Actualizar doctor
-      this.doctorService.updateDoctor(this.doctor).subscribe(response => {
-        Swal.fire({
-          icon: 'success',
-          title: '¡Guardado!',
-          text: 'Guardado correctamente',
-          confirmButtonText: 'Aceptar'
-        });
-        this.dialogRef.close(true);  // Cierra el modal y devuelve true
-      });
+      guardarDoctor();
     }
   }
 
   goBack(): void {
-    this.dialogRef.close(false);  // Cierra el modal y no hace nada
+    this.dialogRef.close(false);
   }
 
-  // Método para alternar entre habilitar y deshabilitar campos
   toggleDisable(): void {
     this.doctor.id_estado = this.doctor.id_estado === 1 ? 0 : 1;
-    this.disableFields = !this.disableFields;  // Cambia el estado de disableFields
+    this.disableFields = !this.disableFields;
   }
 }

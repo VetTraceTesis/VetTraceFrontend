@@ -6,4 +6,6 @@ export interface Mascota {
   fecharegistro: string;
   duenioId: number;
   idEstado: number;
+  rutaimagen:string;
+
 }

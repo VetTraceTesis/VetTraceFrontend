@@ -1,3 +1,4 @@
+// duenio-mascota.component.ts
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MascotaService } from '../../../service/mascota.service';
@@ -17,6 +18,7 @@ import {
   MAT_NATIVE_DATE_FORMATS,
   MAT_DATE_LOCALE
 } from '@angular/material/core';
+
 @Component({
   selector: 'app-duenio-mascota',
   standalone: true,
@@ -30,7 +32,7 @@ import {
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule
-  ],  
+  ],
   providers: [
     { provide: DateAdapter, useClass: NativeDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS },
@@ -41,8 +43,11 @@ import {
 })
 export class DuenioMascotaComponent {
   especiesComunes: string[] = ['Perro', 'Gato', 'Conejo', 'Ave', 'Hámster'];
-
   showForm: boolean = true;
+  selectedFile: File | null = null;
+  previewUrl: string | ArrayBuffer | null = null;
+  renamedFileName: string = '';
+
   newMascota: Mascota = {
     idPaciente: 0,
     nombre: '',
@@ -50,7 +55,8 @@ export class DuenioMascotaComponent {
     especie: '',
     fecharegistro: '',
     duenioId: 0,
-    idEstado: 1
+    idEstado: 1,
+    rutaimagen: ''
   };
 
   constructor(
@@ -63,23 +69,46 @@ export class DuenioMascotaComponent {
     }
   }
 
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (!file) return;
+
+    this.selectedFile = file;
+
+    const reader = new FileReader();
+    reader.onload = e => this.previewUrl = reader.result;
+    reader.readAsDataURL(file);
+  }
+
+  submitForm(): void {
+    const guardarMascota = () => {
+      this.mascotaService.addMascota(this.newMascota).subscribe(
+        response => {
+          console.log('Mascota registrada:', response);
+          this.dialogRef.close('nuevo');
+        },
+        error => console.error('Error al agregar la mascota:', error)
+      );
+    };
+
+    if (this.selectedFile) {
+      this.mascotaService.uploadImagenDoctor(this.selectedFile).subscribe(resp => {
+        this.newMascota.rutaimagen = resp.ruta; // Asignar ruta generada por el backend
+        guardarMascota();
+      }, error => {
+        console.error('Error al subir imagen:', error);
+        alert('Error al subir imagen');
+      });
+    } else {
+      guardarMascota();
+    }
+  }
+
   addNewMascota(): void {
     this.showForm = true;
   }
 
   referMascota(): void {
     this.dialogRef.close('referenciar');
-  }
-
-  submitForm(): void {
-    this.mascotaService.addMascota(this.newMascota).subscribe(
-      (response) => {
-        console.log('Mascota registrada:', response);
-        this.dialogRef.close('nuevo');
-      },
-      (error) => {
-        console.error('Error al agregar la mascota:', error);
-      }
-    );
   }
 }

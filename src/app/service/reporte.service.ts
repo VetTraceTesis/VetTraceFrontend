@@ -10,7 +10,7 @@ import { environment } from '../environmets/environment.prod';  // Importamos el
 })
 export class ReportePdfService {
 private baseUrl = environment.apiUrl;
-  private apiUrl = `${this.baseUrl}/reportes`;
+  private apiUrl = `${this.baseUrl}/api/reportes`;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 

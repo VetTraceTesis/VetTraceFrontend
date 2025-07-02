@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Mascota } from '../model/mascota.model';  // Importa el modelo de Mascota
 import { AuthService } from './auth.service';  // Importamos el servicio de autenticación
 import { environment } from '../environmets/environment.prod';  // Importamos el servicio de autenticación
@@ -81,4 +81,23 @@ export class MascotaService {
     // Realizamos la solicitud POST con los datos de la mascota y los encabezados configurados
     return this.http.post<Mascota>(this.apiUrl, mascotaWithoutId, { headers });
   }
+
+  // 🆕 Subir imagen al servidor
+  uploadImagenDoctor(imagen: File): Observable<{ ruta: string }> {
+      const token = this.authService.obtenerToken();
+      if (!token) {
+        console.error('No se encontró token JWT');
+        return of();
+      }
+  
+      const formData = new FormData();
+      formData.append('imagen', imagen);
+  
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+        // No pongas 'Content-Type': 'multipart/form-data', Angular lo configura automáticamente
+      });
+  
+      return this.http.post<{ ruta: string }>(`${this.apiUrl}/upload-image`, formData, { headers });
+    }
 }

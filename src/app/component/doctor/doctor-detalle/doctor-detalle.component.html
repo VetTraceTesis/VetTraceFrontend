@@ -2,9 +2,39 @@
   <form #doctorForm="ngForm" (ngSubmit)="saveDoctor()">
     <div class="profile-details">
       <!-- Columna para la Foto -->
-      <div class="profile-photo">
-        <img src="assets/default-photo.png" alt="Foto del Doctor" class="profile-img" />
-      </div>
+     <!-- Foto del Doctor -->
+      
+ <!-- 📷 Sección de foto -->
+      <div class="profile-photo-container">
+  <div class="profile-photo-wrapper">
+    <!-- Imagen nueva -->
+    <img
+      *ngIf="previewUrl"
+      [src]="previewUrl"
+      alt="Vista previa"
+      class="profile-photo-img"
+    />
+
+    <!-- Imagen existente -->
+    <img
+      *ngIf="!previewUrl && doctor.rutaimagen"
+      [src]="'http://localhost:8080' + doctor.rutaimagen"
+      alt="Imagen actual"
+      class="profile-photo-img"
+    />
+  </div>
+
+  <!-- Input -->
+  <input
+    type="file"
+    id="fileUpload"
+    class="profile-photo-input"
+    (change)="onFileSelected($event)"
+    accept="image/*"
+  />
+</div>
+
+
 
       <!-- Columna para la Información del Doctor -->
       <div class="profile-info">
