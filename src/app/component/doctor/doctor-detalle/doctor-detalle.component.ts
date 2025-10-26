@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { DoctorService } from '../../../service/doctor.service';
 import { Doctor } from '../../../model/doctor.model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,6 +10,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { UsuarioService } from '../../../service/users.service';
+import { Usuario } from '../../../model/usuarios.model';
 
 @Component({
   selector: 'app-doctor-detalle',
@@ -40,15 +41,15 @@ export class DoctorDetalleComponent implements OnInit {
 
   constructor(
     private doctorService: DoctorService,
+    private usuarioService: UsuarioService,
     private router: Router,
-    private snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<DoctorDetalleComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {
-    if (this.data.doctor) {
-      this.doctor = this.data.doctor;
+    if (this.data?.doctor) {
+      this.doctor = { ...this.data.doctor };
       if (this.doctor.fecharegistro) {
         this.doctor.fecharegistro = this.formatDate(this.doctor.fecharegistro);
       }
@@ -83,47 +84,98 @@ export class DoctorDetalleComponent implements OnInit {
   }
 
   saveDoctor(): void {
-    const guardarDoctor = () => {
+    const crearDoctorYUsuario = () => {
       if (this.doctor.id === 0) {
+        // Registro nuevo
         this.doctor.fecharegistro = this.getFechaHoy();
         this.doctor.id_estado = 1;
 
-        this.doctorService.addDoctor(this.doctor).subscribe(() => {
-          Swal.fire({
-            title: '¡Doctor registrado!',
-            text: 'Doctor registrado correctamente',
-            icon: 'success',
-            confirmButtonText: 'Aceptar'
-          });
-          this.dialogRef.close(true);
+        this.doctorService.addDoctor(this.doctor).subscribe({
+          next: () => {
+            // Usamos this.doctor porque el backend no devuelve el objeto creado
+            const nuevoUsuario: Usuario = {
+              id: 0,
+              enabled: true,
+              veterinariaId: 1,
+              roleId: 2,
+              nombre: this.doctor.nombre,
+              apellido: this.doctor.apellido,
+              correo: this.doctor.email,
+              telefono: this.doctor.telefono,
+              username: (this.doctor.nombre + '.' + this.doctor.apellido).toLowerCase(),
+              password: 'test1'
+            };
+
+            this.usuarioService.registrarUsuario(nuevoUsuario).subscribe({
+              next: () => {
+                Swal.fire({
+                  title: '¡Doctor registrado!',
+                  text: 'Doctor y credenciales creados correctamente',
+                  icon: 'success',
+                  confirmButtonText: 'Aceptar'
+                });
+                this.dialogRef.close(true);
+              },
+              error: (err) => {
+                console.error('Error al crear usuario:', err);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error al crear credenciales',
+                  text: err.message || 'No se pudieron crear las credenciales del doctor.'
+                });
+              }
+            });
+          },
+          error: (err) => {
+            console.error('Error al crear doctor:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo registrar al doctor.'
+            });
+          }
         });
       } else {
-        this.doctorService.updateDoctor(this.doctor).subscribe(() => {
-          Swal.fire({
-            icon: 'success',
-            title: '¡Guardado!',
-            text: 'Guardado correctamente',
-            confirmButtonText: 'Aceptar'
-          });
-          this.dialogRef.close(true);
+        // Edición
+        this.doctorService.updateDoctor(this.doctor).subscribe({
+          next: () => {
+            Swal.fire({
+              icon: 'success',
+              title: '¡Guardado!',
+              text: 'Guardado correctamente',
+              confirmButtonText: 'Aceptar'
+            });
+            this.dialogRef.close(true);
+          },
+          error: (err) => {
+            console.error('Error al actualizar doctor:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo actualizar el doctor.'
+            });
+          }
         });
       }
     };
 
     if (this.selectedFile) {
-      this.doctorService.uploadImagenDoctor(this.selectedFile).subscribe(resp => {
-        this.doctor.rutaimagen = resp.ruta; // Asignar ruta generada por el backend
-        guardarDoctor();
-      }, err => {
-        console.error('Error al subir imagen:', err);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'No se pudo subir la imagen'
-        });
+      this.doctorService.uploadImagenDoctor(this.selectedFile).subscribe({
+        next: resp => {
+          this.doctor.rutaimagen = resp.ruta;
+          crearDoctorYUsuario();
+        },
+        error: err => {
+          console.error('Error al subir imagen:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo subir la imagen'
+          });
+        }
       });
     } else {
-      guardarDoctor();
+      crearDoctorYUsuario();
     }
   }
 

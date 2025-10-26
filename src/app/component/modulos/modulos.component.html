@@ -24,7 +24,7 @@
       <span class="card-label">Citas</span>
       </a>
     </div>
-    <div class="card" *ngIf="esAdmin()">
+    <div class="card" *ngIf="esAdmin() || esUsuario()">
       <a (click)="navigateToFarmacia()">
       <span class="icon-bg"><i class="fa-solid fa-hospital"></i></span>
       <span class="card-label">Farmacia</span>
@@ -36,7 +36,7 @@
         <span class="card-label">Médicos V.</span>
       </a>
     </div>
-    <div class="card" *ngIf="esAdmin()">
+    <div class="card" *ngIf="esAdmin() || esUsuario()">
       <a (click)="navigateToMapa()">
         <span class="icon-bg"><i class="fa-solid fa-map-location-dot"></i></span>
         <span class="card-label">Mapas</span>
