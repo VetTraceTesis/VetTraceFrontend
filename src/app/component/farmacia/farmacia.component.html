@@ -1,97 +1,97 @@
-<!-- src/app/components/farmacia/farmacia.component.html -->
+  <!-- src/app/components/farmacia/farmacia.component.html -->
 
-<app-header></app-header>
+  <app-header></app-header>
 
-<div class="farmacia-container">
-  <div class="header-controls">
-    
-    <h2>Productos Veterinarios</h2>
-    <div class="buttons-row">
-      <button class="back-button" (click)="goBack()">Atrás</button>
+  <div class="farmacia-container">
+    <div class="header-controls">
+      
+      <h2>Productos Veterinarios</h2>
+      <div class="buttons-row">
+        <button class="back-button" (click)="goBack()">Atrás</button>
+      </div>
+
+      <!-- Contenedor para los filtros -->
+      <div class="filters-container">
+        <!-- Filtro de Farmacia -->
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Filtrar por Farmacia</mat-label>
+          <mat-select [(ngModel)]="selectedFarmacia" (ngModelChange)="applyFilter()" placeholder="Todas las Farmacias">
+            <mat-option value="">Todas las Farmacias</mat-option>
+            <mat-option *ngFor="let farm of farmaciasDisponibles" [value]="farm">{{ farm }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Filtro de Producto (nombre) -->
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Buscar producto</mat-label>
+          <input
+            matInput
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="applyFilter()"
+            placeholder="Nombre del Producto"
+          />
+          <button
+            mat-button
+            *ngIf="searchTerm"
+            matSuffix
+            mat-icon-button
+            aria-label="Limpiar"
+            (click)="searchTerm=''; applyFilter()"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="paginator-container">
+      <mat-paginator
+        [length]="filteredMedicamentos.length"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[pageSize]"
+        (page)="onPageChange($event)"
+        showFirstLastButtons
+      >
+      </mat-paginator>
+    </div>
+    <div *ngIf="isLoading" class="loading">Cargando productos...</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <!-- Mensaje cuando no hay resultados -->
+    <div *ngIf="!isLoading && !errorMessage && filteredMedicamentos.length === 0 && (searchTerm || selectedFarmacia)"
+        class="no-results">
+      No se encontraron productos. Revisa la escritura o vigencia del medicamento e intenta nuevamente.
     </div>
 
-    <!-- Contenedor para los filtros -->
-    <div class="filters-container">
-      <!-- Filtro de Farmacia -->
-      <mat-form-field appearance="outline" class="search-field">
-        <mat-label>Filtrar por Farmacia</mat-label>
-        <mat-select [(ngModel)]="selectedFarmacia" (ngModelChange)="applyFilter()" placeholder="Todas las Farmacias">
-          <mat-option value="">Todas las Farmacias</mat-option>
-          <mat-option *ngFor="let farm of farmaciasDisponibles" [value]="farm">{{ farm }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <!-- Filtro de Producto (nombre) -->
-      <mat-form-field appearance="outline" class="search-field">
-        <mat-label>Buscar producto</mat-label>
-        <input
-          matInput
-          [(ngModel)]="searchTerm"
-          (ngModelChange)="applyFilter()"
-          placeholder="Nombre del Producto"
+    <div *ngIf="!isLoading && !errorMessage && filteredMedicamentos.length > 0" class="market-grid">
+      <mat-card
+        *ngFor="let med of paginatedMedicamentos"
+        class="market-card"
+        (click)="openDetail(med.id)"
+      >
+        <img
+          mat-card-image
+          [src]="getImageUrl(med.imageFile)"
+          [alt]="med.name"
+          loading="lazy"
         />
-        <button
-          mat-button
-          *ngIf="searchTerm"
-          matSuffix
-          mat-icon-button
-          aria-label="Limpiar"
-          (click)="searchTerm=''; applyFilter()"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+        <mat-card-content>
+          <h3 class="card-title">{{ med.name }}</h3>
+          <p class="card-price">
+            {{ parsePrice(med.price) | currency:'S/. ' }}
+          </p>
+          <p class="card-farmacia">{{ med.farmacia }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="paginator-container" *ngIf="filteredMedicamentos.length > 0">
+      <mat-paginator
+        [length]="filteredMedicamentos.length"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[pageSize]"
+        (page)="onPageChange($event)"
+        showFirstLastButtons
+      >
+      </mat-paginator>
     </div>
   </div>
-  <div class="paginator-container">
-    <mat-paginator
-      [length]="filteredMedicamentos.length"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="[pageSize]"
-      (page)="onPageChange($event)"
-      showFirstLastButtons
-    >
-    </mat-paginator>
-  </div>
-  <div *ngIf="isLoading" class="loading">Cargando productos...</div>
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-
-  <!-- Mensaje cuando no hay resultados -->
-  <div *ngIf="!isLoading && !errorMessage && filteredMedicamentos.length === 0 && (searchTerm || selectedFarmacia)"
-       class="no-results">
-    No se encontraron productos. Revisa la escritura o vigencia del medicamento e intenta nuevamente.
-  </div>
-
-  <div *ngIf="!isLoading && !errorMessage && filteredMedicamentos.length > 0" class="market-grid">
-    <mat-card
-      *ngFor="let med of paginatedMedicamentos"
-      class="market-card"
-      (click)="openDetail(med.id)"
-    >
-      <img
-        mat-card-image
-        [src]="getImageUrl(med.imageFile)"
-        [alt]="med.name"
-        loading="lazy"
-      />
-      <mat-card-content>
-        <h3 class="card-title">{{ med.name }}</h3>
-        <p class="card-price">
-          {{ parsePrice(med.price) | currency:'S/. ' }}
-        </p>
-        <p class="card-farmacia">{{ med.farmacia }}</p>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <div class="paginator-container" *ngIf="filteredMedicamentos.length > 0">
-    <mat-paginator
-      [length]="filteredMedicamentos.length"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="[pageSize]"
-      (page)="onPageChange($event)"
-      showFirstLastButtons
-    >
-    </mat-paginator>
-  </div>
-</div>

@@ -1,49 +1,49 @@
-<app-header></app-header>
+  <app-header></app-header>
 
-<div class="atenciones-container">
-  <h2>Atenciones del dueño {{ duenioId }}</h2>
+  <div class="atenciones-container">
+    <h2>Atenciones del dueño {{ duenioId }}</h2>
 
-  <div class="buttons-row">
-    <button (click)="goBack()" class="btn-back">Atrás</button>
-    <button (click)="irANuevaAtencion()" class="btn-crear-nueva">Crear Nueva Atención</button>
-  </div>
+    <div class="buttons-row">
+      <button (click)="goBack()" class="btn-back">Atrás</button>
+      <button (click)="irANuevaAtencion()" class="btn-crear-nueva">Crear Nueva Atención</button>
+    </div>
 
-  <!-- Filtro de Tipo de Diagnóstico -->
-  <div class="filter-container">
-    <label for="filtro-tipo">Filtrar por Tipo de Diagnóstico:</label>
-    <select id="filtro-tipo" [(ngModel)]="filtroTipoSeleccionado" (ngModelChange)="aplicarFiltro()">
-      <option value="">Todos los tipos</option>
-      <option *ngFor="let tipo of tiposDisponibles" [value]="tipo">{{ tipo }}</option>
-    </select>
-  </div>
+    <!-- Filtro de Tipo de Diagnóstico -->
+    <div class="filter-container">
+      <label for="filtro-tipo">Filtrar por Tipo de Diagnóstico:</label>
+      <select id="filtro-tipo" [(ngModel)]="filtroTipoSeleccionado" (ngModelChange)="aplicarFiltro()">
+        <option value="">Todos los tipos</option>
+        <option *ngFor="let tipo of tiposDisponibles" [value]="tipo">{{ tipo }}</option>
+      </select>
+    </div>
 
-  <div *ngIf="atencionesFiltradas.length === 0" class="no-data">
-    <p>No se están registrando atenciones para este usuario con el filtro aplicado.</p>
-  </div>
+    <div *ngIf="atencionesFiltradas.length === 0" class="no-data">
+      <p>No se están registrando atenciones para este usuario con el filtro aplicado.</p>
+    </div>
 
-  <div class="grid" *ngIf="atencionesFiltradas.length > 0">
-    <div class="card" *ngFor="let atencion of paginatedAtenciones"  [ngClass]="{
-       'tipo-1': atencion.tipoDiagnostico === 1,
-       'tipo-2': atencion.tipoDiagnostico === 2,
-       'tipo-3': atencion.tipoDiagnostico === 3
-     }"(click)="irADiagnostico(atencion.atencionId,atencion.tipoDiagnostico)">
-      <div class="profile-info" >
-        <h3>Atención #{{ atencion.atencionId }}</h3>
-        <p><strong>Correlativo: </strong>{{atencion.correlativo}}</p>
-        <p><strong>Mascota:</strong> {{ atencion.mascotaNombre }} ({{ atencion.mascotaEspecie }})</p>
-        <p><strong>Veterinaria:</strong> {{ atencion.nombreVeterinaria }}</p>
-        <p><strong>Médico V.:</strong> {{ atencion.nombreDoctor }} {{ atencion.apellidoDoctor }}</p>
-        <p><strong>Inicio:</strong> {{ atencion.fechaInicio | date:'dd/MM/yyyy' }}</p>
-        <p><strong>Estado:</strong> {{ atencion.nombreTipoDiagnostico }}</p>
+    <div class="grid" *ngIf="atencionesFiltradas.length > 0">
+      <div class="card" *ngFor="let atencion of paginatedAtenciones"  [ngClass]="{
+        'tipo-1': atencion.tipoDiagnostico === 1,
+        'tipo-2': atencion.tipoDiagnostico === 2,
+        'tipo-3': atencion.tipoDiagnostico === 3
+      }"(click)="irADiagnostico(atencion.atencionId,atencion.tipoDiagnostico)">
+        <div class="profile-info" >
+          <h3>Atención #{{ atencion.atencionId }}</h3>
+          <p><strong>Correlativo: </strong>{{atencion.correlativo}}</p>
+          <p><strong>Mascota:</strong> {{ atencion.mascotaNombre }} ({{ atencion.mascotaEspecie }})</p>
+          <p><strong>Veterinaria:</strong> {{ atencion.nombreVeterinaria }}</p>
+          <p><strong>Médico V.:</strong> {{ atencion.nombreDoctor }} {{ atencion.apellidoDoctor }}</p>
+          <p><strong>Inicio:</strong> {{ atencion.fechaInicio | date:'dd/MM/yyyy' }}</p>
+          <p><strong>Estado:</strong> {{ atencion.nombreTipoDiagnostico }}</p>
+        </div>
       </div>
     </div>
-  </div>
 
-   <!-- Paginador -->
-  <div class="paginator">
-    <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
-    <span>Página {{ currentPage }} de {{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
-  </div>
+    <!-- Paginador -->
+    <div class="paginator">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+    </div>
 
-</div>
+  </div>

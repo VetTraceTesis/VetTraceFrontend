@@ -1,202 +1,202 @@
-/* Contenedor principal del modal */
-.profile-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 100%;
-  padding: 16px;
-  background-color: #f2f6fc;
-  border-radius: 12px;
-  box-shadow: 0 8px 36px rgba(77, 182, 172, 0.2);
-  box-sizing: border-box;
-  max-height: 100vh;
-  overflow: hidden;
-}
-
-/* Contenedor para los detalles del perfil */
-.profile-details {
-  display: flex;
-  gap: 20px;
-  width: 100%;
-  overflow-y: auto;
-  max-height: calc(80vh - 100px);
-}
-
-/* Contenedor para la foto del doctor */
-.profile-photo-container {
-  flex: 0 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding-top: 10px;
-}
-
-/* Envoltorio de imagen redonda */
-.profile-photo-wrapper {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  background-color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Imagen circular */
-.profile-photo-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  transition: transform 0.3s ease-in-out;
-}
-
-.profile-photo-img:hover {
-  transform: scale(1.05);
-}
-
-/* Input de carga */
-.profile-photo-input {
-  font-size: 12px;
-  cursor: pointer;
-  color: #333;
-  background: transparent;
-  border: none;
-}
-
-/* Información del doctor */
-.profile-info {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  width: 100%;
-}
-
-/* Campos de entrada */
-.mat-form-field {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 0 12px;
-  font-size: 16px;
-}
-
-.mat-form-field-appearance-fill .mat-form-field-flex {
-  background-color: #fff;
-  border: 1.5px solid #c8d6e5;
-  border-radius: 12px;
-  transition: border 0.3s;
-}
-
-.mat-form-field-appearance-fill.mat-focused .mat-form-field-flex {
-  border-color: #dee0e2;
-}
-
-/* Botones */
-.footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 24px;
-  margin-top: 20px;
-}
-
-.save-button {
-  background-color: #416785;
-  color: #fff;
-  padding: 14px 28px;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.3s, box-shadow 0.3s;
-}
-
-.save-button:hover {
-  background-color: #224346;
-}
-
-/* Botón de activar/desactivar */
-.toggle-button {
-  padding: 14px 28px;
-  border: none;
-  border-radius: 12px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 700;
-  transition: background 0.3s;
-}
-
-.toggle-button.inactive {
-  background-color: #f44336;
-}
-
-.toggle-button.active {
-  background-color: #4CAF50;
-}
-
-.toggle-button:hover {
-  opacity: 0.85;
-}
-
-/* Responsive para tablets */
-@media (max-width: 900px) {
+  /* Contenedor principal del modal */
   .profile-container {
-    width: 90vw;
-    padding: 16px;
-  }
-
-  .profile-details {
+    display: flex;
     flex-direction: column;
-    gap: 16px;
-  }
-
-  .footer {
-    flex-direction: column;
-    gap: 12px;
-    align-items: stretch;
-  }
-
-  .save-button,
-  .toggle-button {
     width: 100%;
+    max-width: 100%;
+    padding: 16px;
+    background-color: #f2f6fc;
+    border-radius: 12px;
+    box-shadow: 0 8px 36px rgba(77, 182, 172, 0.2);
+    box-sizing: border-box;
+    max-height: 100vh;
+    overflow: hidden;
   }
-}
 
-/* Responsive para móviles */
-@media (max-width: 600px) {
-  .profile-container {
-    width: 100vw;
-    padding: 12px 6vw;
-  }
-
+  /* Contenedor para los detalles del perfil */
   .profile-details {
-    gap: 12px;
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    overflow-y: auto;
+    max-height: calc(80vh - 100px);
   }
 
-  .profile-info label {
-    font-size: 13px;
+  /* Contenedor para la foto del doctor */
+  .profile-photo-container {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding-top: 10px;
   }
 
-  .profile-info input {
-    font-size: 13px;
-    padding: 8px;
-  }
-
-  .footer {
-    margin-top: 16px;
-  }
-
+  /* Envoltorio de imagen redonda */
   .profile-photo-wrapper {
-    width: 70px;
-    height: 70px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
+  /* Imagen circular */
   .profile-photo-img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: transform 0.3s ease-in-out;
   }
-}
+
+  .profile-photo-img:hover {
+    transform: scale(1.05);
+  }
+
+  /* Input de carga */
+  .profile-photo-input {
+    font-size: 12px;
+    cursor: pointer;
+    color: #333;
+    background: transparent;
+    border: none;
+  }
+
+  /* Información del doctor */
+  .profile-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+  }
+
+  /* Campos de entrada */
+  .mat-form-field {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 0 12px;
+    font-size: 16px;
+  }
+
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: #fff;
+    border: 1.5px solid #c8d6e5;
+    border-radius: 12px;
+    transition: border 0.3s;
+  }
+
+  .mat-form-field-appearance-fill.mat-focused .mat-form-field-flex {
+    border-color: #dee0e2;
+  }
+
+  /* Botones */
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+    margin-top: 20px;
+  }
+
+  .save-button {
+    background-color: #416785;
+    color: #fff;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+
+  .save-button:hover {
+    background-color: #224346;
+  }
+
+  /* Botón de activar/desactivar */
+  .toggle-button {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    transition: background 0.3s;
+  }
+
+  .toggle-button.inactive {
+    background-color: #f44336;
+  }
+
+  .toggle-button.active {
+    background-color: #4CAF50;
+  }
+
+  .toggle-button:hover {
+    opacity: 0.85;
+  }
+
+  /* Responsive para tablets */
+  @media (max-width: 900px) {
+    .profile-container {
+      width: 90vw;
+      padding: 16px;
+    }
+
+    .profile-details {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .footer {
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .save-button,
+    .toggle-button {
+      width: 100%;
+    }
+  }
+
+  /* Responsive para móviles */
+  @media (max-width: 600px) {
+    .profile-container {
+      width: 100vw;
+      padding: 12px 6vw;
+    }
+
+    .profile-details {
+      gap: 12px;
+    }
+
+    .profile-info label {
+      font-size: 13px;
+    }
+
+    .profile-info input {
+      font-size: 13px;
+      padding: 8px;
+    }
+
+    .footer {
+      margin-top: 16px;
+    }
+
+    .profile-photo-wrapper {
+      width: 70px;
+      height: 70px;
+    }
+
+    .profile-photo-img {
+      width: 100%;
+      height: 100%;
+    }
+  }

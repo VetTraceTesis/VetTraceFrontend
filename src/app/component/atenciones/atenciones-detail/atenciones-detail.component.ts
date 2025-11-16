@@ -1,130 +1,130 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Importante para ngModel
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import {AtencionesInsertComponent} from '../atenciones-insert/atenciones-insert.component'
-import { Atencion } from '../../../model/atenciones.model';
-import { AtencionDetalle } from '../../../model/Atencion-detalle.model';
+  import { Component, OnInit } from '@angular/core';
+  import { ActivatedRoute, Router } from '@angular/router';
+  import { CommonModule } from '@angular/common';
+  import { FormsModule } from '@angular/forms'; // Importante para ngModel
+  import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+  import {AtencionesInsertComponent} from '../atenciones-insert/atenciones-insert.component'
+  import { Atencion } from '../../../model/atenciones.model';
+  import { AtencionDetalle } from '../../../model/Atencion-detalle.model';
 
-import { AtencionesService } from '../../../service/atenciones.service';
-import { HeaderComponent } from '../../../shared/header/header.component';
+  import { AtencionesService } from '../../../service/atenciones.service';
+  import { HeaderComponent } from '../../../shared/header/header.component';
 
-@Component({
-  selector: 'app-atenciones-detail',
-  standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent, MatDialogModule], // Asegúrate de tener FormsModule
-  templateUrl: './atenciones-detail.component.html',
-  styleUrls: ['./atenciones-detail.component.css']
-})
-export class AtencionesDetailComponent implements OnInit {
-  duenioId!: number;
-  atenciones: AtencionDetalle[] = [];
-  atencionesFiltradas: AtencionDetalle[] = []; // Nueva propiedad para almacenar los datos filtrados
-  paginatedAtenciones: AtencionDetalle[] = [];
+  @Component({
+    selector: 'app-atenciones-detail',
+    standalone: true,
+    imports: [CommonModule, FormsModule, HeaderComponent, MatDialogModule], // Asegúrate de tener FormsModule
+    templateUrl: './atenciones-detail.component.html',
+    styleUrls: ['./atenciones-detail.component.css']
+  })
+  export class AtencionesDetailComponent implements OnInit {
+    duenioId!: number;
+    atenciones: AtencionDetalle[] = [];
+    atencionesFiltradas: AtencionDetalle[] = []; // Nueva propiedad para almacenar los datos filtrados
+    paginatedAtenciones: AtencionDetalle[] = [];
 
-  currentPage = 1;
-  itemsPerPage = 5;
-  totalPages = 1;
+    currentPage = 1;
+    itemsPerPage = 5;
+    totalPages = 1;
 
-  // Nuevas propiedades para el filtro
-  filtroTipoSeleccionado: string = ''; // Valor del filtro seleccionado
-  tiposDisponibles: string[] = []; // Lista de tipos únicos
+    // Nuevas propiedades para el filtro
+    filtroTipoSeleccionado: string = ''; // Valor del filtro seleccionado
+    tiposDisponibles: string[] = []; // Lista de tipos únicos
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private atencionesService: AtencionesService,
-    private dialog: MatDialog
-  ) {}
+    constructor(
+      private route: ActivatedRoute,
+      private router: Router,
+      private atencionesService: AtencionesService,
+      private dialog: MatDialog
+    ) {}
 
-  ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.duenioId = +params['duenoId'];
-      if (isNaN(this.duenioId)) {
-        console.error('duenioId no es un número válido');
-        return;
-      }
-      this.cargarAtenciones();
-    });
-  }
-
-  cargarAtenciones() {
-    this.atencionesService.getAtencionesByDuenio(this.duenioId).subscribe({
-      next: data => {
-        this.atenciones = data.sort((a, b) => a.atencionId - b.atencionId);
-        console.log(this.atenciones);
-
-        // Generar la lista de tipos de diagnóstico únicos
-        this.tiposDisponibles = [...new Set(this.atenciones.map(a => a.nombreTipoDiagnostico))];
-
-        // Aplicar filtro inicial (vacío, mostrará todas)
-        this.aplicarFiltro();
-      },
-      error: err => {
-        console.error('Error al cargar atenciones:', err);
-      }
-    });
-  }
-
-  // Nuevo método para aplicar el filtro
-  aplicarFiltro(): void {
-    if (!this.filtroTipoSeleccionado) {
-      // Si no hay filtro, mostrar todas las atenciones
-      this.atencionesFiltradas = this.atenciones;
-    } else {
-      // Filtrar las atenciones según el tipo seleccionado
-      this.atencionesFiltradas = this.atenciones.filter(
-        atencion => atencion.nombreTipoDiagnostico === this.filtroTipoSeleccionado
-      );
+    ngOnInit() {
+      this.route.params.subscribe(params => {
+        this.duenioId = +params['duenoId'];
+        if (isNaN(this.duenioId)) {
+          console.error('duenioId no es un número válido');
+          return;
+        }
+        this.cargarAtenciones();
+      });
     }
-    // Reiniciar a la primera página después de filtrar
-    this.currentPage = 1;
-    // Actualizar la paginación y los elementos paginados
-    this.totalPages = Math.max(Math.ceil(this.atencionesFiltradas.length / this.itemsPerPage), 1);
-    this.actualizarPagina();
-  }
 
-  actualizarPagina() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.paginatedAtenciones = this.atencionesFiltradas.slice(startIndex, startIndex + this.itemsPerPage);
-  }
+    cargarAtenciones() {
+      this.atencionesService.getAtencionesByDuenio(this.duenioId).subscribe({
+        next: data => {
+          this.atenciones = data.sort((a, b) => a.atencionId - b.atencionId);
+          console.log(this.atenciones);
 
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
+          // Generar la lista de tipos de diagnóstico únicos
+          this.tiposDisponibles = [...new Set(this.atenciones.map(a => a.nombreTipoDiagnostico))];
+
+          // Aplicar filtro inicial (vacío, mostrará todas)
+          this.aplicarFiltro();
+        },
+        error: err => {
+          console.error('Error al cargar atenciones:', err);
+        }
+      });
+    }
+
+    // Nuevo método para aplicar el filtro
+    aplicarFiltro(): void {
+      if (!this.filtroTipoSeleccionado) {
+        // Si no hay filtro, mostrar todas las atenciones
+        this.atencionesFiltradas = this.atenciones;
+      } else {
+        // Filtrar las atenciones según el tipo seleccionado
+        this.atencionesFiltradas = this.atenciones.filter(
+          atencion => atencion.nombreTipoDiagnostico === this.filtroTipoSeleccionado
+        );
+      }
+      // Reiniciar a la primera página después de filtrar
+      this.currentPage = 1;
+      // Actualizar la paginación y los elementos paginados
+      this.totalPages = Math.max(Math.ceil(this.atencionesFiltradas.length / this.itemsPerPage), 1);
       this.actualizarPagina();
     }
-  }
 
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.actualizarPagina();
+    actualizarPagina() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      this.paginatedAtenciones = this.atencionesFiltradas.slice(startIndex, startIndex + this.itemsPerPage);
+    }
+
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+        this.actualizarPagina();
+      }
+    }
+
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+        this.actualizarPagina();
+      }
+    }
+
+    irADiagnostico(atencionId: number, tipoDiagnostico: number) {
+        this.router.navigate(['/atenciones/diagnostico', atencionId, tipoDiagnostico]);
+    }
+
+  irANuevaAtencion() {
+    const dialogRef = this.dialog.open(AtencionesInsertComponent, {
+      width: '80vw',
+      maxWidth: '1200px',
+      minWidth: '350px',
+      data: { duenoId: this.duenioId }
+      //position: { bottom: '70px' }
+    });
+
+    /* cuando se cierre el modal, si se creó algo volvemos a cargar */
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'created') {
+        this.cargarAtenciones(); // Recarga todas las atenciones, incluyendo las nuevas
+      }
+    });
+  }
+    goBack() {
+      this.router.navigate(['/atenciones']);
     }
   }
-
-  irADiagnostico(atencionId: number, tipoDiagnostico: number) {
-      this.router.navigate(['/atenciones/diagnostico', atencionId, tipoDiagnostico]);
-  }
-
- irANuevaAtencion() {
-  const dialogRef = this.dialog.open(AtencionesInsertComponent, {
-    width: '80vw',
-    maxWidth: '1200px',
-    minWidth: '350px',
-    data: { duenoId: this.duenioId }
-    //position: { bottom: '70px' }
-  });
-
-  /* cuando se cierre el modal, si se creó algo volvemos a cargar */
-  dialogRef.afterClosed().subscribe(result => {
-    if (result === 'created') {
-      this.cargarAtenciones(); // Recarga todas las atenciones, incluyendo las nuevas
-    }
-  });
-}
-  goBack() {
-    this.router.navigate(['/atenciones']);
-  }
-}

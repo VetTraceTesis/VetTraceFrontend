@@ -1,160 +1,160 @@
-/* src/app/components/farmacia/farmacia.component.css */
+  /* src/app/components/farmacia/farmacia.component.css */
 
-/* Contenedor principal: ocupa todo el ancho y respeta header */
-.farmacia-container {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 40px; /* Espacio entre secciones principales */
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: 85px; /* deja espacio para el header fijo */
-}
+  /* Contenedor principal: ocupa todo el ancho y respeta header */
+  .farmacia-container {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px; /* Espacio entre secciones principales */
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 85px; /* deja espacio para el header fijo */
+  }
 
-/* Estilos para el título */
-h2 {
-  color: #416785;
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  margin-bottom: 0; /* Elimina el margen inferior del título */
-  text-align: center;
-}
+  /* Estilos para el título */
+  h2 {
+    color: #416785;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 0; /* Elimina el margen inferior del título */
+    text-align: center;
+  }
 
-/* Cabecera: botón, filtros y título */
-.header-controls {
-  display: flex;
-  flex-direction: column; /* Apilamiento vertical inicial */
-  align-items: center;
-  gap: 16px; /* Espacio entre elementos */
-  width: 100%;
-}
-
-/* Fila de botones */
-.buttons-row {
-  display: flex;
-  gap: 12px;
-}
-
-/* Botón Atrás */
-.back-button {
-  padding: 10px 22px;
-  border: none;
-  border-radius: 10px;
-  font-weight: 700;
-  cursor: pointer;
-  background: linear-gradient(90deg, #416785 60%, #6c8ca3 100%);
-  color: white;
-  transition: background 0.2s, box-shadow 0.2s;
-}
-
-.back-button:hover {
-  background: linear-gradient(90deg, #224346 60%, #416785 100%);
-  box-shadow: 0 4px 16px rgba(77, 182, 172, 0.13);
-}
-
-/* Contenedor para los filtros */
-.filters-container {
-  display: flex;
-  flex-direction: row; /* Alineación horizontal */
-  gap: 16px; /* Espacio entre los campos de filtro */
-  width: 100%;
-  max-width: 800px; /* Limita el ancho máximo de los filtros */
-  justify-content: center; /* Centra los campos horizontalmente */
-}
-
-/* Campo de búsqueda y filtro de farmacia */
-.search-field {
-  flex: 1; /* Permite que ambos campos crezcan equitativamente */
-  min-width: 200px; /* Ancho mínimo para evitar que se hagan muy pequeños */
-  max-width: 300px; /* Ancho máximo para el campo de búsqueda */
-}
-
-/* Mensajes de estado */
-.loading,
-.error {
-  font-size: 1.1rem;
-  text-align: center;
-  margin: 20px 0;
-}
-
-.error {
-  color: #d32f2f;
-}
-
-/* Grid de tarjetas ocupa ancho completo */
-.market-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 20px;
-  width: 100%;
-}
-
-/* Tarjetas más compactas */
-.market-card {
-  border-radius: 12px;
-  overflow: hidden;
-  background: white;
-  transition: box-shadow 0.3s, transform 0.2s;
-}
-
-.market-card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  transform: translateY(-4px);
-}
-
-mat-card-image {
-  height: 140px;
-  object-fit: cover;
-}
-
-/* Contenido de la tarjeta */
-mat-card-content {
-  padding: 8px;
-}
-
-.card-title {
-  margin: 0 0 4px;
-  font-size: 11px;
-  color: #212121;
-}
-
-.card-price {
-  margin: 0 0 4px;
-  font-weight: bold;
-  color: #388e3c;
-  font-size: 0.9rem;
-}
-
-.card-farmacia {
-  margin: 0;
-  font-size: 0.8rem;
-  color: #757575;
-}
-
-/* Paginador centrado al pie */
-.paginator-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-/* Responsividad: En pantallas pequeñas, los filtros se apilan verticalmente */
-@media (max-width: 768px) {
+  /* Cabecera: botón, filtros y título */
   .header-controls {
-    gap: 12px; /* Reduce el espacio entre secciones */
-  }
-
-  .filters-container {
-    flex-direction: column; /* Cambia a apilamiento vertical */
-    align-items: center; /* Centra los campos verticalmente */
-    gap: 12px; /* Espacio entre los campos apilados */
-  }
-
-  .search-field {
-    max-width: 100%; /* Permite que los campos ocupen todo el ancho */
+    display: flex;
+    flex-direction: column; /* Apilamiento vertical inicial */
+    align-items: center;
+    gap: 16px; /* Espacio entre elementos */
     width: 100%;
   }
-}
+
+  /* Fila de botones */
+  .buttons-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  /* Botón Atrás */
+  .back-button {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    background: linear-gradient(90deg, #416785 60%, #6c8ca3 100%);
+    color: white;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+
+  .back-button:hover {
+    background: linear-gradient(90deg, #224346 60%, #416785 100%);
+    box-shadow: 0 4px 16px rgba(77, 182, 172, 0.13);
+  }
+
+  /* Contenedor para los filtros */
+  .filters-container {
+    display: flex;
+    flex-direction: row; /* Alineación horizontal */
+    gap: 16px; /* Espacio entre los campos de filtro */
+    width: 100%;
+    max-width: 800px; /* Limita el ancho máximo de los filtros */
+    justify-content: center; /* Centra los campos horizontalmente */
+  }
+
+  /* Campo de búsqueda y filtro de farmacia */
+  .search-field {
+    flex: 1; /* Permite que ambos campos crezcan equitativamente */
+    min-width: 200px; /* Ancho mínimo para evitar que se hagan muy pequeños */
+    max-width: 300px; /* Ancho máximo para el campo de búsqueda */
+  }
+
+  /* Mensajes de estado */
+  .loading,
+  .error {
+    font-size: 1.1rem;
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  .error {
+    color: #d32f2f;
+  }
+
+  /* Grid de tarjetas ocupa ancho completo */
+  .market-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    width: 100%;
+  }
+
+  /* Tarjetas más compactas */
+  .market-card {
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    transition: box-shadow 0.3s, transform 0.2s;
+  }
+
+  .market-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+  }
+
+  mat-card-image {
+    height: 140px;
+    object-fit: cover;
+  }
+
+  /* Contenido de la tarjeta */
+  mat-card-content {
+    padding: 8px;
+  }
+
+  .card-title {
+    margin: 0 0 4px;
+    font-size: 11px;
+    color: #212121;
+  }
+
+  .card-price {
+    margin: 0 0 4px;
+    font-weight: bold;
+    color: #388e3c;
+    font-size: 0.9rem;
+  }
+
+  .card-farmacia {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #757575;
+  }
+
+  /* Paginador centrado al pie */
+  .paginator-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  /* Responsividad: En pantallas pequeñas, los filtros se apilan verticalmente */
+  @media (max-width: 768px) {
+    .header-controls {
+      gap: 12px; /* Reduce el espacio entre secciones */
+    }
+
+    .filters-container {
+      flex-direction: column; /* Cambia a apilamiento vertical */
+      align-items: center; /* Centra los campos verticalmente */
+      gap: 12px; /* Espacio entre los campos apilados */
+    }
+
+    .search-field {
+      max-width: 100%; /* Permite que los campos ocupen todo el ancho */
+      width: 100%;
+    }
+  }

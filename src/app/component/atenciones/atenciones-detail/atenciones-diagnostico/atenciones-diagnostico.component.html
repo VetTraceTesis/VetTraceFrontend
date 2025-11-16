@@ -1,154 +1,154 @@
-<app-header></app-header>
+  <app-header></app-header>
 
-<div class="container">
-  <h2>Reporte de Atención N° {{atencionId}}</h2>
+  <div class="container">
+    <h2>Reporte de Atención N° {{atencionId}}</h2>
 
-  <!-- Info paciente/dueño -->
-  <div class="info" *ngIf="detalles.length > 0">
-    <span>Dueño: {{ detalles[0].duenioNombre }} {{ detalles[0].duenioApellido }}</span>
-    <span>Paciente: {{ detalles[0].mascotaNombre }} ({{ detalles[0].mascotaEspecie }})</span>
-    <span>Correlativo: {{ detalles[0].correlativo }}</span>
-    <span>Email Paciente: {{ detalles[0].emailPaciente }} </span>
-  </div>
+    <!-- Info paciente/dueño -->
+    <div class="info" *ngIf="detalles.length > 0">
+      <span>Dueño: {{ detalles[0].duenioNombre }} {{ detalles[0].duenioApellido }}</span>
+      <span>Paciente: {{ detalles[0].mascotaNombre }} ({{ detalles[0].mascotaEspecie }})</span>
+      <span>Correlativo: {{ detalles[0].correlativo }}</span>
+      <span>Email Paciente: {{ detalles[0].emailPaciente }} </span>
+    </div>
 
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Estado de Atención</mat-label>
-<mat-select [(ngModel)]="estadoAtencion" name="estadoAtencion" [disabled]="estadoOriginal === 2">
-       <mat-option *ngFor="let estado of estadosAtencion" [value]="estado.id">
-        {{ estado.nombre }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Estado de Atención</mat-label>
+  <mat-select [(ngModel)]="estadoAtencion" name="estadoAtencion" [disabled]="estadoOriginal === 2">
+        <mat-option *ngFor="let estado of estadosAtencion" [value]="estado.id">
+          {{ estado.nombre }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-tab-group>
-    <!-- Tab Diagnóstico -->
-    <mat-tab label="Diagnóstico">
-      <form class="form-diagnostico">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Comentario</mat-label>
-          <textarea matInput rows="4"
-                    [(ngModel)]="diagnostico.comentario"
-                    name="comentario"
+    <mat-tab-group>
+      <!-- Tab Diagnóstico -->
+      <mat-tab label="Diagnóstico">
+        <form class="form-diagnostico">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Comentario</mat-label>
+            <textarea matInput rows="4"
+                      [(ngModel)]="diagnostico.comentario"
+                      name="comentario"
+                      [disabled]="isFinalizado()"
+                      #comentarioDiag="ngModel"
+                      required
+                      minlength="5"
+                      maxlength="500"
+                      ></textarea>
+          </mat-form-field>
+          <mat-error *ngIf="comentarioDiag.invalid && comentarioDiag.touched">
+            <span *ngIf="comentarioDiag.errors?.['required']">El comentario es obligatorio.</span>
+            <span *ngIf="comentarioDiag.errors?.['minlength']">El comentario debe tener al menos 5 caracteres.</span>
+            <span *ngIf="comentarioDiag.errors?.['maxlength']">El comentario no debe exceder los 500 caracteres.</span>
+          </mat-error>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Resultado</mat-label>
+            <input matInput
+                  [(ngModel)]="diagnostico.resultado"
+                  name="resultado"
+                  [disabled]="isFinalizado()"
+                  #resultadoDiag="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="200"
+                  >
+          </mat-form-field>
+          <mat-error *ngIf="resultadoDiag.invalid && resultadoDiag.touched">
+            <span *ngIf="resultadoDiag.errors?.['required']">El resultado es obligatorio.</span>
+            <span *ngIf="resultadoDiag.errors?.['minlength']">El resultado debe tener al menos 2 caracteres.</span>
+            <span *ngIf="resultadoDiag.errors?.['maxlength']">El resultado no debe exceder los 200 caracteres.</span>
+          </mat-error>
+
+          <div class="buttons">
+            <button mat-raised-button color="primary"
+                    (click)="guardarDiagnostico()"
+                    [disabled]="isFinalizado()">
+              <mat-icon>save</mat-icon>
+              Guardar Diagnóstico
+            </button>
+          </div>
+        </form>
+      </mat-tab>
+
+      <!-- Tab Recetas -->
+      <mat-tab label="Recetas">
+        <div class="input-plus">
+          <button mat-icon-button>
+            <mat-icon>calendar_today</mat-icon>
+          </button>
+        </div>
+
+        <table *ngIf="MostrarMedicamentos?.length" class="medicamentos-table">
+          <thead>
+            <tr>
+              <th>Medicamento</th><th>Cantidad</th><th>Indicación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let med of MostrarMedicamentos; ">
+              <td>{{ med.medicamento }}</td>
+              <td>{{ med.cantidad }}</td>
+              <td>{{ med.indicacion }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <mat-form-field appearance="outline" class="full-width comentario-container">
+          <mat-label>Comentario Receta</mat-label>
+          <textarea matInput rows="3"
+                    [(ngModel)]="receta.comentarios"
+                    name="comentarioReceta"
                     [disabled]="isFinalizado()"
-                    #comentarioDiag="ngModel"
+                    #comentarioRec="ngModel"
                     required
                     minlength="5"
                     maxlength="500"
                     ></textarea>
         </mat-form-field>
-        <mat-error *ngIf="comentarioDiag.invalid && comentarioDiag.touched">
-          <span *ngIf="comentarioDiag.errors?.['required']">El comentario es obligatorio.</span>
-          <span *ngIf="comentarioDiag.errors?.['minlength']">El comentario debe tener al menos 5 caracteres.</span>
-          <span *ngIf="comentarioDiag.errors?.['maxlength']">El comentario no debe exceder los 500 caracteres.</span>
-        </mat-error>
-
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Resultado</mat-label>
-          <input matInput
-                 [(ngModel)]="diagnostico.resultado"
-                 name="resultado"
-                 [disabled]="isFinalizado()"
-                 #resultadoDiag="ngModel"
-                 required
-                 minlength="2"
-                 maxlength="200"
-                 >
-        </mat-form-field>
-        <mat-error *ngIf="resultadoDiag.invalid && resultadoDiag.touched">
-          <span *ngIf="resultadoDiag.errors?.['required']">El resultado es obligatorio.</span>
-          <span *ngIf="resultadoDiag.errors?.['minlength']">El resultado debe tener al menos 2 caracteres.</span>
-          <span *ngIf="resultadoDiag.errors?.['maxlength']">El resultado no debe exceder los 200 caracteres.</span>
+        <mat-error *ngIf="comentarioRec.invalid && comentarioRec.touched">
+          <span *ngIf="comentarioRec.errors?.['required']">El comentario de la receta es obligatorio.</span>
+          <span *ngIf="comentarioRec.errors?.['minlength']">El comentario debe tener al menos 5 caracteres.</span>
+          <span *ngIf="comentarioRec.errors?.['maxlength']">El comentario no debe exceder los 500 caracteres.</span>
         </mat-error>
 
         <div class="buttons">
-          <button mat-raised-button color="primary"
-                  (click)="guardarDiagnostico()"
-                  [disabled]="isFinalizado()">
-            <mat-icon>save</mat-icon>
-            Guardar Diagnóstico
-          </button>
+          <div class="left-buttons">
+            <button mat-raised-button color="primary" (click)="abrirModal()" [disabled]="isFinalizado()">
+              <mat-icon>open_in_new</mat-icon>
+              Registrar Medicamento
+            </button>
+            <button mat-raised-button color="primary" (click)="buscarMapa(detalles[0].correlativo)" [disabled]="isFinalizado()">
+              <mat-icon>open_in_new</mat-icon>
+              Buscar en el Mapa
+            </button>
+          </div>
+          <div class="right-buttons">
+            <button mat-raised-button color="primary"
+                    (click)="guardarReceta()"
+                    [disabled]="isFinalizado()">
+              <mat-icon>save</mat-icon>
+              Guardar Receta
+            </button>
+            <button mat-raised-button color="accent"
+                    (click)="generarReporte()">
+              <mat-icon>print</mat-icon>
+              Reporte
+            </button>
+            <button mat-raised-button color="accent"
+                    (click)="generarCorreo()">
+              <mat-icon>email</mat-icon>
+              Enviar Por Correo
+            </button>
+          </div>
         </div>
-      </form>
-    </mat-tab>
+      </mat-tab>
+    </mat-tab-group>
 
-    <!-- Tab Recetas -->
-    <mat-tab label="Recetas">
-      <div class="input-plus">
-        <button mat-icon-button>
-          <mat-icon>calendar_today</mat-icon>
-        </button>
-      </div>
-
-      <table *ngIf="MostrarMedicamentos?.length" class="medicamentos-table">
-        <thead>
-          <tr>
-            <th>Medicamento</th><th>Cantidad</th><th>Indicación</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let med of MostrarMedicamentos; ">
-            <td>{{ med.medicamento }}</td>
-            <td>{{ med.cantidad }}</td>
-            <td>{{ med.indicacion }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <mat-form-field appearance="outline" class="full-width comentario-container">
-        <mat-label>Comentario Receta</mat-label>
-        <textarea matInput rows="3"
-                  [(ngModel)]="receta.comentarios"
-                  name="comentarioReceta"
-                  [disabled]="isFinalizado()"
-                  #comentarioRec="ngModel"
-                  required
-                  minlength="5"
-                  maxlength="500"
-                  ></textarea>
-      </mat-form-field>
-      <mat-error *ngIf="comentarioRec.invalid && comentarioRec.touched">
-        <span *ngIf="comentarioRec.errors?.['required']">El comentario de la receta es obligatorio.</span>
-        <span *ngIf="comentarioRec.errors?.['minlength']">El comentario debe tener al menos 5 caracteres.</span>
-        <span *ngIf="comentarioRec.errors?.['maxlength']">El comentario no debe exceder los 500 caracteres.</span>
-      </mat-error>
-
-      <div class="buttons">
-        <div class="left-buttons">
-          <button mat-raised-button color="primary" (click)="abrirModal()" [disabled]="isFinalizado()">
-            <mat-icon>open_in_new</mat-icon>
-            Registrar Medicamento
-          </button>
-          <button mat-raised-button color="primary" (click)="buscarMapa(detalles[0].correlativo)" [disabled]="isFinalizado()">
-            <mat-icon>open_in_new</mat-icon>
-            Buscar en el Mapa
-          </button>
-        </div>
-        <div class="right-buttons">
-          <button mat-raised-button color="primary"
-                  (click)="guardarReceta()"
-                  [disabled]="isFinalizado()">
-            <mat-icon>save</mat-icon>
-            Guardar Receta
-          </button>
-          <button mat-raised-button color="accent"
-                  (click)="generarReporte()">
-            <mat-icon>print</mat-icon>
-            Reporte
-          </button>
-          <button mat-raised-button color="accent"
-                  (click)="generarCorreo()">
-            <mat-icon>email</mat-icon>
-            Enviar Por Correo
-          </button>
-        </div>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
-
-  <div class="buttons bottom">
-    <button mat-stroked-button (click)="atras()">
-      <mat-icon>arrow_back</mat-icon>
-      Atrás
-    </button>
+    <div class="buttons bottom">
+      <button mat-stroked-button (click)="atras()">
+        <mat-icon>arrow_back</mat-icon>
+        Atrás
+      </button>
+    </div>
   </div>
-</div>

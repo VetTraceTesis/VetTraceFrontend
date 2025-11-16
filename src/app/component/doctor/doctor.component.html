@@ -1,39 +1,39 @@
-<app-header></app-header>
+  <app-header></app-header>
 
-<div class="modulos-container main-content ">
-  <h2>Médicos Veterinarios:</h2>
+  <div class="modulos-container main-content ">
+    <h2>Médicos Veterinarios:</h2>
 
-  <!-- Caja de búsqueda -->
-  <div class="search-container">
-    <input 
-      type="text" 
-      [(ngModel)]="searchTerm" 
-      (input)="filterDoctors()" 
-      placeholder="Buscar por nombre..." />
-  </div>
+    <!-- Caja de búsqueda -->
+    <div class="search-container">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (input)="filterDoctors()" 
+        placeholder="Buscar por nombre..." />
+    </div>
 
-  <!-- Botones de navegación -->
-  <div class="buttons-row">
-    <button class="back-button" (click)="goBack()">Atrás</button>
-    <button class="add-doctor-button" (click)="openDoctorModal()">Agregar Nuevo Médico</button>
-  </div>
+    <!-- Botones de navegación -->
+    <div class="buttons-row">
+      <button class="back-button" (click)="goBack()">Atrás</button>
+      <button class="add-doctor-button" (click)="openDoctorModal()">Agregar Nuevo Médico</button>
+    </div>
 
-  <!-- Contenedor grid con referencia para calcular el ancho -->
-  <div #gridContainer class="grid">
-    <div class="card" *ngFor="let doctor of paginatedDoctors"   [ngClass]="{ 'inactive-card': doctor.id_estado === 0 }" (click)="openDoctorDetailModal(doctor.id)">
-      <div class="card-body">
-        <div class="profile-info">
-          <h3>{{ doctor.apellido }}, {{ doctor.nombre }}</h3>
-          <p>Contacto: {{ doctor.telefono }}</p>
+    <!-- Contenedor grid con referencia para calcular el ancho -->
+    <div #gridContainer class="grid">
+      <div class="card" *ngFor="let doctor of paginatedDoctors"   [ngClass]="{ 'inactive-card': doctor.id_estado === 0 }" (click)="openDoctorDetailModal(doctor.id)">
+        <div class="card-body">
+          <div class="profile-info">
+            <h3>{{ doctor.apellido }}, {{ doctor.nombre }}</h3>
+            <p>Contacto: {{ doctor.telefono }}</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Paginador -->
-  <div class="paginator">
-    <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
-    <span>Página {{ currentPage }} de {{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+    <!-- Paginador -->
+    <div class="paginator">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+    </div>
   </div>
-</div>

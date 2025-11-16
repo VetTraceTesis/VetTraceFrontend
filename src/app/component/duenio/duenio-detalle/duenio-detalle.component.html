@@ -1,270 +1,270 @@
-<div class="profile-container" *ngIf="duenio">
-  <mat-tab-group>
+  <div class="profile-container" *ngIf="duenio">
+    <mat-tab-group>
 
-    <!-- TAB DUEÑO -->
-    <mat-tab label="Dueño">
-      <div class="profile-details">
-        <div class="profile-info">
-
-          <!-- Nombre -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Nombre</mat-label>
-            <input
-              matInput
-              [(ngModel)]="duenio.nombre"
-              [disabled]="disableFields"
-              placeholder="Nombre del Dueño"
-              required
-              minlength="2"
-              #nombre="ngModel"
-              [ngClass]="{ 'is-invalid': nombre.invalid && nombre.touched }"
-            />
-            <mat-error *ngIf="nombre.invalid && nombre.touched">
-              <span *ngIf="nombre.errors">El nombre es obligatorio.</span>
-              <span *ngIf="nombre.errors">El nombre debe tener al menos 2 caracteres.</span>
-            </mat-error>
-          </mat-form-field>
-
-          <!-- Apellido -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Apellido</mat-label>
-            <input
-              matInput
-              [(ngModel)]="duenio.apellido"
-              [disabled]="disableFields"
-              placeholder="Apellido del Dueño"
-              required
-              minlength="2"
-              #apellido="ngModel"
-              [ngClass]="{ 'is-invalid': apellido.invalid && apellido.touched }"
-            />
-            <mat-error *ngIf="apellido.invalid && apellido.touched">
-              <span *ngIf="apellido.errors">El apellido es obligatorio.</span>
-              <span *ngIf="apellido.errors">El apellido debe tener al menos 2 caracteres.</span>
-            </mat-error>
-          </mat-form-field>
-
-          <!-- Contacto (Teléfono) -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Contacto</mat-label>
-            <input
-              matInput
-              type="tel"
-              [(ngModel)]="duenio.telefono"
-              [disabled]="disableFields"
-              placeholder="Número de contacto (9 dígitos)"
-              required
-              pattern="^[0-9]{9}$"
-              #telefono="ngModel"
-              [ngClass]="{ 'is-invalid': telefono.invalid && telefono.touched }"
-            />
-            <mat-error *ngIf="telefono.invalid && telefono.touched">
-              <span *ngIf="telefono.errors">El número de contacto es obligatorio.</span>
-              <span *ngIf="telefono.errors">El número debe tener exactamente 9 dígitos numéricos.</span>
-            </mat-error>
-          </mat-form-field>
-
-          <!-- Email -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Email</mat-label>
-            <input
-              matInput
-              type="email"
-              [(ngModel)]="duenio.email"
-              [disabled]="disableFields"
-              placeholder="Email del Dueño (ej: nombre@dominio.com)"
-              required
-              email
-              #email="ngModel"
-              [ngClass]="{ 'is-invalid': email.invalid && email.touched }"
-            />
-            <mat-error *ngIf="email.invalid && email.touched">
-              <span *ngIf="email.errors">El correo electrónico es obligatorio.</span>
-              <span *ngIf="email.errors">El correo debe tener un formato válido.</span>
-            </mat-error>
-          </mat-form-field>
-
-          <!-- Género -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Género</mat-label>
-            <mat-select [(ngModel)]="duenio.genero" [disabled]="disableFields" required #generoSelect="ngModel">
-              <mat-option *ngFor="let g of genero" [value]="g">{{ g }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="generoSelect.invalid && generoSelect.touched">El género es obligatorio.</mat-error>
-          </mat-form-field>
-
-          <!-- Distrito -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Distrito</mat-label>
-            <input
-              matInput
-              [(ngModel)]="duenio.distrito"
-              [matAutocomplete]="auto"
-              (ngModelChange)="filterDistricts($event)"
-              [disabled]="disableFields"
-              placeholder="Escribe o selecciona un distrito"
-              required
-              #distrito="ngModel"
-              [ngClass]="{ 'is-invalid': distrito.invalid && distrito.touched }"
-            />
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let d of filteredDistricts" [value]="d">{{ d }}</mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="distrito.invalid && distrito.touched">
-              <span *ngIf="distrito.errors">El distrito es obligatorio.</span>
-            </mat-error>
-          </mat-form-field>
-
-          <!-- Dirección -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Dirección</mat-label>
-            <input
-              matInput
-              [(ngModel)]="duenio.direccion"
-              [disabled]="disableFields"
-              placeholder="Dirección completa del Dueño"
-              required
-              minlength="5"
-              #direccion="ngModel"
-              [ngClass]="{ 'is-invalid': direccion.invalid && direccion.touched }"
-            />
-            <mat-error *ngIf="direccion.invalid && direccion.touched">
-              <span *ngIf="direccion.errors">La dirección es obligatoria.</span>
-              <span *ngIf="direccion.errors">La dirección debe tener al menos 5 caracteres.</span>
-            </mat-error>
-          </mat-form-field>
-
-          <div class="botons-style">
-            <button
-              mat-flat-button
-              color="primary"
-              (click)="saveDuenio()"
-              [disabled]="!nombre.valid || !apellido.valid || !telefono.valid || !email.valid || !generoSelect.valid || !distrito.valid || !direccion.valid"
-            >
-              Guardar
-            </button>
-            <button
-              mat-flat-button
-              [color]="duenio.idestado === 1 ? 'warn' : 'accent'"
-              (click)="duenio.idestado = duenio.idestado === 1 ? 0 : 1"
-            >
-              {{ duenio.idestado === 1 ? 'Desactivar' : 'Activar' }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </mat-tab>
-
-    <!-- TAB MASCOTAS - Deshabilitado si es nuevo dueño y no está guardado -->
-    <mat-tab label="Mascotas" [disabled]="!isOwnerSaved">
-      <div class="mascotas-section">
-        <!-- Listado de mascotas -->
-        <div *ngIf="!selectedMascota" class="mascotas-cards">
-          <h3>Mascotas asociadas al dueño:</h3>
-          <button mat-flat-button color="primary" (click)="openMascotaModal()">Añadir Mascota</button>
-          <div class="card-container">
-            <mat-card class="mascota-card" *ngFor="let mascota of mascotas" [ngClass]="{ 'inactive-card': mascota.idEstado === 0 }">
-              <mat-card-content>
-                <h4>{{ mascota.nombre }}</h4>
-                <p>{{ mascota.especie }} - {{ mascota.edad }} años</p>
-                <button mat-button color="accent" (click)="viewMascotaDetail(mascota)">Ver Detalle</button>
-              </mat-card-content>
-            </mat-card>
-          </div>
-        </div>
-
-        <!-- Detalle de la mascota seleccionada -->
-        <div *ngIf="selectedMascota" class="mascota-detail">
-         
-           <div class="profile-photo-container">
-  <div class="profile-photo">
-    <!-- Vista previa -->
-    <img
-      *ngIf="previewUrl"
-      [src]="previewUrl"
-      alt="Vista previa de la mascota"
-      class="mascota-image"
-    />
-
-    <!-- Imagen existente desde BD -->
-    <img
-      *ngIf="!previewUrl && selectedMascota?.rutaimagen"
-      [src]="'http://102.37.216.79:80' + selectedMascota.rutaimagen"
-      alt="Imagen actual"
-      class="mascota-image"
-    />
-  </div>
-
-  <!-- input fuera del círculo -->
-  <input
-    type="file"
-    (change)="onFileSelected($event)"
-    accept="image/*"
-    class="file-input"
-  />
-</div>
- 
-
+      <!-- TAB DUEÑO -->
+      <mat-tab label="Dueño">
+        <div class="profile-details">
           <div class="profile-info">
-            <!-- Nombre Mascota -->
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Nombre Mascota</mat-label>
-              <input matInput [(ngModel)]="selectedMascota.nombre" [disabled]="disableFields" required minlength="2" pattern="^[a-zA-Z\s]+$" #mascotaNombre="ngModel"/>
-              <mat-error *ngIf="mascotaNombre.invalid && mascotaNombre.touched">
-                <span *ngIf="mascotaNombre.errors">El nombre de la mascota es obligatorio.</span>
-                <span *ngIf="mascotaNombre.errors">El nombre debe tener al menos 2 caracteres.</span>
-                <span *ngIf="mascotaNombre.errors">El nombre solo puede contener letras y espacios.</span>
-              </mat-error>
-            </mat-form-field>
 
-            <!-- Especie -->
+            <!-- Nombre -->
             <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Especie</mat-label>
-              <mat-select [(ngModel)]="selectedMascota.especie" [disabled]="disableFields" required #especie="ngModel">
-                <mat-option *ngFor="let e of especiesValidas" [value]="e">{{ e }}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="especie.invalid && especie.touched">La especie es obligatoria.</mat-error>
-            </mat-form-field>
-
-            <!-- Edad -->
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Edad (años)</mat-label>
-              <input matInput type="number" [(ngModel)]="selectedMascota.edad" [disabled]="disableFields" required min="0" max="30" #edad="ngModel"/>
-              <mat-error *ngIf="edad.invalid && edad.touched">
-                <span *ngIf="edad.errors">La edad es obligatoria.</span>
-                <span *ngIf="edad.errors">La edad no puede ser negativa.</span>
-                <span *ngIf="edad.errors">La edad máxima permitida es 30 años.</span>
-              </mat-error>
-            </mat-form-field>
-
-            <!-- Fecha de Nacimiento -->
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Fecha de Nacimiento</mat-label>
+              <mat-label>Nombre</mat-label>
               <input
                 matInput
-                [matDatepicker]="picker2"
-                [(ngModel)]="selectedMascota.fecharegistro"
+                [(ngModel)]="duenio.nombre"
                 [disabled]="disableFields"
-                placeholder="Selecciona fecha"
+                placeholder="Nombre del Dueño"
                 required
-                #fechaNac="ngModel"
+                minlength="2"
+                #nombre="ngModel"
+                [ngClass]="{ 'is-invalid': nombre.invalid && nombre.touched }"
               />
-              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-              <mat-datepicker #picker2></mat-datepicker>
-              <mat-error *ngIf="fechaNac.invalid && fechaNac.touched">
-                <span *ngIf="fechaNac.errors">La fecha de nacimiento es obligatoria.</span>
+              <mat-error *ngIf="nombre.invalid && nombre.touched">
+                <span *ngIf="nombre.errors">El nombre es obligatorio.</span>
+                <span *ngIf="nombre.errors">El nombre debe tener al menos 2 caracteres.</span>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Apellido -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Apellido</mat-label>
+              <input
+                matInput
+                [(ngModel)]="duenio.apellido"
+                [disabled]="disableFields"
+                placeholder="Apellido del Dueño"
+                required
+                minlength="2"
+                #apellido="ngModel"
+                [ngClass]="{ 'is-invalid': apellido.invalid && apellido.touched }"
+              />
+              <mat-error *ngIf="apellido.invalid && apellido.touched">
+                <span *ngIf="apellido.errors">El apellido es obligatorio.</span>
+                <span *ngIf="apellido.errors">El apellido debe tener al menos 2 caracteres.</span>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Contacto (Teléfono) -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Contacto</mat-label>
+              <input
+                matInput
+                type="tel"
+                [(ngModel)]="duenio.telefono"
+                [disabled]="disableFields"
+                placeholder="Número de contacto (9 dígitos)"
+                required
+                pattern="^[0-9]{9}$"
+                #telefono="ngModel"
+                [ngClass]="{ 'is-invalid': telefono.invalid && telefono.touched }"
+              />
+              <mat-error *ngIf="telefono.invalid && telefono.touched">
+                <span *ngIf="telefono.errors">El número de contacto es obligatorio.</span>
+                <span *ngIf="telefono.errors">El número debe tener exactamente 9 dígitos numéricos.</span>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Email -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Email</mat-label>
+              <input
+                matInput
+                type="email"
+                [(ngModel)]="duenio.email"
+                [disabled]="disableFields"
+                placeholder="Email del Dueño (ej: nombre@dominio.com)"
+                required
+                email
+                #email="ngModel"
+                [ngClass]="{ 'is-invalid': email.invalid && email.touched }"
+              />
+              <mat-error *ngIf="email.invalid && email.touched">
+                <span *ngIf="email.errors">El correo electrónico es obligatorio.</span>
+                <span *ngIf="email.errors">El correo debe tener un formato válido.</span>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Género -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Género</mat-label>
+              <mat-select [(ngModel)]="duenio.genero" [disabled]="disableFields" required #generoSelect="ngModel">
+                <mat-option *ngFor="let g of genero" [value]="g">{{ g }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="generoSelect.invalid && generoSelect.touched">El género es obligatorio.</mat-error>
+            </mat-form-field>
+
+            <!-- Distrito -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Distrito</mat-label>
+              <input
+                matInput
+                [(ngModel)]="duenio.distrito"
+                [matAutocomplete]="auto"
+                (ngModelChange)="filterDistricts($event)"
+                [disabled]="disableFields"
+                placeholder="Escribe o selecciona un distrito"
+                required
+                #distrito="ngModel"
+                [ngClass]="{ 'is-invalid': distrito.invalid && distrito.touched }"
+              />
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let d of filteredDistricts" [value]="d">{{ d }}</mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="distrito.invalid && distrito.touched">
+                <span *ngIf="distrito.errors">El distrito es obligatorio.</span>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Dirección -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Dirección</mat-label>
+              <input
+                matInput
+                [(ngModel)]="duenio.direccion"
+                [disabled]="disableFields"
+                placeholder="Dirección completa del Dueño"
+                required
+                minlength="5"
+                #direccion="ngModel"
+                [ngClass]="{ 'is-invalid': direccion.invalid && direccion.touched }"
+              />
+              <mat-error *ngIf="direccion.invalid && direccion.touched">
+                <span *ngIf="direccion.errors">La dirección es obligatoria.</span>
+                <span *ngIf="direccion.errors">La dirección debe tener al menos 5 caracteres.</span>
               </mat-error>
             </mat-form-field>
 
             <div class="botons-style">
-              <button mat-flat-button color="primary" (click)="saveMascota()">Guardar</button>
-              <button mat-flat-button [color]="selectedMascota.idEstado === 1 ? 'warn' : 'accent'" (click)="selectedMascota.idEstado = selectedMascota.idEstado === 1 ? 0 : 1">
-                {{ selectedMascota.idEstado === 1 ? 'Desactivar' : 'Activar' }}
+              <button
+                mat-flat-button
+                color="primary"
+                (click)="saveDuenio()"
+                [disabled]="!nombre.valid || !apellido.valid || !telefono.valid || !email.valid || !generoSelect.valid || !distrito.valid || !direccion.valid"
+              >
+                Guardar
+              </button>
+              <button
+                mat-flat-button
+                [color]="duenio.idestado === 1 ? 'warn' : 'accent'"
+                (click)="duenio.idestado = duenio.idestado === 1 ? 0 : 1"
+              >
+                {{ duenio.idestado === 1 ? 'Desactivar' : 'Activar' }}
               </button>
             </div>
           </div>
         </div>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
-</div>
+      </mat-tab>
+
+      <!-- TAB MASCOTAS - Deshabilitado si es nuevo dueño y no está guardado -->
+      <mat-tab label="Mascotas" [disabled]="!isOwnerSaved">
+        <div class="mascotas-section">
+          <!-- Listado de mascotas -->
+          <div *ngIf="!selectedMascota" class="mascotas-cards">
+            <h3>Mascotas asociadas al dueño:</h3>
+            <button mat-flat-button color="primary" (click)="openMascotaModal()">Añadir Mascota</button>
+            <div class="card-container">
+              <mat-card class="mascota-card" *ngFor="let mascota of mascotas" [ngClass]="{ 'inactive-card': mascota.idEstado === 0 }">
+                <mat-card-content>
+                  <h4>{{ mascota.nombre }}</h4>
+                  <p>{{ mascota.especie }} - {{ mascota.edad }} años</p>
+                  <button mat-button color="accent" (click)="viewMascotaDetail(mascota)">Ver Detalle</button>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+
+          <!-- Detalle de la mascota seleccionada -->
+          <div *ngIf="selectedMascota" class="mascota-detail">
+          
+            <div class="profile-photo-container">
+    <div class="profile-photo">
+      <!-- Vista previa -->
+      <img
+        *ngIf="previewUrl"
+        [src]="previewUrl"
+        alt="Vista previa de la mascota"
+        class="mascota-image"
+      />
+
+      <!-- Imagen existente desde BD -->
+      <img
+        *ngIf="!previewUrl && selectedMascota?.rutaimagen"
+        [src]="'http://102.37.216.79:80' + selectedMascota.rutaimagen"
+        alt="Imagen actual"
+        class="mascota-image"
+      />
+    </div>
+
+    <!-- input fuera del círculo -->
+    <input
+      type="file"
+      (change)="onFileSelected($event)"
+      accept="image/*"
+      class="file-input"
+    />
+  </div>
+  
+
+            <div class="profile-info">
+              <!-- Nombre Mascota -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Nombre Mascota</mat-label>
+                <input matInput [(ngModel)]="selectedMascota.nombre" [disabled]="disableFields" required minlength="2" pattern="^[a-zA-Z\s]+$" #mascotaNombre="ngModel"/>
+                <mat-error *ngIf="mascotaNombre.invalid && mascotaNombre.touched">
+                  <span *ngIf="mascotaNombre.errors">El nombre de la mascota es obligatorio.</span>
+                  <span *ngIf="mascotaNombre.errors">El nombre debe tener al menos 2 caracteres.</span>
+                  <span *ngIf="mascotaNombre.errors">El nombre solo puede contener letras y espacios.</span>
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Especie -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Especie</mat-label>
+                <mat-select [(ngModel)]="selectedMascota.especie" [disabled]="disableFields" required #especie="ngModel">
+                  <mat-option *ngFor="let e of especiesValidas" [value]="e">{{ e }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="especie.invalid && especie.touched">La especie es obligatoria.</mat-error>
+              </mat-form-field>
+
+              <!-- Edad -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Edad (años)</mat-label>
+                <input matInput type="number" [(ngModel)]="selectedMascota.edad" [disabled]="disableFields" required min="0" max="30" #edad="ngModel"/>
+                <mat-error *ngIf="edad.invalid && edad.touched">
+                  <span *ngIf="edad.errors">La edad es obligatoria.</span>
+                  <span *ngIf="edad.errors">La edad no puede ser negativa.</span>
+                  <span *ngIf="edad.errors">La edad máxima permitida es 30 años.</span>
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Fecha de Nacimiento -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Fecha de Nacimiento</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker2"
+                  [(ngModel)]="selectedMascota.fecharegistro"
+                  [disabled]="disableFields"
+                  placeholder="Selecciona fecha"
+                  required
+                  #fechaNac="ngModel"
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+                <mat-error *ngIf="fechaNac.invalid && fechaNac.touched">
+                  <span *ngIf="fechaNac.errors">La fecha de nacimiento es obligatoria.</span>
+                </mat-error>
+              </mat-form-field>
+
+              <div class="botons-style">
+                <button mat-flat-button color="primary" (click)="saveMascota()">Guardar</button>
+                <button mat-flat-button [color]="selectedMascota.idEstado === 1 ? 'warn' : 'accent'" (click)="selectedMascota.idEstado = selectedMascota.idEstado === 1 ? 0 : 1">
+                  {{ selectedMascota.idEstado === 1 ? 'Desactivar' : 'Activar' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>

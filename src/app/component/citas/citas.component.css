@@ -1,186 +1,186 @@
-/* Estilos generales */
-html, body {
-  height: 100%;  /* Asegura que ocupen toda la altura de la pantalla */
-  margin: 0;
-  overflow: hidden; /* Elimina el scroll global */
-}
+  /* Estilos generales */
+  html, body {
+    height: 100%;  /* Asegura que ocupen toda la altura de la pantalla */
+    margin: 0;
+    overflow: hidden; /* Elimina el scroll global */
+  }
 
-/* Contenedor principal del calendario */
-.calendar-container {
-  padding: 32px 18px 18px 18px;  /* Espaciado alrededor del contenido */
-  padding-top: 120px;  /* Espacio arriba para respetar el header */
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: #f6faf8;
-  min-height: calc(100vh);  /* Ajuste para respetar el espacio del header */
-  border-radius: 18px;
-  box-sizing: border-box;  /* Asegura que el padding no cause desbordamiento */
-}
-
-
-/* Barra de navegación del calendario */
-.calendar-navigation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.1em;
-  background-color: #ffffff; /* Fondo blanco */
-  padding: 20px 30px; /* Ajuste de padding */
-  border-radius: 8px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  width: 100%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-  background-color: #ffffff; /* Fondo blanco */
-  box-sizing: border-box; /* Evita el desbordamiento */
-}
-
-button {
-  padding: 8px 15px;
-  font-size: 1em;
-  cursor: pointer;
-  background-color: #416785; /* Color principal */
-  color: white;
-  border: none;
-  border-radius: 5px;
-  transition: background-color 0.3s, box-shadow 0.3s;
-}
-
-button:hover {
-  background-color: #0056b3; /* Hover color */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra al pasar el ratón */
-}
-
-/* Estilos para la tabla del calendario */
-.calendar-table-container {
-  max-height: 500px; /* Limita la altura máxima para la tabla */
-  overflow-y: auto; /* Solo la tabla tendrá desplazamiento vertical */
-  width: 100%;
-  margin-top: 20px; /* Espacio entre la barra de navegación y la tabla */
-}
-
-/* Estilo de la tabla */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9em;
-}
-
-th, td {
-  padding: 12px 15px;
-  text-align: center;
-  border: 1px solid #ddd; /* Bordes suaves */
-}
-
-/* Fila de días de la semana */
-.dias-row th {
-  position: sticky;
-  top: 40px; /* Altura después de la fila de Totales */
-  background-color: #455b7c;
-  color: white;
-  z-index: 5;
-}
-
-/* Fila de Totales */
-.total-row th {
-  position: sticky;
-  top: 0;
-  background-color: #455b7c;
-  color: white;
-  font-weight: bold;
-  z-index: 6;
-}
+  /* Contenedor principal del calendario */
+  .calendar-container {
+    padding: 32px 18px 18px 18px;  /* Espaciado alrededor del contenido */
+    padding-top: 120px;  /* Espacio arriba para respetar el header */
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f6faf8;
+    min-height: calc(100vh);  /* Ajuste para respetar el espacio del header */
+    border-radius: 18px;
+    box-sizing: border-box;  /* Asegura que el padding no cause desbordamiento */
+  }
 
 
-td {
-  font-size: 0.9em;
-  line-height: 1.3;
-  max-width: 150px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+  /* Barra de navegación del calendario */
+  .calendar-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+    background-color: #ffffff; /* Fondo blanco */
+    padding: 20px 30px; /* Ajuste de padding */
+    border-radius: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    background-color: #ffffff; /* Fondo blanco */
+    box-sizing: border-box; /* Evita el desbordamiento */
+  }
 
-td p {
-  font-size: 15px;
-  margin: 0;
-  color: #555454;  /* Texto gris oscuro para las celdas */
-}
+  button {
+    padding: 8px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #416785; /* Color principal */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
 
-.sticky-header {
-  background-color: #455b7c; /* Fondo gris para los días de la semana */
-  font-weight: bold;
-}
+  button:hover {
+    background-color: #0056b3; /* Hover color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra al pasar el ratón */
+  }
 
-/* Estilo para las atenciones */
-.atencion {
-  background-color: #e0f7fa;  /* Color de fondo para las atenciones */
-  padding: 5px;
-  border-radius: 5px;
-  margin: 5px 0;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+  /* Estilos para la tabla del calendario */
+  .calendar-table-container {
+    max-height: 500px; /* Limita la altura máxima para la tabla */
+    overflow-y: auto; /* Solo la tabla tendrá desplazamiento vertical */
+    width: 100%;
+    margin-top: 20px; /* Espacio entre la barra de navegación y la tabla */
+  }
 
-.atencion:hover {
-  background-color: #b2ebf2; /* Efecto hover */
-}
-
-/* Ajustes para pantallas pequeñas */
-@media (max-width: 768px) {
+  /* Estilo de la tabla */
   table {
-    font-size: 0.8em;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
   }
 
   th, td {
-    padding: 10px 12px;
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd; /* Bordes suaves */
   }
 
-  .calendar-navigation {
-    flex-direction: column;
-    align-items: flex-start;
+  /* Fila de días de la semana */
+  .dias-row th {
+    position: sticky;
+    top: 40px; /* Altura después de la fila de Totales */
+    background-color: #455b7c;
+    color: white;
+    z-index: 5;
   }
 
-  button {
-    margin-bottom: 10px;
+  /* Fila de Totales */
+  .total-row th {
+    position: sticky;
+    top: 0;
+    background-color: #455b7c;
+    color: white;
+    font-weight: bold;
+    z-index: 6;
   }
-}
 
-@media (max-width: 600px) {
-  .calendar-navigation {
-    flex-direction: column;
-    gap: 10px;
+
+  td {
+    font-size: 0.9em;
+    line-height: 1.3;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  button {
-    min-width: 100%;
+  td p {
+    font-size: 15px;
+    margin: 0;
+    color: #555454;  /* Texto gris oscuro para las celdas */
   }
-}
-/* ... (estilos existentes) ... */
 
-/* Estilo para la celda cuando no hay atenciones en esa hora y día */
-.no-atenciones-cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  color: #aaa; /* Color gris claro */
-  font-style: italic;
-  font-size: 0.9em;
-  text-align: center;
-  vertical-align: middle;
-  padding: 10px;
-  box-sizing: border-box;
-  /* Opcional: estilo de marca de agua */
-  opacity: 0.6;
-}
+  .sticky-header {
+    background-color: #455b7c; /* Fondo gris para los días de la semana */
+    font-weight: bold;
+  }
 
-/* Opcional: Estilo para cuando no hay atenciones en toda la semana (solo para el mensaje general) */
-.no-atenciones-message {
-  text-align: center;
-  padding: 20px;
-  color: #aaa; /* Color gris claro */
-  font-style: italic;
-  font-size: 1.2em;
-}
+  /* Estilo para las atenciones */
+  .atencion {
+    background-color: #e0f7fa;  /* Color de fondo para las atenciones */
+    padding: 5px;
+    border-radius: 5px;
+    margin: 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .atencion:hover {
+    background-color: #b2ebf2; /* Efecto hover */
+  }
+
+  /* Ajustes para pantallas pequeñas */
+  @media (max-width: 768px) {
+    table {
+      font-size: 0.8em;
+    }
+
+    th, td {
+      padding: 10px 12px;
+    }
+
+    .calendar-navigation {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    button {
+      margin-bottom: 10px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .calendar-navigation {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    button {
+      min-width: 100%;
+    }
+  }
+  /* ... (estilos existentes) ... */
+
+  /* Estilo para la celda cuando no hay atenciones en esa hora y día */
+  .no-atenciones-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    color: #aaa; /* Color gris claro */
+    font-style: italic;
+    font-size: 0.9em;
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+    box-sizing: border-box;
+    /* Opcional: estilo de marca de agua */
+    opacity: 0.6;
+  }
+
+  /* Opcional: Estilo para cuando no hay atenciones en toda la semana (solo para el mensaje general) */
+  .no-atenciones-message {
+    text-align: center;
+    padding: 20px;
+    color: #aaa; /* Color gris claro */
+    font-style: italic;
+    font-size: 1.2em;
+  }

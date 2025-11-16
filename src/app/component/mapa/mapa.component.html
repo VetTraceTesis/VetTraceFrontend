@@ -1,152 +1,152 @@
-<!-- farmacias.component.html -->
-<app-header></app-header>
+  <!-- farmacias.component.html -->
+  <app-header></app-header>
 
-<div class="content-container">
-  <!-- === Mitad superior: Mapa + Farmacias === -->
-  <div class="top-section">
-    <div class="map-area">
-      <google-map
-        #map
-        [height]="'100%'"
-        [width]="'100%'"
-        [center]="center"
-        [zoom]="zoom"
-      >
-        <!-- Botón flotante para centrar en ubicación actual -->
-        <button
-          class="btn-center-location"
-          (click)="centerOnCurrentLocation()"
-          title="Centrar en mi ubicación"
+  <div class="content-container">
+    <!-- === Mitad superior: Mapa + Farmacias === -->
+    <div class="top-section">
+      <div class="map-area">
+        <google-map
+          #map
+          [height]="'100%'"
+          [width]="'100%'"
+          [center]="center"
+          [zoom]="zoom"
         >
-          <mat-icon>my_location</mat-icon>
-        </button>
-
-        <map-marker
-          *ngFor="let markerOptions of markersOptions; let i = index"
-          [position]="markerOptions.position"
-          [title]="markerOptions.title"
-          (mapClick)="openInfoWindow(marker, i)"
-          #marker="mapMarker"
-        ></map-marker>
-        <map-info-window>
-          <div
-            *ngIf="
-              selectedMarkerIndex !== -1 &&
-              farmaciasValidas[selectedMarkerIndex]
-            "
-            class="info-window-content"
-            (click)="$event.stopPropagation()"
+          <!-- Botón flotante para centrar en ubicación actual -->
+          <button
+            class="btn-center-location"
+            (click)="centerOnCurrentLocation()"
+            title="Centrar en mi ubicación"
           >
-            <h4 class="info-title">
-              {{ farmaciasValidas[selectedMarkerIndex].nombre }}
-            </h4>
-            <p>
-              <strong>Distrito:</strong>
-              {{ farmaciasValidas[selectedMarkerIndex].distrito }}
-            </p>
-            <a
-              [href]="farmaciasValidas[selectedMarkerIndex].url"
-              target="_blank"
-              class="info-link"
+            <mat-icon>my_location</mat-icon>
+          </button>
+
+          <map-marker
+            *ngFor="let markerOptions of markersOptions; let i = index"
+            [position]="markerOptions.position"
+            [title]="markerOptions.title"
+            (mapClick)="openInfoWindow(marker, i)"
+            #marker="mapMarker"
+          ></map-marker>
+          <map-info-window>
+            <div
+              *ngIf="
+                selectedMarkerIndex !== -1 &&
+                farmaciasValidas[selectedMarkerIndex]
+              "
+              class="info-window-content"
               (click)="$event.stopPropagation()"
             >
-              Sitio Web
-            </a>
-            <a
-              href="javascript:void(0)"
-              class="fa fa-whatsapp btn-wsp"
-              (click)="openWhatsApp(selectedMarkerIndex); $event.stopPropagation()"
-              title="Enviar por WhatsApp"
-            ></a>
+              <h4 class="info-title">
+                {{ farmaciasValidas[selectedMarkerIndex].nombre }}
+              </h4>
+              <p>
+                <strong>Distrito:</strong>
+                {{ farmaciasValidas[selectedMarkerIndex].distrito }}
+              </p>
+              <a
+                [href]="farmaciasValidas[selectedMarkerIndex].url"
+                target="_blank"
+                class="info-link"
+                (click)="$event.stopPropagation()"
+              >
+                Sitio Web
+              </a>
+              <a
+                href="javascript:void(0)"
+                class="fa fa-whatsapp btn-wsp"
+                (click)="openWhatsApp(selectedMarkerIndex); $event.stopPropagation()"
+                title="Enviar por WhatsApp"
+              ></a>
+            </div>
+          </map-info-window>
+        </google-map>
+      </div>
+
+      <aside class="farmacias-area">
+        <section class="control farmacias-section">
+          <h4>Ubicaciones Farmacias</h4>
+          
+          <ul>
+            <li
+              *ngFor="let loc of farmaciasValidas; let i = index"
+              (click)="selectLocation(i)"
+              [class.selected]="i === selectedMarkerIndex"
+            >
+              <strong>{{ loc.nombre }}</strong><br />
+              <small>{{ loc.distrito }}</small><br />
+              <a [href]="loc.url" target="_blank">Web</a>
+              <a
+                href="javascript:void(0)"
+                class="fa fa-whatsapp btn-wsp"
+                (click)="openWhatsApp(i); $event.stopPropagation()"
+                title="Enviar por WhatsApp"
+              ></a>
+            </li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+
+    <!-- === Mitad inferior: Dos columnas === -->
+    <div class="bottom-section">
+      <!-- Columna Correlativo -->
+      <div class="col correlativo-col">
+        <section class="control correlativo-section">
+          <button class="btn-secondary btn-back" (click)="onBack()">
+            ← Atrás
+          </button>
+          <h4>Correlativo</h4>
+          <div class="input-group">
+            <input
+              type="text"
+              [(ngModel)]="correlativo"
+              placeholder="Ingresa el correlativo"
+            />
+            <button class="btn-primary" (click)="addMarkerFromCorrelativo()">
+              Marcar
+            </button>
+            <i (click)="refrescar()" class="btn-refresh fa-solid fa-arrows-rotate"></i>
           </div>
-        </map-info-window>
-      </google-map>
-    </div>
+        </section>
+      </div>
 
-    <aside class="farmacias-area">
-      <section class="control farmacias-section">
-        <h4>Ubicaciones Farmacias</h4>
-        
-        <ul>
-          <li
-            *ngFor="let loc of farmaciasValidas; let i = index"
-            (click)="selectLocation(i)"
-            [class.selected]="i === selectedMarkerIndex"
-          >
-            <strong>{{ loc.nombre }}</strong><br />
-            <small>{{ loc.distrito }}</small><br />
-            <a [href]="loc.url" target="_blank">Web</a>
-            <a
-              href="javascript:void(0)"
-              class="fa fa-whatsapp btn-wsp"
-              (click)="openWhatsApp(i); $event.stopPropagation()"
-              title="Enviar por WhatsApp"
-            ></a>
-          </li>
-        </ul>
-      </section>
-    </aside>
-  </div>
-
-  <!-- === Mitad inferior: Dos columnas === -->
-  <div class="bottom-section">
-    <!-- Columna Correlativo -->
-    <div class="col correlativo-col">
-      <section class="control correlativo-section">
-        <button class="btn-secondary btn-back" (click)="onBack()">
-          ← Atrás
-        </button>
-        <h4>Correlativo</h4>
-        <div class="input-group">
-          <input
-            type="text"
-            [(ngModel)]="correlativo"
-            placeholder="Ingresa el correlativo"
-          />
-          <button class="btn-primary" (click)="addMarkerFromCorrelativo()">
-            Marcar
-          </button>
-          <i (click)="refrescar()" class="btn-refresh fa-solid fa-arrows-rotate"></i>
-        </div>
-      </section>
-    </div>
-
-    <!-- Columna Medicamentos -->
-    <div class="col medicamentos-col">
-      <section class="control medicamentos-section">
-        <div class="med-header">
-          <h4>Medicamentos</h4>
-          <button mat-raised-button class="btn-report" (click)="generarReporte()">
-            <mat-icon>print</mat-icon>
-            Reporte
-          </button>
-        </div>
-        <p *ngIf="recetaMedicamento.length === 0">
-          No hay medicamentos cargados.
-        </p>
-        <div class="table-container" *ngIf="recetaMedicamento.length > 0">
-          <table>
-            <thead>
-              <tr>
-                <th>Medicamento</th>
-                <th>Indicaciones</th>
-                <th>Farmacia</th>
-                <th>¿Existe?</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let med of recetaMedicamento">
-                <td>{{ med.medicamentoRecetado }}</td>
-                <td>{{ med.indicacionMedicamento }}</td>
-                <td>{{ med.farmacia }}</td>
-                <td>
-                  {{ med.flagExisteMedicamento === 'Existe' ? 'Sí' : 'No' }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <!-- Columna Medicamentos -->
+      <div class="col medicamentos-col">
+        <section class="control medicamentos-section">
+          <div class="med-header">
+            <h4>Medicamentos</h4>
+            <button mat-raised-button class="btn-report" (click)="generarReporte()">
+              <mat-icon>print</mat-icon>
+              Reporte
+            </button>
+          </div>
+          <p *ngIf="recetaMedicamento.length === 0">
+            No hay medicamentos cargados.
+          </p>
+          <div class="table-container" *ngIf="recetaMedicamento.length > 0">
+            <table>
+              <thead>
+                <tr>
+                  <th>Medicamento</th>
+                  <th>Indicaciones</th>
+                  <th>Farmacia</th>
+                  <th>¿Existe?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let med of recetaMedicamento">
+                  <td>{{ med.medicamentoRecetado }}</td>
+                  <td>{{ med.indicacionMedicamento }}</td>
+                  <td>{{ med.farmacia }}</td>
+                  <td>
+                    {{ med.flagExisteMedicamento === 'Existe' ? 'Sí' : 'No' }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
-</div>

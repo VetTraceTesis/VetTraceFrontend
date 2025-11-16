@@ -1,37 +1,37 @@
-<app-header></app-header>
+  <app-header></app-header>
 
-<div class="modulos-container">
-  <h2>Dueños:</h2>
+  <div class="modulos-container">
+    <h2>Dueños:</h2>
 
-  <!-- Caja de búsqueda -->
-  <div class="search-container">
-    <input 
-      type="text" 
-      [(ngModel)]="searchTerm" 
-      (input)="filterDuenios()" 
-      placeholder="Buscar por nombre..." />
-  </div>
-
-    <div class="buttons-row">
-      <button cdkFocusInitial class="back-button" (click)="goBack()">Atrás</button>
-      <button class="add-duenio-button" (click)="openDuenioModal()">Agregar Nuevo Dueño</button>
+    <!-- Caja de búsqueda -->
+    <div class="search-container">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (input)="filterDuenios()" 
+        placeholder="Buscar por nombre..." />
     </div>
 
+      <div class="buttons-row">
+        <button cdkFocusInitial class="back-button" (click)="goBack()">Atrás</button>
+        <button class="add-duenio-button" (click)="openDuenioModal()">Agregar Nuevo Dueño</button>
+      </div>
 
-  <div class="grid">
-    <div class="card" *ngFor="let duenio of paginatedDuenios"  [ngClass]="{ 'inactive-card': duenio.idestado === 0 }" (click)="openDuenioDetailModal(duenio.id)">
-      <div class="profile-info">
-        <h3>{{ duenio.apellido }}, {{ duenio.nombre }}</h3>
-        <p>Contacto: {{ duenio.telefono }}</p>
-        <p>Email: {{ duenio.email }}</p>
+
+    <div class="grid">
+      <div class="card" *ngFor="let duenio of paginatedDuenios"  [ngClass]="{ 'inactive-card': duenio.idestado === 0 }" (click)="openDuenioDetailModal(duenio.id)">
+        <div class="profile-info">
+          <h3>{{ duenio.apellido }}, {{ duenio.nombre }}</h3>
+          <p>Contacto: {{ duenio.telefono }}</p>
+          <p>Email: {{ duenio.email }}</p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Paginador -->
-  <div class="paginator">
-    <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
-    <span>Página {{ currentPage }} de {{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+    <!-- Paginador -->
+    <div class="paginator">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+    </div>
   </div>
-</div>
