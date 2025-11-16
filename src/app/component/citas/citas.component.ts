@@ -7,12 +7,11 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CitasModalComponent } from './citas-modal/citas-modal.component';
 import { HeaderComponent } from '../../shared/header/header.component';
-import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-citas',
   standalone: true,
-  imports: [CommonModule,MatDialogModule,HeaderComponent],
+  imports: [CommonModule, MatDialogModule, HeaderComponent],
   templateUrl: './citas.component.html',
   styleUrls: ['./citas.component.css']
 })
@@ -24,7 +23,7 @@ export class CitasComponent implements OnInit {
   calendar: { [key: string]: { [hour: number]: Atencion[] } } = {}; // Calendario
   weekDateRange: string = ''; // Rango de fechas para la navegación
 
-  constructor(private atencionesService: AtencionesService, private router:Router, private dialog:MatDialog) {}
+  constructor(private atencionesService: AtencionesService, private router: Router, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.obtenerAtenciones();
@@ -35,9 +34,9 @@ export class CitasComponent implements OnInit {
   obtenerAtenciones(): void {
     this.atencionesService.getAtenciones().subscribe({
       next: (data) => {
-        console.log(data,"info")
+        console.log(data, "info");
         this.atenciones = data.filter(a => a.fechaFin === '');
-        console.log(this.atenciones)
+        console.log(this.atenciones);
         this.generateCalendar();
       },
       error: (err) => {
@@ -151,15 +150,17 @@ export class CitasComponent implements OnInit {
     this.currentWeekStart = new Date(); // Establecemos la fecha de inicio de la semana a hoy
     this.generateCalendar(); // Regeneramos el calendario
   }
+
   getHourIndex(hora: string): number {
-  return parseInt(hora.split(':')[0], 10);
-}
- // Método para regresar a la página de módulos
+    return parseInt(hora.split(':')[0], 10);
+  }
+
+  // Método para regresar a la página de módulos
   goBack(): void {
     this.router.navigate(['/modulos']);
   }
 
-   openModal(atencionId: number): void {
+  openModal(atencionId: number): void {
     const dialogRef = this.dialog.open(CitasModalComponent, {
       data: { atencionId }, // Pasa el atencionId al modal
     });
@@ -171,11 +172,21 @@ export class CitasComponent implements OnInit {
   }
 
   contarAtencionesPorDia(diaNombre: string): number {
-  let total = 0;
-  for (let hora = 0; hora < 24; hora++) {
-    total += this.calendar[diaNombre][hora].length;
+    let total = 0;
+    for (let hora = 0; hora < 24; hora++) {
+      total += this.calendar[diaNombre][hora].length;
+    }
+    return total;
   }
-  return total;
-}
 
+  // Getter para determinar si hay atenciones en la semana actual
+  get hasAtenciones(): boolean {
+    return this.atenciones.some(atencion => {
+      const fechaInicio = new Date(atencion.fechaInicio);
+      return this.weekDates.some(day => day.date === formatDate(fechaInicio, 'yyyy-MM-dd', 'en-US'));
+    });
+  }
+    hasAtencionesThisDayAndHour(diaNombre: string, horaIndex: number): boolean {
+    return this.calendar[diaNombre][horaIndex].length > 0;
+  }
 }

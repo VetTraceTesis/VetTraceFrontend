@@ -12,6 +12,7 @@ import { FarmaciasMapaService } from '../../service/farmaciasmapa.service';
 import { MedicamentoService } from '../../service/medicamento.service';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { MatIconModule }      from '@angular/material/icon';
+import Swal from 'sweetalert2';
 
 interface MarkerOption {
   position: google.maps.LatLngLiteral;
@@ -54,7 +55,7 @@ export class MapaComponent implements OnInit {
     private route: ActivatedRoute,
     private farmaciasMapaService: FarmaciasMapaService,
     private medicamentoService: MedicamentoService,
-    private reportePdfService:ReportePdfService
+    private reportePdfService: ReportePdfService
   ) {}
 
   ngOnInit(): void {
@@ -81,17 +82,20 @@ export class MapaComponent implements OnInit {
             lng: typeof f.lng === 'number' ? f.lng : parseFloat(f.lng as any)
           }));
 
-        this.markersOptions = this.farmaciasValidas.map(f => ({
-          position: { lat: f.lat, lng: f.lng },
-          title: f.nombre ?? 'Sin nombre',
-          icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            fillColor: 'blue',
-            fillOpacity: 0.8,
-            strokeWeight: 0,
-            scale: 6
-          }
-        }));
+        // Mostrar todos los marcadores al cargar inicialmente (si no se ha buscado por correlativo)
+        if (!this.correlativo) {
+          this.markersOptions = this.farmaciasValidas.map(f => ({
+            position: { lat: f.lat, lng: f.lng },
+            title: f.nombre ?? 'Sin nombre',
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              fillColor: 'blue',
+              fillOpacity: 0.8,
+              strokeWeight: 0,
+              scale: 6
+            }
+          }));
+        }
       },
       error => console.error('Error al cargar farmacias:', error)
     );
@@ -137,14 +141,24 @@ export class MapaComponent implements OnInit {
   addMarkerFromCorrelativo(): void {
     const correlativo = this.correlativo.trim();
     if (!correlativo) {
-      alert('Por favor ingresa un correlativo.');
+      Swal.fire({
+        title: 'Advertencia',
+        text: 'Por favor ingresa un correlativo.',
+        icon: 'warning',
+        confirmButtonText: 'Aceptar'
+      });
       return;
     }
 
     this.medicamentoService.getRecetaDetailsByCorrelativo(correlativo).subscribe(
       data => {
         if (!data.length) {
-          alert('No se encontraron resultados para este correlativo.');
+          Swal.fire({
+            title: 'Información',
+            text: 'No se encontraron resultados para este correlativo.',
+            icon: 'info',
+            confirmButtonText: 'Aceptar'
+          });
           return;
         }
         this.recetaMedicamento = data;
@@ -154,7 +168,12 @@ export class MapaComponent implements OnInit {
 
         geocoder.geocode({ address }, (results, status) => {
           if (status !== 'OK' || !results?.[0]) {
-            alert('No se pudo localizar la dirección: ' + status);
+            Swal.fire({
+              title: 'Error',
+              text: `No se pudo localizar la dirección: ${status}`,
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
             return;
           }
           const latLng = {
@@ -210,12 +229,17 @@ export class MapaComponent implements OnInit {
       },
       error => {
         console.error('Error:', error);
-        alert('Error al obtener detalles del correlativo.');
+        Swal.fire({
+          title: 'Error',
+          text: 'Error al obtener detalles del correlativo.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
       }
     );
   }
 
-   refrescar(): void {
+  refrescar(): void {
     // 1) Resetea correlativo
     this.correlativo = '';
 
@@ -233,23 +257,24 @@ export class MapaComponent implements OnInit {
     // 5) (opcional) Limpiar la ruta para quitar el parámetro en URL
     this.router.navigate(['/mapa']);
   }
- generarReporte(): void {
-  this.reportePdfService
-    .generarReportePDFCorrelativo(this.correlativo)
-    .subscribe((blob: Blob) => {
-      // Crear una URL para el blob y generar un enlace de descarga
-      const url = window.URL.createObjectURL(blob);
 
-      // Crear un enlace <a> para realizar la descarga
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `reporte_atencion_${this.correlativo}.pdf`;  // Nombre personalizado
-      a.click();
+  generarReporte(): void {
+    this.reportePdfService
+      .generarReportePDFCorrelativo(this.correlativo)
+      .subscribe((blob: Blob) => {
+        // Crear una URL para el blob y generar un enlace de descarga
+        const url = window.URL.createObjectURL(blob);
 
-      // Liberar el objeto URL después de usarlo
-      window.URL.revokeObjectURL(url);
-    });
-}
+        // Crear un enlace <a> para realizar la descarga
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `reporte_atencion_${this.correlativo}.pdf`;  // Nombre personalizado
+        a.click();
+
+        // Liberar el objeto URL después de usarlo
+        window.URL.revokeObjectURL(url);
+      });
+  }
 
   /** Formatea número peruano */
   private formatPeruNumber(input: string): string {
@@ -266,7 +291,12 @@ export class MapaComponent implements OnInit {
 
   openWhatsApp(index: number) {
     if (!this.recetaMedicamento.length) {
-      alert('Sin registro de medicamentos');
+      Swal.fire({
+        title: 'Información',
+        text: 'Sin registro de medicamentos',
+        icon: 'info',
+        confirmButtonText: 'Aceptar'
+      });
       return;
     }
 
@@ -310,5 +340,84 @@ export class MapaComponent implements OnInit {
 
   onBack() {
     this.router.navigate(['/modulos']);
+  }
+
+  // Nueva función para centrar en la ubicación actual del usuario
+  centerOnCurrentLocation(): void {
+    if (!navigator.geolocation) {
+      Swal.fire({
+        title: 'Error',
+        text: 'La geolocalización no es soportada por este navegador.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userLocation: google.maps.LatLngLiteral = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        // Obtener las 3 farmacias más cercanas a la ubicación actual
+        this.farmaciasValidas = this.getNearestFarmacias(userLocation, 3);
+
+        // Actualizar los marcadores en el mapa
+        this.markersOptions = this.farmaciasValidas.map(f => ({
+          position: { lat: f.lat, lng: f.lng },
+          title: f.nombre ?? 'Farmacia cercana',
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: 'green',
+            fillOpacity: 0.8,
+            strokeWeight: 0,
+            scale: 6
+          }
+        }));
+
+        // Agregar un marcador para la ubicación actual
+        this.markersOptions.push({
+          position: userLocation,
+          title: 'Tu ubicación',
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: 'red', // Color distinto para la ubicación del usuario
+            fillOpacity: 0.8,
+            strokeWeight: 0,
+            scale: 6
+          }
+        });
+
+        // Centrar el mapa en la ubicación actual
+        this.center = userLocation;
+        this.zoom = 16; // Ajustar zoom para ver las farmacias cercanas
+      },
+      (error) => {
+        console.error('Error obteniendo ubicación:', error);
+        let errorMessage = 'Error al obtener tu ubicación.';
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage = 'El usuario denegó la solicitud de geolocalización.';
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMessage = 'La información de ubicación no está disponible.';
+            break;
+          case error.TIMEOUT:
+            errorMessage = 'La solicitud para obtener la ubicación ha expirado.';
+            break;
+          default:
+            errorMessage = 'Ocurrió un error desconocido al obtener la ubicación.';
+            break;
+        }
+        Swal.fire({
+          title: 'Error',
+          text: errorMessage,
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    );
   }
 }

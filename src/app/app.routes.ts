@@ -16,33 +16,37 @@ import { CitasModalComponent } from './component/citas/citas-modal/citas-modal.c
 import { PerfilComponent } from './component/perfil/perfil.component';
 import { FarmaciaComponent } from './component/farmacia/farmacia.component';
 import { PanelAdministradorComponent } from './component/panel-administrador/panel-administrador.component';
+// Asegúrate de importar tu componente de página 404 aquí
+import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component'; // Ajusta la ruta según donde esté tu componente
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'doctor', component: DoctorComponent, canActivate: [authGuard]  },
-  { path: 'doctor-detail/:id', component: DoctorDetalleComponent, canActivate: [authGuard]   },  // Ruta para el detalle del doctor
-  { path: 'doctor-veterinario/nuevo', component: DoctorDetalleComponent, canActivate: [authGuard]   },  // Ruta para agregar nuevo doctor
+  { path: 'doctor', component: DoctorComponent, canActivate: [authGuard] },
+  { path: 'doctor-detail/:id', component: DoctorDetalleComponent, canActivate: [authGuard] },
+  { path: 'doctor-veterinario/nuevo', component: DoctorDetalleComponent, canActivate: [authGuard] },
 
-  { path: 'duenio', component: DuenioComponent, canActivate: [authGuard]   },  // Ruta para el componente de Duenio
-  { path: 'duenio-detalle/:id', component: DuenioDetalleComponent, canActivate: [authGuard]   },  // Ruta para el detalle del doctor
-  { path: 'duenio/nuevo', component: DuenioDetalleComponent, canActivate: [authGuard]   },  // Ruta para agregar nuevo doctor
+  { path: 'duenio', component: DuenioComponent, canActivate: [authGuard] },
+  { path: 'duenio-detalle/:id', component: DuenioDetalleComponent, canActivate: [authGuard] },
+  { path: 'duenio/nuevo', component: DuenioDetalleComponent, canActivate: [authGuard] },
 
-  { path: 'atenciones', component: AtencionesComponent, canActivate: [authGuard]   },  // Ruta para agregar nuevo doctor
-  { path: 'atenciones/duenio/:duenoId', component: AtencionesDetailComponent, canActivate: [authGuard]   },
-  { path: 'atenciones/nuevo/:duenoId', component: AtencionesInsertComponent, canActivate: [authGuard]   },
-  { path: 'atenciones/diagnostico/:atencionId/:tipodiagnosticoId', component: AtencionesDiagnosticoComponent, canActivate: [authGuard]   },
+  { path: 'atenciones', component: AtencionesComponent, canActivate: [authGuard] },
+  { path: 'atenciones/duenio/:duenoId', component: AtencionesDetailComponent, canActivate: [authGuard] },
+  { path: 'atenciones/nuevo/:duenoId', component: AtencionesInsertComponent, canActivate: [authGuard] },
+  { path: 'atenciones/diagnostico/:atencionId/:tipodiagnosticoId', component: AtencionesDiagnosticoComponent, canActivate: [authGuard] },
 
-  { path: 'mapa', component: MapaComponent, canActivate: [authGuard]   },  
-    { path: 'mapa/:correlativo', component: MapaComponent, canActivate: [authGuard]   },  
+  { path: 'mapa', component: MapaComponent, canActivate: [authGuard] },
+  { path: 'mapa/:correlativo', component: MapaComponent, canActivate: [authGuard] },
 
-  { path: 'farmacia', component: FarmaciaComponent, canActivate: [authGuard]   },  
+  { path: 'farmacia', component: FarmaciaComponent, canActivate: [authGuard] },
 
-  { path: 'citas', component: CitasComponent, canActivate: [authGuard]   },  
-  { path: 'citasmodal', component: CitasModalComponent, canActivate: [authGuard]   },  
+  { path: 'citas', component: CitasComponent, canActivate: [authGuard] },
+  { path: 'citasmodal', component: CitasModalComponent, canActivate: [authGuard] },
 
-  { path: 'modulos', component: ModulosComponent, canActivate: [authGuard]   },
+  { path: 'modulos', component: ModulosComponent, canActivate: [authGuard] },
 
-  { path: 'perfil', component: PerfilComponent, canActivate: [authGuard]   },
-  { path: 'panelAdministrador', component: PanelAdministradorComponent, canActivate: [authGuard]   }
+  { path: 'perfil', component: PerfilComponent, canActivate: [authGuard] },
+  { path: 'panelAdministrador', component: PanelAdministradorComponent, canActivate: [authGuard] },
 
+  // Ruta comodín para manejar rutas no encontradas (debe ir al final)
+  { path: '**', component: PageNotFoundComponent, canActivate: [authGuard] }
 ];

@@ -4,11 +4,11 @@ export const environment = {
   production: false,
 
   // API endpoint for your backend
-  apiUrl: 'http://localhost:8080',
+  apiUrl: 'https://vettracebackend-1.onrender.com',
   //apiUrl: 'http://102.37.216.79:80',
   //apiUrl:'http://localhost:8080',
   // WebSocket URL (if you use sockets)
-  socketUrl: 'http://localhost:8080',
+  socketUrl: 'ws:https://vettracebackend-1.onrender.com/ws',
 
   // Feature flags
   featureFlags: {

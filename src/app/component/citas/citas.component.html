@@ -10,30 +10,31 @@
   </div>
 
   <!-- Tabla de las atenciones -->
-<!-- Tabla de las atenciones -->
-<div class="calendar-table-container">
-  <table>
-    <thead>
-      <tr class="total-row">
-        <th></th>
-        <th *ngFor="let dia of weekDates" class="sticky-header"> Total: {{ contarAtencionesPorDia(dia.name) }}</th>
-      </tr>
-      <tr class="dias-row">
-        <th>Hora</th>
-        <th *ngFor="let dia of weekDates" class="sticky-header">{{ dia.name }} {{ dia.day }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let hora of hours">
-        <td>{{ hora }}</td>
-        <td *ngFor="let dia of weekDates">
-          <div *ngFor="let atencion of calendar[dia.name][getHourIndex(hora)]" class="atencion" (click)="openModal(atencion.id)">
-            <p>{{ atencion.fechaInicio | date: 'dd/MM/yyyy HH:mm' }}</p>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
+  <div class="calendar-table-container">
+    <table>
+      <thead>
+        <tr class="total-row">
+          <th></th>
+          <th *ngFor="let dia of weekDates" class="sticky-header"> Total: {{ contarAtencionesPorDia(dia.name) }}</th>
+        </tr>
+        <tr class="dias-row">
+          <th>Hora</th>
+          <th *ngFor="let dia of weekDates" class="sticky-header">{{ dia.name }} {{ dia.day }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hora of hours">
+          <td>{{ hora }}</td>
+          <td *ngFor="let dia of weekDates">
+            <div *ngIf="!hasAtencionesThisDayAndHour(dia.name, getHourIndex(hora)) && !hasAtenciones" class="no-atenciones-cell">
+              No hay citas
+            </div>
+            <div *ngFor="let atencion of calendar[dia.name][getHourIndex(hora)]" class="atencion" (click)="openModal(atencion.id)">
+              <p>{{ atencion.fechaInicio | date: 'dd/MM/yyyy HH:mm' }}</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

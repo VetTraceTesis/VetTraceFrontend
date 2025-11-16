@@ -1,3 +1,5 @@
+// src/app/component/doctor/doctor-detalle.component.ts
+
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DoctorService } from '../../../service/doctor.service';
@@ -39,6 +41,9 @@ export class DoctorDetalleComponent implements OnInit {
   };
   disableFields: boolean = false;
 
+  // Propiedad para almacenar todos los doctores
+  allDoctors: Doctor[] = [];
+
   constructor(
     private doctorService: DoctorService,
     private usuarioService: UsuarioService,
@@ -54,6 +59,31 @@ export class DoctorDetalleComponent implements OnInit {
         this.doctor.fecharegistro = this.formatDate(this.doctor.fecharegistro);
       }
     }
+    // Cargar todos los doctores para verificación de duplicados
+    this.loadAllDoctors();
+  }
+
+  loadAllDoctors(): void {
+    this.doctorService.getDoctors().subscribe(
+      (doctors) => {
+        this.allDoctors = doctors;
+      },
+      (error) => {
+        console.error('Error al cargar la lista de doctores para verificación:', error);
+        // Opcional: Mostrar un mensaje al usuario si no se puede cargar la lista
+        // Puede ser peligroso permitir creación si no se puede verificar
+        // Swal.fire('Error', 'No se pudo cargar la lista de doctores para verificación. Puede que no se detecten duplicados.', 'warning');
+      }
+    );
+  }
+
+  // Verificar si un doctor ya existe (excluyendo el actual si es edición)
+  private doctorYaExiste(nombre: string, apellido: string, idActual?: number): boolean {
+    return this.allDoctors.some(d =>
+      d.nombre.toLowerCase() === nombre.toLowerCase() &&
+      d.apellido.toLowerCase() === apellido.toLowerCase() &&
+      d.id !== idActual // Excluir el doctor actual si estamos editando
+    );
   }
 
   onFileSelected(event: any): void {
@@ -84,6 +114,20 @@ export class DoctorDetalleComponent implements OnInit {
   }
 
   saveDoctor(): void {
+    // Solo validar duplicado si es una creación (id === 0)
+    if (this.doctor.id === 0) {
+      // Verificar si ya existe un doctor con el mismo nombre y apellido
+      if (this.doctorYaExiste(this.doctor.nombre, this.doctor.apellido)) {
+        Swal.fire({
+          title: 'Doctor duplicado',
+          text: 'Ya existe un doctor con ese nombre y apellido.',
+          icon: 'warning',
+          confirmButtonText: 'Aceptar'
+        });
+        return; // Salir sin guardar
+      }
+    }
+
     const crearDoctorYUsuario = () => {
       if (this.doctor.id === 0) {
         // Registro nuevo
@@ -108,6 +152,8 @@ export class DoctorDetalleComponent implements OnInit {
 
             this.usuarioService.registrarUsuario(nuevoUsuario).subscribe({
               next: () => {
+                // Actualizar la lista local de doctores con el nuevo doctor
+                this.allDoctors.push(this.doctor);
                 Swal.fire({
                   title: '¡Doctor registrado!',
                   text: 'Doctor y credenciales creados correctamente',
@@ -139,6 +185,11 @@ export class DoctorDetalleComponent implements OnInit {
         // Edición
         this.doctorService.updateDoctor(this.doctor).subscribe({
           next: () => {
+            // Actualizar la lista local de doctores con el doctor actualizado
+            const index = this.allDoctors.findIndex(d => d.id === this.doctor.id);
+            if (index !== -1) {
+              this.allDoctors[index] = this.doctor;
+            }
             Swal.fire({
               icon: 'success',
               title: '¡Guardado!',

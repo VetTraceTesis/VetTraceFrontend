@@ -37,14 +37,14 @@ export class DuenioComponent implements OnInit {
     this.loadDuenios();  // Cargar los dueños al iniciar
   }
 
-  loadDuenios(): void {
+ loadDuenios(): void {
     this.duenioService.getDuenios().subscribe(
       (duenios) => {
-
-        this.filteredDuenios = duenios.sort((a, b) => a.nombre.localeCompare(b.nombre));  // Ordenar por nombre
+        // Ordenar la lista completa por ID
         this.duenios = duenios.sort((a, b) => a.id - b.id);
-
-        this.updatePagination();  // Actualizar la paginación
+        // Inicializar la lista filtrada también ordenada por ID
+        this.filteredDuenios = [...this.duenios]; // o this.duenios.slice()
+        this.updatePagination();
       },
       (error) => {
         console.error('Error al cargar los dueños:', error);
@@ -105,9 +105,10 @@ export class DuenioComponent implements OnInit {
       }
     });
 
+    // Recargar la lista solo si el modal cierra con un valor verdadero (ej: 'guardado')
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadDuenios(); // Cargar los dueños después de cerrar el modal
+      if (result) { // Por ejemplo, if (result === 'guardado')
+        this.loadDuenios(); // Recargar la lista
       }
     });
   }
@@ -122,9 +123,10 @@ export class DuenioComponent implements OnInit {
         data: { duenio }
       });
 
+      // Recargar la lista solo si el modal cierra con un valor verdadero (ej: 'guardado')
       dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.loadDuenios(); 
+        if (result) { // Por ejemplo, if (result === 'guardado')
+          this.loadDuenios(); // Recargar la lista
         }
       });
     }

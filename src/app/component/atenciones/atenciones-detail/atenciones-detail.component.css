@@ -18,6 +18,50 @@
   text-align: center;
 }
 
+/* Nuevo: Estilos para el contenedor del filtro */
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  width: 100%;
+  max-width: 400px; /* Limita el ancho máximo del filtro */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.filter-container label {
+  font-weight: 600;
+  color: #2d3a4b;
+  font-size: 14px;
+  text-align: center;
+}
+
+.filter-container select {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1.5px solid #b2cbdf; /* Color consistente con otros bordes */
+  border-radius: 10px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #416785;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  font-family: inherit; /* Asegura la fuente */
+}
+
+.filter-container select:focus {
+  outline: none;
+  border-color: #416785; /* Color de enfoque consistente */
+  box-shadow: 0 0 0 2px rgba(65, 103, 133, 0.2); /* Sombra sutil de enfoque */
+}
+
+.filter-container select:hover {
+  border-color: #6C8CA3; /* Color de borde al pasar el mouse */
+}
+
 .buttons-row {
   margin: 0 auto 18px auto;
   display: flex;
@@ -166,7 +210,15 @@ button:disabled {
   .btn-crear-nueva {
     min-width: 100%;
   }
+
+  /* Responsive para el filtro */
+  .filter-container {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
+
 .tipo-1 {
   background-color: #fff9c4; /* amarillo claro: En Proceso */
   border-left: 5px solid #fbc02d;

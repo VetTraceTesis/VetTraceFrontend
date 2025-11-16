@@ -5,6 +5,8 @@
     <mat-tab label="Dueño">
       <div class="profile-details">
         <div class="profile-info">
+
+          <!-- Nombre -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Nombre</mat-label>
             <input
@@ -13,12 +15,17 @@
               [disabled]="disableFields"
               placeholder="Nombre del Dueño"
               required
+              minlength="2"
               #nombre="ngModel"
               [ngClass]="{ 'is-invalid': nombre.invalid && nombre.touched }"
             />
-            <mat-error *ngIf="nombre.invalid && nombre.touched">El nombre es obligatorio.</mat-error>
+            <mat-error *ngIf="nombre.invalid && nombre.touched">
+              <span *ngIf="nombre.errors">El nombre es obligatorio.</span>
+              <span *ngIf="nombre.errors">El nombre debe tener al menos 2 caracteres.</span>
+            </mat-error>
           </mat-form-field>
 
+          <!-- Apellido -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Apellido</mat-label>
             <input
@@ -27,12 +34,17 @@
               [disabled]="disableFields"
               placeholder="Apellido del Dueño"
               required
+              minlength="2"
               #apellido="ngModel"
               [ngClass]="{ 'is-invalid': apellido.invalid && apellido.touched }"
             />
-            <mat-error *ngIf="apellido.invalid && apellido.touched">El apellido es obligatorio.</mat-error>
+            <mat-error *ngIf="apellido.invalid && apellido.touched">
+              <span *ngIf="apellido.errors">El apellido es obligatorio.</span>
+              <span *ngIf="apellido.errors">El apellido debe tener al menos 2 caracteres.</span>
+            </mat-error>
           </mat-form-field>
 
+          <!-- Contacto (Teléfono) -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Contacto</mat-label>
             <input
@@ -40,15 +52,19 @@
               type="tel"
               [(ngModel)]="duenio.telefono"
               [disabled]="disableFields"
-              placeholder="Número de contacto"
+              placeholder="Número de contacto (9 dígitos)"
               required
               pattern="^[0-9]{9}$"
               #telefono="ngModel"
               [ngClass]="{ 'is-invalid': telefono.invalid && telefono.touched }"
             />
-            <mat-error *ngIf="telefono.invalid && telefono.touched">El número de teléfono debe tener 9 dígitos.</mat-error>
+            <mat-error *ngIf="telefono.invalid && telefono.touched">
+              <span *ngIf="telefono.errors">El número de contacto es obligatorio.</span>
+              <span *ngIf="telefono.errors">El número debe tener exactamente 9 dígitos numéricos.</span>
+            </mat-error>
           </mat-form-field>
 
+          <!-- Email -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Email</mat-label>
             <input
@@ -56,23 +72,28 @@
               type="email"
               [(ngModel)]="duenio.email"
               [disabled]="disableFields"
-              placeholder="Email del Dueño"
+              placeholder="Email del Dueño (ej: nombre@dominio.com)"
               required
               email
               #email="ngModel"
               [ngClass]="{ 'is-invalid': email.invalid && email.touched }"
             />
-            <mat-error *ngIf="email.invalid && email.touched">Debe ser un correo válido.</mat-error>
+            <mat-error *ngIf="email.invalid && email.touched">
+              <span *ngIf="email.errors">El correo electrónico es obligatorio.</span>
+              <span *ngIf="email.errors">El correo debe tener un formato válido.</span>
+            </mat-error>
           </mat-form-field>
 
+          <!-- Género -->
           <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Género</mat-label>
-         <mat-select [(ngModel)]="duenio.genero" [disabled]="disableFields">
+            <mat-label>Género</mat-label>
+            <mat-select [(ngModel)]="duenio.genero" [disabled]="disableFields" required #generoSelect="ngModel">
               <mat-option *ngFor="let g of genero" [value]="g">{{ g }}</mat-option>
             </mat-select>
-        </mat-form-field>
+            <mat-error *ngIf="generoSelect.invalid && generoSelect.touched">El género es obligatorio.</mat-error>
+          </mat-form-field>
 
-
+          <!-- Distrito -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Distrito</mat-label>
             <input
@@ -89,21 +110,28 @@
             <mat-autocomplete #auto="matAutocomplete">
               <mat-option *ngFor="let d of filteredDistricts" [value]="d">{{ d }}</mat-option>
             </mat-autocomplete>
-            <mat-error *ngIf="distrito.invalid && distrito.touched">El distrito es obligatorio.</mat-error>
+            <mat-error *ngIf="distrito.invalid && distrito.touched">
+              <span *ngIf="distrito.errors">El distrito es obligatorio.</span>
+            </mat-error>
           </mat-form-field>
 
+          <!-- Dirección -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Dirección</mat-label>
             <input
               matInput
               [(ngModel)]="duenio.direccion"
               [disabled]="disableFields"
-              placeholder="Dirección del Dueño"
+              placeholder="Dirección completa del Dueño"
               required
+              minlength="5"
               #direccion="ngModel"
               [ngClass]="{ 'is-invalid': direccion.invalid && direccion.touched }"
             />
-            <mat-error *ngIf="direccion.invalid && direccion.touched">La dirección es obligatoria.</mat-error>
+            <mat-error *ngIf="direccion.invalid && direccion.touched">
+              <span *ngIf="direccion.errors">La dirección es obligatoria.</span>
+              <span *ngIf="direccion.errors">La dirección debe tener al menos 5 caracteres.</span>
+            </mat-error>
           </mat-form-field>
 
           <div class="botons-style">
@@ -111,7 +139,7 @@
               mat-flat-button
               color="primary"
               (click)="saveDuenio()"
-              [disabled]="!nombre.valid || !apellido.valid || !telefono.valid || !email.valid  || !distrito.valid || !direccion.valid"
+              [disabled]="!nombre.valid || !apellido.valid || !telefono.valid || !email.valid || !generoSelect.valid || !distrito.valid || !direccion.valid"
             >
               Guardar
             </button>
@@ -127,8 +155,8 @@
       </div>
     </mat-tab>
 
-    <!-- TAB MASCOTAS -->
-    <mat-tab label="Mascotas">
+    <!-- TAB MASCOTAS - Deshabilitado si es nuevo dueño y no está guardado -->
+    <mat-tab label="Mascotas" [disabled]="!isOwnerSaved">
       <div class="mascotas-section">
         <!-- Listado de mascotas -->
         <div *ngIf="!selectedMascota" class="mascotas-cards">
@@ -177,23 +205,39 @@
 </div>
  
 
-
           <div class="profile-info">
+            <!-- Nombre Mascota -->
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Nombre Mascota</mat-label>
-              <input matInput [(ngModel)]="selectedMascota.nombre" [disabled]="disableFields" />
+              <input matInput [(ngModel)]="selectedMascota.nombre" [disabled]="disableFields" required minlength="2" pattern="^[a-zA-Z\s]+$" #mascotaNombre="ngModel"/>
+              <mat-error *ngIf="mascotaNombre.invalid && mascotaNombre.touched">
+                <span *ngIf="mascotaNombre.errors">El nombre de la mascota es obligatorio.</span>
+                <span *ngIf="mascotaNombre.errors">El nombre debe tener al menos 2 caracteres.</span>
+                <span *ngIf="mascotaNombre.errors">El nombre solo puede contener letras y espacios.</span>
+              </mat-error>
             </mat-form-field>
 
+            <!-- Especie -->
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Especie</mat-label>
-              <input matInput [(ngModel)]="selectedMascota.especie" [disabled]="disableFields" />
+              <mat-select [(ngModel)]="selectedMascota.especie" [disabled]="disableFields" required #especie="ngModel">
+                <mat-option *ngFor="let e of especiesValidas" [value]="e">{{ e }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="especie.invalid && especie.touched">La especie es obligatoria.</mat-error>
             </mat-form-field>
 
+            <!-- Edad -->
             <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Edad</mat-label>
-              <input matInput type="number" [(ngModel)]="selectedMascota.edad" [disabled]="disableFields" />
+              <mat-label>Edad (años)</mat-label>
+              <input matInput type="number" [(ngModel)]="selectedMascota.edad" [disabled]="disableFields" required min="0" max="30" #edad="ngModel"/>
+              <mat-error *ngIf="edad.invalid && edad.touched">
+                <span *ngIf="edad.errors">La edad es obligatoria.</span>
+                <span *ngIf="edad.errors">La edad no puede ser negativa.</span>
+                <span *ngIf="edad.errors">La edad máxima permitida es 30 años.</span>
+              </mat-error>
             </mat-form-field>
 
+            <!-- Fecha de Nacimiento -->
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Fecha de Nacimiento</mat-label>
               <input
@@ -202,9 +246,14 @@
                 [(ngModel)]="selectedMascota.fecharegistro"
                 [disabled]="disableFields"
                 placeholder="Selecciona fecha"
+                required
+                #fechaNac="ngModel"
               />
               <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
               <mat-datepicker #picker2></mat-datepicker>
+              <mat-error *ngIf="fechaNac.invalid && fechaNac.touched">
+                <span *ngIf="fechaNac.errors">La fecha de nacimiento es obligatoria.</span>
+              </mat-error>
             </mat-form-field>
 
             <div class="botons-style">

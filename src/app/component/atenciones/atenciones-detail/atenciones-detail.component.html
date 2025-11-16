@@ -8,11 +8,20 @@
     <button (click)="irANuevaAtencion()" class="btn-crear-nueva">Crear Nueva Atención</button>
   </div>
 
-  <div *ngIf="atenciones.length === 0" class="no-data">
-    <p>No se están registrando atenciones para este usuario.</p>
+  <!-- Filtro de Tipo de Diagnóstico -->
+  <div class="filter-container">
+    <label for="filtro-tipo">Filtrar por Tipo de Diagnóstico:</label>
+    <select id="filtro-tipo" [(ngModel)]="filtroTipoSeleccionado" (ngModelChange)="aplicarFiltro()">
+      <option value="">Todos los tipos</option>
+      <option *ngFor="let tipo of tiposDisponibles" [value]="tipo">{{ tipo }}</option>
+    </select>
   </div>
 
-  <div class="grid" *ngIf="atenciones.length > 0">
+  <div *ngIf="atencionesFiltradas.length === 0" class="no-data">
+    <p>No se están registrando atenciones para este usuario con el filtro aplicado.</p>
+  </div>
+
+  <div class="grid" *ngIf="atencionesFiltradas.length > 0">
     <div class="card" *ngFor="let atencion of paginatedAtenciones"  [ngClass]="{
        'tipo-1': atencion.tipoDiagnostico === 1,
        'tipo-2': atencion.tipoDiagnostico === 2,

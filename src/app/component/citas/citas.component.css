@@ -156,3 +156,31 @@ td p {
     min-width: 100%;
   }
 }
+/* ... (estilos existentes) ... */
+
+/* Estilo para la celda cuando no hay atenciones en esa hora y día */
+.no-atenciones-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  color: #aaa; /* Color gris claro */
+  font-style: italic;
+  font-size: 0.9em;
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
+  box-sizing: border-box;
+  /* Opcional: estilo de marca de agua */
+  opacity: 0.6;
+}
+
+/* Opcional: Estilo para cuando no hay atenciones en toda la semana (solo para el mensaje general) */
+.no-atenciones-message {
+  text-align: center;
+  padding: 20px;
+  color: #aaa; /* Color gris claro */
+  font-style: italic;
+  font-size: 1.2em;
+}

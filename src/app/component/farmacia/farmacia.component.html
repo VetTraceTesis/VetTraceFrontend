@@ -9,25 +9,39 @@
     <div class="buttons-row">
       <button class="back-button" (click)="goBack()">Atrás</button>
     </div>
-    <mat-form-field appearance="outline" class="search-field">
-      <mat-label>Buscar producto</mat-label>
-      <input
-        matInput
-        [(ngModel)]="searchTerm"
-        (ngModelChange)="applyFilter()"
-        placeholder="Nombre del Producto"
-      />
-      <button
-        mat-button
-        *ngIf="searchTerm"
-        matSuffix
-        mat-icon-button
-        aria-label="Limpiar"
-        (click)="searchTerm=''; applyFilter()"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
+
+    <!-- Contenedor para los filtros -->
+    <div class="filters-container">
+      <!-- Filtro de Farmacia -->
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Filtrar por Farmacia</mat-label>
+        <mat-select [(ngModel)]="selectedFarmacia" (ngModelChange)="applyFilter()" placeholder="Todas las Farmacias">
+          <mat-option value="">Todas las Farmacias</mat-option>
+          <mat-option *ngFor="let farm of farmaciasDisponibles" [value]="farm">{{ farm }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Filtro de Producto (nombre) -->
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar producto</mat-label>
+        <input
+          matInput
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="applyFilter()"
+          placeholder="Nombre del Producto"
+        />
+        <button
+          mat-button
+          *ngIf="searchTerm"
+          matSuffix
+          mat-icon-button
+          aria-label="Limpiar"
+          (click)="searchTerm=''; applyFilter()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
   </div>
   <div class="paginator-container">
     <mat-paginator
@@ -42,7 +56,13 @@
   <div *ngIf="isLoading" class="loading">Cargando productos...</div>
   <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
-  <div *ngIf="!isLoading && !errorMessage" class="market-grid">
+  <!-- Mensaje cuando no hay resultados -->
+  <div *ngIf="!isLoading && !errorMessage && filteredMedicamentos.length === 0 && (searchTerm || selectedFarmacia)"
+       class="no-results">
+    No se encontraron productos. Revisa la escritura o vigencia del medicamento e intenta nuevamente.
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && filteredMedicamentos.length > 0" class="market-grid">
     <mat-card
       *ngFor="let med of paginatedMedicamentos"
       class="market-card"
@@ -56,7 +76,6 @@
       />
       <mat-card-content>
         <h3 class="card-title">{{ med.name }}</h3>
-        <!-- Usamos parsePrice para convertir -->
         <p class="card-price">
           {{ parsePrice(med.price) | currency:'S/. ' }}
         </p>
@@ -65,7 +84,7 @@
     </mat-card>
   </div>
 
-  <div class="paginator-container">
+  <div class="paginator-container" *ngIf="filteredMedicamentos.length > 0">
     <mat-paginator
       [length]="filteredMedicamentos.length"
       [pageSize]="pageSize"

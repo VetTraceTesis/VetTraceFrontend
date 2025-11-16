@@ -293,3 +293,25 @@ a:hover {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+/* ... (estilos existentes) ... */
+
+/* Estilo para el botón flotante de ubicación */
+.btn-center-location {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-center-location:hover {
+  background-color: #f0f0f0;
+}

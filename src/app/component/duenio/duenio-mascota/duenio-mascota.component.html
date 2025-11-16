@@ -1,3 +1,5 @@
+<!-- src/app/component/duenio/duenio-mascota/duenio-mascota.component.html -->
+
 <div *ngIf="showForm" class="mascota-detail">
   <div class="profile-details">
     <!-- Contenedor circular para la imagen -->
@@ -30,24 +32,62 @@
         <!-- Nombre -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nombre Mascota</mat-label>
-          <input matInput type="text" name="nombre" [(ngModel)]="newMascota.nombre" required />
+          <input 
+            matInput 
+            type="text" 
+            name="nombre" 
+            [(ngModel)]="newMascota.nombre" 
+            required 
+            minlength="2"
+            pattern="^[a-zA-Z\s]+$" 
+            #nombreMascota="ngModel"
+          />
+          <!-- Mensajes de error específicos -->
+          <mat-error *ngIf="nombreMascota.invalid && nombreMascota.touched">
+            <span *ngIf="nombreMascota.errors">El nombre de la mascota es obligatorio.</span>
+            <span *ngIf="nombreMascota.errors">El nombre debe tener al menos 2 caracteres.</span>
+            <span *ngIf="nombreMascota.errors">El nombre solo puede contener letras y espacios.</span>
+          </mat-error>
         </mat-form-field>
 
-      <!-- Especie -->
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Especie</mat-label>
-        <mat-select [(ngModel)]="newMascota.especie" name="especie" required>
-          <mat-option *ngFor="let especie of especiesComunes" [value]="especie">
-            {{ especie }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
+        <!-- Especie -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Especie</mat-label>
+          <mat-select 
+            [(ngModel)]="newMascota.especie" 
+            name="especie" 
+            required
+            #especieMascota="ngModel" 
+          >
+            <mat-option *ngFor="let especie of especiesComunes" [value]="especie">
+              {{ especie }}
+            </mat-option>
+          </mat-select>
+          <!-- Mensajes de error específicos -->
+          <mat-error *ngIf="especieMascota.invalid && especieMascota.touched">
+            <span *ngIf="especieMascota.errors">La especie es obligatoria.</span>
+          </mat-error>
+        </mat-form-field>
 
         <!-- Edad -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Edad</mat-label>
-          <input matInput type="number" name="edad" [(ngModel)]="newMascota.edad" required />
+          <input 
+            matInput 
+            type="number" 
+            name="edad" 
+            [(ngModel)]="newMascota.edad" 
+            required
+            min="0" 
+            max="30" 
+            #edadMascota="ngModel" 
+          />
+          <!-- Mensajes de error específicos -->
+          <mat-error *ngIf="edadMascota.invalid && edadMascota.touched">
+            <span *ngIf="edadMascota.errors">La edad es obligatoria.</span>
+            <span *ngIf="edadMascota.errors">La edad no puede ser negativa.</span>
+            <span *ngIf="edadMascota.errors">La edad máxima permitida es 30 años.</span>
+          </mat-error>
         </mat-form-field>
 
         <!-- Fecha nacimiento -->
@@ -59,9 +99,19 @@
             name="fecharegistro"
             [(ngModel)]="newMascota.fecharegistro"
             required
+            #fechaNac="ngModel" 
+            (dateChange)="onFechaNacimientoChange($event)"
           />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
+          <!-- Mensajes de error específicos -->
+          <mat-error *ngIf="fechaNac.invalid && fechaNac.touched">
+            <span *ngIf="fechaNac.errors">La fecha de nacimiento es obligatoria.</span>
+          </mat-error>
+          <!-- Nuevo: Mensaje de error específico para fecha futura -->
+          <mat-error *ngIf="showFechaFuturaError" class="error-futura">
+            La fecha de nacimiento no puede ser futura.
+          </mat-error>
         </mat-form-field>
 
         <!-- Ocultos -->
@@ -70,7 +120,12 @@
 
         <!-- Botón -->
         <div class="botons-style">
-          <button mat-flat-button color="primary" type="submit" [disabled]="mascotaForm.invalid">
+          <button 
+            mat-flat-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="mascotaForm.invalid || showFechaFuturaError" 
+          >
             Guardar
           </button>
         </div>

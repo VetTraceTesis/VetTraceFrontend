@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select'; // Importar MatSelectModule
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -35,6 +36,7 @@ import { FarmaciaDetalleComponent } from './farmacia-detalle/farmacia-detalle.co
     MatPaginatorModule,
     MatIconModule,
     MatDialogModule,
+    MatSelectModule, // Añadir MatSelectModule a los imports
   ],
   templateUrl: './farmacia.component.html',
   styleUrls: ['./farmacia.component.css'],
@@ -45,6 +47,12 @@ export class FarmaciaComponent
   medicamentos: Medicamento[] = [];
   filteredMedicamentos: Medicamento[] = [];
   paginatedMedicamentos: Medicamento[] = [];
+
+  // Nueva propiedad para almacenar la farmacia seleccionada
+  selectedFarmacia: string = '';
+
+  // Nueva propiedad para almacenar las farmacias únicas
+  farmaciasDisponibles: string[] = [];
 
   searchTerm = '';
   pageSize = 0;
@@ -80,7 +88,9 @@ export class FarmaciaComponent
     this.farmaciaService.getProductos().subscribe({
       next: (data) => {
         this.medicamentos = data;
-        this.applyFilter();
+        // Generar la lista de farmacias únicas después de cargar los datos
+        this.farmaciasDisponibles = [...new Set(this.medicamentos.map(med => med.farmacia))];
+        this.applyFilter(); // Aplicar filtro inicial (vacío)
         this.isLoading = false;
       },
       error: (err) => {
@@ -101,9 +111,12 @@ export class FarmaciaComponent
 
   applyFilter(): void {
     const term = this.searchTerm.trim().toLowerCase();
-    this.filteredMedicamentos = this.medicamentos.filter((m) =>
-      m.name.toLowerCase().includes(term)
-    );
+    // Filtrar por nombre del producto Y por farmacia seleccionada
+    this.filteredMedicamentos = this.medicamentos.filter((m) => {
+      const matchesSearch = m.name.toLowerCase().includes(term);
+      const matchesFarmacia = !this.selectedFarmacia || m.farmacia === this.selectedFarmacia;
+      return matchesSearch && matchesFarmacia;
+    });
     this.pageIndex = 0;
     this.updatePaginated();
     setTimeout(() => this.updatePageSize(), 0);

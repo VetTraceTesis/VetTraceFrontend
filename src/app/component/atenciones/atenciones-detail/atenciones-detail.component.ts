@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'; // Importante para ngModel
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import {AtencionesInsertComponent} from '../atenciones-insert/atenciones-insert.component'
 import { Atencion } from '../../../model/atenciones.model';
@@ -13,24 +13,29 @@ import { HeaderComponent } from '../../../shared/header/header.component';
 @Component({
   selector: 'app-atenciones-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent,MatDialogModule],
+  imports: [CommonModule, FormsModule, HeaderComponent, MatDialogModule], // Asegúrate de tener FormsModule
   templateUrl: './atenciones-detail.component.html',
   styleUrls: ['./atenciones-detail.component.css']
 })
 export class AtencionesDetailComponent implements OnInit {
   duenioId!: number;
   atenciones: AtencionDetalle[] = [];
+  atencionesFiltradas: AtencionDetalle[] = []; // Nueva propiedad para almacenar los datos filtrados
   paginatedAtenciones: AtencionDetalle[] = [];
 
   currentPage = 1;
   itemsPerPage = 5;
   totalPages = 1;
 
+  // Nuevas propiedades para el filtro
+  filtroTipoSeleccionado: string = ''; // Valor del filtro seleccionado
+  tiposDisponibles: string[] = []; // Lista de tipos únicos
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private atencionesService: AtencionesService,
-    private dialog:MatDialog
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -48,9 +53,13 @@ export class AtencionesDetailComponent implements OnInit {
     this.atencionesService.getAtencionesByDuenio(this.duenioId).subscribe({
       next: data => {
         this.atenciones = data.sort((a, b) => a.atencionId - b.atencionId);
-        console.log(this.atenciones)
-        this.totalPages = Math.max(Math.ceil(data.length / this.itemsPerPage), 1);
-        this.actualizarPagina();
+        console.log(this.atenciones);
+
+        // Generar la lista de tipos de diagnóstico únicos
+        this.tiposDisponibles = [...new Set(this.atenciones.map(a => a.nombreTipoDiagnostico))];
+
+        // Aplicar filtro inicial (vacío, mostrará todas)
+        this.aplicarFiltro();
       },
       error: err => {
         console.error('Error al cargar atenciones:', err);
@@ -58,9 +67,27 @@ export class AtencionesDetailComponent implements OnInit {
     });
   }
 
+  // Nuevo método para aplicar el filtro
+  aplicarFiltro(): void {
+    if (!this.filtroTipoSeleccionado) {
+      // Si no hay filtro, mostrar todas las atenciones
+      this.atencionesFiltradas = this.atenciones;
+    } else {
+      // Filtrar las atenciones según el tipo seleccionado
+      this.atencionesFiltradas = this.atenciones.filter(
+        atencion => atencion.nombreTipoDiagnostico === this.filtroTipoSeleccionado
+      );
+    }
+    // Reiniciar a la primera página después de filtrar
+    this.currentPage = 1;
+    // Actualizar la paginación y los elementos paginados
+    this.totalPages = Math.max(Math.ceil(this.atencionesFiltradas.length / this.itemsPerPage), 1);
+    this.actualizarPagina();
+  }
+
   actualizarPagina() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.paginatedAtenciones = this.atenciones.slice(startIndex, startIndex + this.itemsPerPage);
+    this.paginatedAtenciones = this.atencionesFiltradas.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
   nextPage() {
@@ -83,17 +110,17 @@ export class AtencionesDetailComponent implements OnInit {
 
  irANuevaAtencion() {
   const dialogRef = this.dialog.open(AtencionesInsertComponent, {
-    width: '80vw',  
-    maxWidth: '1200px',  
-    minWidth: '350px', 
+    width: '80vw',
+    maxWidth: '1200px',
+    minWidth: '350px',
     data: { duenoId: this.duenioId }
-    //position: { bottom: '70px' }  
+    //position: { bottom: '70px' }
   });
 
   /* cuando se cierre el modal, si se creó algo volvemos a cargar */
   dialogRef.afterClosed().subscribe(result => {
     if (result === 'created') {
-      this.cargarAtenciones();
+      this.cargarAtenciones(); // Recarga todas las atenciones, incluyendo las nuevas
     }
   });
 }

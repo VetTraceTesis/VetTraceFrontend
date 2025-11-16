@@ -12,6 +12,15 @@
         [center]="center"
         [zoom]="zoom"
       >
+        <!-- Botón flotante para centrar en ubicación actual -->
+        <button
+          class="btn-center-location"
+          (click)="centerOnCurrentLocation()"
+          title="Centrar en mi ubicación"
+        >
+          <mat-icon>my_location</mat-icon>
+        </button>
+
         <map-marker
           *ngFor="let markerOptions of markersOptions; let i = index"
           [position]="markerOptions.position"
